@@ -1,0 +1,46 @@
+{
+  "name": "get-site-front",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "axios": "^0.27.2",
+    "jquery": "^3.6.0",
+    "qrcode.react": "^3.0.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-hook-form": "^7.31.3",
+    "react-hot-toast": "^2.2.0",
+    "react-input-autosize": "^3.0.0",
+    "react-rangeslider": "^2.2.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "react-spinners": "^0.12.0",
+    "recharts": "^2.1.10",
+    "styled-components": "^5.3.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

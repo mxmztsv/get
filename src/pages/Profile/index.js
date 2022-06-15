@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Container } from "../../components/Container/index";
-import { DepButtons } from "../../components/DepButtons";
+import { DepButton } from "../../components/DepButton";
+import { WithdrawButton } from "../../components/WithdrawButton";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchProfileE } from "../../utils/EffFetchers/fetchProfileE";
 import { getItem } from "../../utils/localStorage";
@@ -76,7 +77,7 @@ export const Profile = () => {
         <Container>
           <div className="profile-page-container">
             <div>
-              <DepButtons />
+              <DepButton />
               <div className="profile-page-body">
                 {!isE ? (
                   <>
@@ -84,6 +85,8 @@ export const Profile = () => {
                     <div className="profile-body-wrapper">
                       <ProfHeader />
                       <TgBotBox isC={isC} />
+
+                      <WithdrawButton />
                     </div>
                   </>
                 ) : (
@@ -179,6 +182,9 @@ export const Profile = () => {
 
                   <div className="prof-action-buttons-container">
                     <TgBotBox isC={isC} />
+                  </div>
+                  <div className="with-prof-container brd-btm">
+                    <WithdrawButton />
                   </div>
                 </>
               ) : (

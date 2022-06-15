@@ -2,7 +2,7 @@ import useWindowDimensions from "../../hooks/useWindow";
 import { coinsArr, netArr, netArrMobile } from "../../utils/depArrs";
 
 export const DepCoinsSelector = (props) => {
-  let { sDepCoin, setSDepCoin } = props;
+  let { sDepCoin, setSDepCoin, isWith } = props;
   const DepCoinBtn = (props) => {
     let { num } = props;
     let name = coinsArr[num];
@@ -19,8 +19,7 @@ export const DepCoinsSelector = (props) => {
   };
 
   return (
-    <div className="dep-coins-selector-wrapper brd-btm">
-      <div className="header-3">SELECT CRYPTO</div>
+    <div className={`dep-coins-selector-wrapper ${isWith ? "" : "brd-btm"}`}>
       <div className="dep-coins-selector">
         <DepCoinBtn num={0} />
         <DepCoinBtn num={1} />

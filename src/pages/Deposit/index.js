@@ -4,8 +4,8 @@ import {
   DepCCInfoBody,
   DepDescription,
   DepWalletBox,
-} from "../../components/DepButtons/InfoElems";
-import { DepNetworkSelector } from "../../components/DepButtons/Selectors";
+} from "../../components/DepButton/InfoElems";
+import { DepNetworkSelector } from "../../components/DepButton/Selectors";
 import useWindowDimensions from "../../hooks/useWindow";
 import { getItem } from "../../utils/localStorage";
 import { UserContext } from "../../utils/UserContext";

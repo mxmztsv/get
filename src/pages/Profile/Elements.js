@@ -36,7 +36,7 @@ export const TgBotBox = (props) => {
     window.open(`tg://resolve?domain=GetStakeBot&start=${getItem("tgToken")}`);
   }
   return (
-    <div className={`tg-box-wrapper ${width < 815 ? "brd-btm" : ""}`}>
+    <div className="tg-box-wrapper brd-btm">
       <div className="header-2">Telegram Bot</div>
       <p>
         Telegram bot allows you to receive updates on both the yield of your

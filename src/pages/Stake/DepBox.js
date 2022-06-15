@@ -9,7 +9,10 @@ export const DepositBox = (props) => {
   else icon = require("../../assets/img/non-locked.svg").default;
 
   return (
-    <div className="deposit-box">
+    <div
+      className="deposit-box"
+      style={{ marginRight: `${!isLocked ? "0" : "10px"}` }}
+    >
       <div className="dep-box-header brd-btm">
         <img src={icon} alt="" />
         <div className="header-3">

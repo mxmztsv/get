@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { Container } from "../../components/Container/index";
-import { DepButtons } from "../../components/DepButtons";
+import { DepButton } from "../../components/DepButton";
 import { TxTableBodyMemo } from "../../components/TxTable";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchTokenPriceE } from "../../utils/EffFetchers/fetchTokenPriceE";
@@ -12,7 +11,6 @@ import { fetchBalances } from "../../utils/fetchBalances";
 import { fetchDeposits } from "../../utils/fetchDeposits";
 import { getItem, setItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
-import { sendReq } from "../../utils/sendReq";
 import { UserContext } from "../../utils/UserContext";
 import { DepositBox } from "./DepBox";
 import { UnstakeDisclaimer } from "./Disclaimer";
@@ -27,6 +25,8 @@ import {
   TotalStakedBox,
   UnstakeAmountContainer,
 } from "./Elements";
+import { handleStake } from "./handleStake";
+import { handleUnstake } from "./handleUnstake";
 import { SuSButtons, SuSButtonsMob } from "./SuSButtons";
 
 export const Stake = () => {
@@ -148,6 +148,7 @@ export const Stake = () => {
           setItem("pnlDepId", depsArr[0].depId);
           setItem("pnlDepA", depsArr[0].getAmount);
           setItem("pnlDepAU", depsArr[0].usdAmount);
+          setItem(`isR${getItem("pnlDepId")}`, depsArr[0].isReinvest);
         }
         if (depsArr[1]) {
           console.log("fetched locked:", depsArr[1]);
@@ -160,6 +161,7 @@ export const Stake = () => {
           setItem("plDepId", depsArr[1].depId);
           setItem("plDepA", depsArr[1].getAmount);
           setItem("plDepAU", depsArr[1].usdAmount);
+          setItem(`isR${getItem("plDepId")}`, depsArr[1].isReinvest);
         }
       });
       setIsNeedUpdate(false);
@@ -221,56 +223,12 @@ export const Stake = () => {
     setMonthlyReward(Math.round(getVal * (roiVal / 100) * 100) / 100 || 0);
   }
 
-  async function handleStake() {
-    // get uid TODO
-    if (isGet && tokensForStake < 230) {
-      toast.error("Minimum deposit: 230 GET");
-      return;
-    } else if (!isGet && tokensForStake < 25) {
-      toast.error("Minimum deposit: 25 USDT");
-      return;
-    }
-
-    let data = {
-      type: isL ? "5" : "4", // 5 - locked, 4 - non-locked
-      currency: isGet ? "GET" : "USDT",
-      amount: tokensForStake,
-      uuid: getItem("uid"),
-    };
-
-    let res = await sendReq("post", "deposit/topup", data);
-    console.log("inres", res.response);
-    if (res.data && res.data.result === "success") {
-      console.log(res);
-      let percent = res.data.data.deposit.percent;
-      let amount;
-      if (isGet) amount = `${tokensForStake} GET`;
-      else
-        amount = `${tokensForStake} USDT (${
-          Math.round((tokensForStake / 0.11) * 100) / 100
-        } GET)`;
-
-      let mes = `Successfully staked ${amount} in ${
-        isL ? "locked" : "non-locked"
-      } deposit for ${percent}% monthly`;
-
-      toast.success(mes);
-    } else if (res.response.data.result === "error") {
-      toast.error(res.response.data.error_message);
-    }
-    setIsNeedUpdate(true);
-  }
-
-  function handleUnstake() {
-    console.log("unstake:todo");
-  }
-
   return (
     <>
       {width > 815 ? (
         <Container>
           <div className="stake-container">
-            <DepButtons />
+            <DepButton />
             <div className="desktop-body-wrapper">
               {/* LEFT */}
               <div className="left-side-wrapper">
@@ -360,11 +318,9 @@ export const Stake = () => {
                       </>
                     ) : (
                       <>
-                        {/* WITHDRAW-CONTAINER */}
-                        <div className="withdraw-container">
-                          <UnstakeAmountContainer
-                            handleCaclCange={handleCalcChange}
-                          />
+                        {/* UNSTAKE-CONTAINER */}
+                        <div className="unstake-container">
+                          <UnstakeAmountContainer nlDepAmount={nlDepAmount} />
                         </div>
                       </>
                     )}
@@ -404,12 +360,28 @@ export const Stake = () => {
                     style={{ margin: "20px", marginRight: "0" }}
                     onClick={async () => {
                       console.log("setted isloadng: true");
+
                       setIsLoading(true);
+
                       try {
-                        await handleStake();
+                        if (isS) {
+                          await handleStake(
+                            tokensForStake,
+                            isL,
+                            isGet,
+                            setIsNeedUpdate
+                          );
+                        } else {
+                          await handleUnstake(
+                            nlDepId,
+                            nlDepAmount,
+                            setIsNeedUpdate
+                          );
+                        }
                       } catch (e) {
-                        console.log("instake:", e);
+                        console.log("stake page:", e);
                       }
+
                       setIsLoading(false);
                     }}
                   >
@@ -436,6 +408,7 @@ export const Stake = () => {
             cW={cW}
             setCW={setCW}
             handleStake={handleStake}
+            handleStakeHelpers={{ tokensForStake, isL, isGet, setIsNeedUpdate }}
             handleUnstake={handleUnstake}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
@@ -517,9 +490,7 @@ export const Stake = () => {
                   ) : (
                     <>
                       {/* UNSTAKE-PAGE  */}
-                      <UnstakeAmountContainer
-                        handleCaclCange={handleCalcChange}
-                      />
+                      <UnstakeAmountContainer nlDepAmount={nlDepAmount} />
                     </>
                   )}
                 </>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo-icon.svg";
-import { DepButtons } from "../../components/DepButtons";
+import { DepButton } from "../../components/DepButton";
 import { LoginButtons } from "../../components/LoginButtons";
 import {
   handleNavLinkClick,
@@ -145,7 +145,7 @@ export const Navbar = () => {
               <div className="nav-opened-body" onClick={() => closeNavbar()}>
                 {/* NAV-OPENED-BUTTONS */}
                 <div className="nav-opened-top-buttons-container">
-                  <DepButtons setSArr={setSArr} />
+                  <DepButton setSArr={setSArr} />
                 </div>
 
                 {/* NAV-OPENED-LINKS */}

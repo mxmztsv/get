@@ -10,9 +10,9 @@ import { UserContext } from "../../utils/UserContext";
 import { CloseButton } from "../CloseButton";
 import { DepCardButton, DepCCButton } from "./Buttons";
 import { DepCCInfoBody, DepDescription, DepWalletBox } from "./InfoElems";
-import { DepCoinsSelector, DepNetworkSelector } from "./Selectors";
+import { DepNetworkSelector } from "./Selectors";
 
-export const DepButtons = (props) => {
+export const DepButton = (props) => {
   const { width } = useWindowDimensions();
 
   const { user } = useContext(UserContext);
@@ -22,9 +22,6 @@ export const DepButtons = (props) => {
   const [isD, setIsD] = useState(false); // is deposit modal visible
   const [isC, setIsC] = useState(true); // is card payment method selected
   const [isFPage, setIsFPage] = useState(true); // is first page
-
-  const [isW, setIsW] = useState(false); // is withdraw modal visible
-  const [isU, setIsU] = useState(true); // is usd withdraw selected
 
   const [sDepCoin, setSDepCoin] = useState(0); // selected deposit coin
   const [sDepNet, setSDepNet] = useState(0); // selected deposit network
@@ -97,40 +94,6 @@ export const DepButtons = (props) => {
     );
   };
 
-  // WITHDRAW
-  const WithdrawSwitch = () => {
-    return (
-      <>
-        <div className="with-switch-wrapper brd-top brd-btm">
-          <div className="u-g-switch-container">
-            <button
-              className={`${isU ? "with-s-btn" : ""}`}
-              onClick={() => setIsU(true)}
-            >
-              USD
-            </button>
-            <button
-              className={`${!isU ? "with-s-btn" : ""}`}
-              onClick={() => setIsU(false)}
-            >
-              GET
-            </button>
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  const WithAmountSlider = () => {
-    return (
-      <>
-        <div className="with-slider-wrapper brd-btm">
-          <div className="header-3">AMOUNT</div>
-        </div>
-      </>
-    );
-  };
-
   return (
     <div className="dep-buttons-container">
       {/* DEPOSIT-BUTTON */}
@@ -148,24 +111,7 @@ export const DepButtons = (props) => {
         BUY TOKEN
       </button>
 
-      {/* WITHDRAW-BUTTON */}
-      {/* <button
-        // disabled={true}
-        onClick={() => {
-          if (width > 815 && user) setIsW(true); // show w modal
-          else if (width > 815 && !user) navigate("/login", { replace: true });
-          else {
-            if (props.setSArr) props.setSArr([false, false, false, false]);
-            navigate("/deposit");
-          }
-        }}
-        className="transparent-button centered"
-      >
-        WITHDRAW
-      </button> */}
-
       {/* DEPOSIT-MODAL */}
-
       {isD ? (
         <div className="dep-modal-container">
           <div className="dep-modal-content">
@@ -229,127 +175,6 @@ export const DepButtons = (props) => {
                             isC={isCop}
                             setIsC={setIsCop}
                           />
-
-                          <DepFooter />
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {/* CARD-DEP-CONTENT */}
-                      <div className="dep-header header-2">Card Deposit</div>
-                      <div className="description">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
-                      </div>
-                      <br />
-                      <div className="description">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
-                      </div>
-
-                      <div className="num-input-container">
-                        <div className="header-3">YOU PAY</div>
-                        <div className="num-input">
-                          <input
-                            type="number"
-                            value={usdToDeposit}
-                            onChange={(e) => {
-                              handleCardDepInput({
-                                usd: e.target.value,
-                                tokens: -1,
-                              });
-                            }}
-                          />
-                          <div className="num-input-currency">USD</div>
-                        </div>
-                      </div>
-
-                      <div className="num-input-container">
-                        <div className="header-3">YOU GET</div>
-                        <div className="num-input">
-                          <input
-                            type="number"
-                            value={tokensToGet}
-                            onChange={(e) => {
-                              handleCardDepInput({
-                                usd: -1,
-                                tokens: e.target.value,
-                              });
-                            }}
-                          />
-                          <div className="num-input-currency">GET</div>
-                        </div>
-                      </div>
-
-                      <DepFooter />
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
-      {/* WITHDRAW-MODAL */}
-      {isW ? (
-        <div className="dep-modal-container">
-          <div className="dep-modal-content">
-            <CloseButton setFunc={setIsW} />
-            <div className="with-modal-wrapper">
-              <div className="with-modal-body">
-                {/* WIT-NAVBAR */}
-                <div className="header-2">Withdraw</div>
-
-                <WithdrawSwitch />
-
-                <WithAmountSlider />
-
-                {/* DEP-CONTENT */}
-
-                <div className="dep-content-container">
-                  {isU ? (
-                    <>
-                      {/* CRYPTO-DEP-CONTENT */}
-                      <div className="dep-header header-2">
-                        Cryptocurrency Deposit
-                      </div>
-
-                      {isFPage ? (
-                        <>
-                          <div className="description">
-                            · We accept deposits in ETH, BNB, TRX and USDT{" "}
-                          </div>
-                          <br />
-                          <div
-                            className="description brd-btm"
-                            style={{ paddingBottom: "20px" }}
-                          >
-                            · The payment gate commission is 2.2%
-                          </div>
-                          <DepCoinsSelector
-                            sDepCoin={sDepCoin}
-                            setSDepCoin={setSDepCoin}
-                          />
-                          <DepNetworkSelector
-                            sDepNet={sDepNet}
-                            setSDepNet={setSDepNet}
-                          />
-
-                          <DepFooter />
-                        </>
-                      ) : (
-                        <>
-                          <DepCCInfoBody
-                            sDepNet={sDepNet}
-                            sDepCoin={sDepCoin}
-                          />
-
-                          <DepWalletBox />
 
                           <DepFooter />
                         </>

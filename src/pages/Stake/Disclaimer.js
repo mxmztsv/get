@@ -9,7 +9,11 @@ export const UnstakeDisclaimer = () => {
           Important
         </div>
         <div className="withdraw-disclaimer-body">
-          The unstaking process takes 60 days
+          · The unstaking process takes 60 days
+          <br />
+          <p style={{ marginTop: "10px" }}>
+            · You can unstake only all of your deposit
+          </p>
         </div>
       </div>
     </div>

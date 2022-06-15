@@ -95,7 +95,7 @@ const RefTreeRow = (props) => {
         <td className="ref-tree-col ref-tree-num yellow-text">
           {curLvlRef.amount}
         </td>
-        {curLvlRef.refsNum !== "0" ? (
+        {curLvlRef.refsNum !== "0" && width > 815 ? (
           <td className="ref-arrow-container">
             <img
               className={`tree-arrow ${showSub ? "reverse-arrow" : ""}`}

@@ -2,7 +2,7 @@ import useWindowDimensions from "../../hooks/useWindow";
 
 const InnerBalBox = (props) => {
   const { width } = useWindowDimensions();
-  let { isGet, usdtBal, getBal } = props;
+  let { isGet, usdtBal, getBal, tokenPrice } = props;
 
   function getBalance(iG, uB, gB) {
     let result;
@@ -20,6 +20,10 @@ const InnerBalBox = (props) => {
       }
     }
     return result;
+  }
+
+  function getUsd(gB, tP) {
+    return Math.round(gB * tP * 100) / 100;
   }
 
   return (
@@ -55,12 +59,20 @@ const InnerBalBox = (props) => {
       >
         {getBalance(isGet, usdtBal, getBal)}
       </div>
+
+      {tokenPrice && isGet ? (
+        <div className="dash-box-footer grey-text">
+          {getUsd(getBal, tokenPrice)} USD
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
 
 export const BalanceBox = (props) => {
-  let { usdtBal, getBal, bonus } = props;
+  let { usdtBal, getBal, bonus, tokenPrice } = props;
   return (
     <>
       <div
@@ -72,7 +84,7 @@ export const BalanceBox = (props) => {
         </div>
 
         <div className="dash-bal-container">
-          <InnerBalBox isGet={true} getBal={getBal} />
+          <InnerBalBox isGet={true} getBal={getBal} tokenPrice={tokenPrice} />
           <InnerBalBox isGet={false} usdtBal={usdtBal} />
         </div>
       </div>

@@ -1,14 +1,17 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChartRefs } from "../../components/ChartRefs";
 import { Container } from "../../components/Container/index";
-import { DepButtons } from "../../components/DepButtons";
+import { DepButton } from "../../components/DepButton";
 import useWindowDimensions from "../../hooks/useWindow";
-import { fetchBalancesE } from "../../utils/EffFetchers/fetchBalancesE";
-import { getItem, setItem } from "../../utils/localStorage";
+import { fetchDepStats } from "../../utils/fetchDepStats";
+import { fetchCurRefs } from "../../utils/fetchFLvlRefs";
+import { fetchMissions } from "../../utils/fetchMissons";
+import { fetchBodyInfo } from "../../utils/fetchRefBodyInfo";
+import { fetchRefLink } from "../../utils/fetchRefLinks";
+import { fetchRevenue } from "../../utils/fetchRevenue";
+import { getItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
-import { sendReq } from "../../utils/sendReq";
 import { UserContext } from "../../utils/UserContext";
 import {
   BonusNextL,
@@ -22,10 +25,9 @@ import {
   RevenueBox,
   RRSwitch,
   TeamSizeBox,
-  TotalEarnedBox,
+  TeamVolumeBox,
   VolumeNextL,
 } from "./Elements";
-import { fetchRefs, objToArray } from "./helpers";
 import { RefLinkBody } from "./RefLinkBody";
 import { RefTree } from "./RefTree";
 
@@ -48,10 +50,10 @@ export const Referral = () => {
   // ---------------
 
   // stats
-  const [curLvl, setCurLvl] = useState(1);
+  const [curLvl, setCurLvl] = useState(getItem("pLvl") || 0);
 
   const [refLink, setRefLink] = useState("");
-  const [invitedByName, setInvitedByName] = useState("");
+  const [invitedByName, setInvitedByName] = useState(getItem("byName") || "");
 
   const [teamSize, setTeamSize] = useState("-");
   const [frontLineSize, setFrontLineSize] = useState("-");
@@ -60,89 +62,44 @@ export const Referral = () => {
   const [curLvlRefs, setCurLvlRefs] = useState([]);
   const [isRev, setIsRev] = useState(true);
 
-  const [totalEarned, setTotalEarned] = useState(getItem("pGetBal4") || 0);
   const [usdtBal4, setUsdtBal4] = useState(0);
   const [getBal4, setGetBal4] = useState(0);
+
+  const [dayRev, setDayRev] = useState(getItem("pDayRev") || 0);
+  const [weekRev, setWeekRev] = useState(getItem("pWeekRev") || 0);
+  const [monthRev, setMonthRev] = useState(getItem("pMonthRev") || 0);
+  const [allRev, setAllRev] = useState(getItem("pAllRev") || 0);
+
+  const [depMis, setDepMis] = useState(getItem("pDepMis") || "");
+  const [frontLDepMis, setFrontLDepMis] = useState(
+    getItem("pFrontLDepMis") !== undefined ? getItem("pFrontLDepMis") : ""
+  );
+  const [volMis, setVolMis] = useState(getItem("pVolMis") || "");
+  const [bonus, setBonus] = useState(getItem("pBonus") || "");
+
+  const [teamVolume, setTeamVolume] = useState(
+    getItem("pTeamVolume") !== undefined ? getItem("pTeamVolume") : 0
+  );
+  const [firstLVolume, setFirstLVolume] = useState(
+    getItem("pFirstLVolume") !== undefined ? getItem("pFirstLVolume") : 0
+  );
   // -----------------------------------------------------
 
-  // balance fetch
+  // fetch ref link
   useEffect(() => {
-    console.log("ref page: fetching balances");
-    fetchBalancesE(user, { setUsdtBal4, setGetBal4 }).then(() =>
-      setTotalEarned(getBal4)
-    );
-  }, [user, totalEarned, getBal4]);
-  // ------------------------------------
-
-  // fetchers
-  async function fetchRefLink() {
-    let refUrlBase = "https://app.getstake.io/signup?r=";
-    if (getItem("uRefCode") && getItem("byName")) {
-      setRefLink(`${refUrlBase}${getItem("uRefCode")}`);
-      setInvitedByName(getItem("byName"));
-      console.log("fetched id from localstorage");
-    }
-
-    if (!getItem("token")) return;
-
-    let res = await sendReq("get", "profile/base-info");
-
-    if (res) {
-      console.log(res);
-
-      if (res.data.result === "success") {
-        if (res.data.data.login) {
-          setRefLink(`${refUrlBase}${res.data.data.login}`);
-          setInvitedByName(res.data.data.sponsor.fio);
-
-          setItem("uRefCode", res.data.data.login);
-          setItem("byName", res.data.data.sponsor.fio);
-
-          console.log("ref l: fetched");
-        }
-      }
-    }
-  }
-  useEffect(() => {
-    fetchRefLink();
+    fetchRefLink(setRefLink, setInvitedByName);
   }, []);
+  // -----------------------------------------
 
-  async function fetchBodyInfo() {
-    if (!getItem("token")) return;
-
-    async function fetchCount(url, name, setFunc) {
-      let res;
-
-      try {
-        let req = {
-          method: "get",
-          url: `${process.env.REACT_APP_BASE_URL}${url}`,
-          headers: {
-            "x-auth": getItem("token"),
-          },
-        };
-
-        res = await axios(req);
-      } catch (e) {
-        console.log(`${url}`, e);
-      }
-
-      if (res) {
-        console.log(res);
-
-        if (res.data.result === "success") {
-          setFunc(res.data.data.count);
-          console.log(`ref: fetched ${name} from api`);
-        }
-      }
-    }
-
-    fetchCount("stat/team-size", "ts", setTeamSize);
-    fetchCount("stat/first-line-size", "fS", setFrontLineSize);
-    fetchCount("stat/team-count-lines", "lNum", setNumberOfLines);
-  }
+  // revenue stats fetch
   useEffect(() => {
-    fetchBodyInfo();
+    fetchRevenue(setDayRev, setWeekRev, setMonthRev, setAllRev);
+  }, []);
+  // -----------------------------------------
+
+  // fetch team size, front line size, number of lines
+  useEffect(() => {
+    fetchBodyInfo(setTeamSize, setFrontLineSize, setNumberOfLines);
   }, []);
   // ------------------------------------------------------------
 
@@ -153,64 +110,28 @@ export const Referral = () => {
   }, []);
   // ------------------------------------
 
-  // refs tree fetch
-  async function fetchCurRefs() {
-    if (!getItem("token")) return;
-
-    if (!getItem("uid")) {
-      let res;
-
-      try {
-        let req = {
-          method: "get",
-          url: `${process.env.REACT_APP_BASE_URL}profile/base-info`,
-          headers: {
-            "x-auth": getItem("token"),
-          },
-        };
-
-        res = await axios(req);
-      } catch (e) {
-        console.error("ref tree:", e);
-        return;
-      }
-
-      if (res) {
-        console.log(res);
-        if (res.data.result === "success") {
-          if (res.data.data.id) {
-            let uid = res.data.data.id;
-            setItem("uid", uid);
-            console.log("ref tree: fetched id: ", uid);
-          }
-          if (res.data.data.career) {
-            let career = res.data.data.carerr.statusId;
-            if (career === "client") {
-              setCurLvl(0);
-            } else if (career.includes("level")) {
-              setCurLvl(parseInt(career.replace(/^\D+/g, "")));
-            }
-          }
-        }
-      }
-    }
-
-    let curLvlRefsRes = await fetchRefs(getItem("uid"));
-
-    setCurLvlRefs(objToArray(curLvlRefsRes));
-  }
-
-  // fetch first lvl
+  // fetch first lvl refs. ref tree
   useEffect(() => {
-    fetchCurRefs();
+    fetchCurRefs(setCurLvl, setCurLvlRefs);
   }, []);
   // -------------------------
+
+  // fetch missions
+  useEffect(() => {
+    fetchMissions(setDepMis, setFrontLDepMis, setVolMis, setBonus, setCurLvl);
+  }, []);
+  // -------------------------
+
+  // team volume
+  useEffect(() => {
+    fetchDepStats(setTeamVolume, setFirstLVolume);
+  }, []);
 
   return (
     <>
       {width > 815 ? (
         <Container>
-          <DepButtons />
+          <DepButton />
 
           {/* REFERRAL-HEADER */}
           <div className="referral-header header-1">Referral Program</div>
@@ -228,10 +149,10 @@ export const Referral = () => {
             <div className="ref-next-lvl-container brd-btm">
               <div className="medium-white-header">To get L{curLvl + 1}</div>
               <div className="ref-boxes">
-                <DepositNextL />
-                <FrontLineDepNextL />
-                <VolumeNextL />
-                <BonusNextL />
+                <DepositNextL depMiss={depMis} />
+                <FrontLineDepNextL frontLDepMis={frontLDepMis} />
+                <VolumeNextL volMis={volMis} />
+                <BonusNextL bonus={bonus} />
               </div>
             </div>
 
@@ -239,10 +160,10 @@ export const Referral = () => {
             <div className="ref-chart-container">
               <div className="medium-white-header">Revenue</div>
               <div className="ref-boxes">
-                <RevenueBox time="Today" />
-                <RevenueBox time="Week" />
-                <RevenueBox time="Month" />
-                <RevenueBox time="All" totalEarned={totalEarned} />
+                <RevenueBox time="Today" revVal={dayRev} />
+                <RevenueBox time="Week" revVal={weekRev} />
+                <RevenueBox time="Month" revVal={monthRev} />
+                <RevenueBox time="All" revVal={allRev} />
               </div>
               <div className="ref-chart brd-btm">
                 <ChartRefs />
@@ -255,7 +176,10 @@ export const Referral = () => {
               <div className="ref-tree-header brd-btm">
                 {/* left */}
                 <div className="ref-total-earn">
-                  <TotalEarnedBox totalEarned={totalEarned} />
+                  <TeamVolumeBox
+                    teamVolume={teamVolume}
+                    firstLineVolume={firstLVolume}
+                  />
                   <TeamSizeBox teamSize={teamSize} />
                   <FirstLineSizeBox frontLineSize={frontLineSize} />
                   <NumberOfLinesBox numberOfLines={numberOfLines} />
@@ -295,17 +219,20 @@ export const Referral = () => {
               <NumberOfLinesBox numberOfLines={numberOfLines} />
             </div>
 
+            <div className="medium-white-header" style={{ marginLeft: "10px" }}>
+              To get L{curLvl + 1}
+            </div>
             <div
               className="ref-row-mob"
               style={{ marginBottom: "10px", paddingBottom: "10px" }}
             >
-              <DepositNextL />
-              <FrontLineDepNextL />
+              <DepositNextL depMiss={depMis} />
+              <FrontLineDepNextL frontLDepMis={frontLDepMis} />
             </div>
 
             <div className="ref-row-mob brd-btm">
-              <VolumeNextL />
-              <BonusNextL />
+              <VolumeNextL volMis={volMis} />
+              <BonusNextL bonus={bonus} />
             </div>
 
             <RRSwitch isRev={isRev} setIsRev={setIsRev} />
@@ -316,13 +243,13 @@ export const Referral = () => {
                   className="ref-row-mob brd-top"
                   style={{ marginBottom: "0" }}
                 >
-                  <RevenueBox time="Today" />
-                  <RevenueBox time="Week" />
+                  <RevenueBox time="Today" revVal={dayRev} />
+                  <RevenueBox time="Week" revVal={weekRev} />
                 </div>
 
                 <div className="ref-row-mob brd-btm">
-                  <RevenueBox time="Month" />
-                  <RevenueBox time="All" totalEarned={totalEarned} />
+                  <RevenueBox time="Month" revVal={monthRev} />
+                  <RevenueBox time="All" revVal={allRev} />
                 </div>
 
                 <div className="ref-chart-wrapper-mob">
@@ -332,13 +259,15 @@ export const Referral = () => {
             ) : (
               <>
                 <div className="brd-btm"></div>
-                <TotalEarnedBox totalEarned={totalEarned} />
+                <TeamVolumeBox
+                  teamVolume={teamVolume}
+                  firstLineVolume={firstLVolume}
+                />
                 <div className="brd-btm"></div>
                 {curLvlRefs.length ? (
                   <RefTree curLvlRefs={curLvlRefs} />
                 ) : (
                   <>
-                    {" "}
                     <div className="no-tx-wrapper ">
                       <img
                         src={require("../../assets/img/red-cross.svg").default}

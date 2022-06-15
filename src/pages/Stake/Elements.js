@@ -15,7 +15,7 @@ export const TotalStakedBox = (props) => {
       <div className="big-numbers dark-span">
         {(Math.round((totalStaked1 + totalStaked2) * 100) / 100).toLocaleString(
           "en-US"
-        )}{" "}
+        )}
         GET
       </div>
     </div>
@@ -129,7 +129,7 @@ export const StakeTimeContainer = (props) => {
 
 export const UnstakeAmountContainer = (props) => {
   const { user } = useContext(UserContext);
-  let { handleCalcChange } = props;
+  let { nlDepAmount } = props;
 
   return (
     <>
@@ -138,25 +138,7 @@ export const UnstakeAmountContainer = (props) => {
           <div className="medium-white-header">AMOUNT</div>
           <div className="stake-amount-slider-container">
             <div className="slider-header">
-              <p className="yellow-text dark-span numbers">
-                {/* {tokensForStake.toLocaleString("en-US")} GET */}0 GET
-              </p>
-            </div>
-            <div className="stake-slider">
-              <Slider
-                className="range-slider"
-                min={0}
-                max={user ? user.balance : 100_000}
-                step={1}
-                value={0}
-                onChange={(value) => {
-                  handleCalcChange({
-                    tokens: value,
-                    months: -1,
-                  });
-                }}
-                tooltip={false}
-              />
+              <p className="yellow-text dark-span numbers">{nlDepAmount} GET</p>
             </div>
           </div>
         </div>

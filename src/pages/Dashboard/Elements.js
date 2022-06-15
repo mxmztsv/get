@@ -54,10 +54,10 @@ export const StakedBox = (props) => {
           GET
         </div>
 
-        <div className="dash-box-footer dash-box-colored-footer">
+        {/* <div className="dash-box-footer dash-box-colored-footer">
           {" "}
           {(Math.round(sum * 0.11 * 100) / 100).toLocaleString("en-US")} USD
-        </div>
+        </div> */}
       </div>
     </>
   );

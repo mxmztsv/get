@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../../components/Container/index";
-import { DepButtons } from "../../components/DepButtons";
+import { DepButton } from "../../components/DepButton";
 import { TxTableBodyMemo } from "../../components/TxTable";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchBalancesE } from "../../utils/EffFetchers/fetchBalancesE";
@@ -140,7 +140,7 @@ export const Dashboard = () => {
           {user ? (
             <Container>
               <div className="dash-container">
-                <DepButtons />
+                <DepButton />
 
                 <div className="dash-header">
                   <DashGreet />
@@ -164,8 +164,17 @@ export const Dashboard = () => {
                     </div>
                     {/* LEFT-BODY */}
                     <div className="left-body">
-                      <BalanceBox usdtBal={usdtBal} getBal={getBal} />
-                      <BalanceBox bonus usdtBal={usdtBal4} getBal={getBal4} />
+                      <BalanceBox
+                        usdtBal={usdtBal}
+                        getBal={getBal}
+                        tokenPrice={tokenPrice}
+                      />
+                      <BalanceBox
+                        bonus
+                        usdtBal={usdtBal4}
+                        getBal={getBal4}
+                        tokenPrice={tokenPrice}
+                      />
                     </div>
                     {/* LEFT-FOOTER */}
                     <div className="left-footer">
@@ -204,7 +213,7 @@ export const Dashboard = () => {
             <>
               <Container>
                 <div className="dash-container">
-                  <DepButtons />
+                  <DepButton />
 
                   <div className="dash-header">
                     <DashGreet />
@@ -251,8 +260,17 @@ export const Dashboard = () => {
                         width < 815 ? "fld-col" : ""
                       }`}
                     >
-                      <BalanceBox usdtBal={usdtBal} getBal={getBal} />
-                      <BalanceBox bonus usdtBal={usdtBal4} getBal={getBal4} />
+                      <BalanceBox
+                        usdtBal={usdtBal}
+                        getBal={getBal}
+                        tokenPrice={tokenPrice}
+                      />
+                      <BalanceBox
+                        bonus
+                        usdtBal={usdtBal4}
+                        getBal={getBal4}
+                        tokenPrice={tokenPrice}
+                      />
                       <StakedBox
                         totalStaked1={lDepAmount}
                         totalStaked2={nlDepAmount}

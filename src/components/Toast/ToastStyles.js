@@ -1,4 +1,9 @@
 export const toastStyles = {
+  style: {
+    background: "#171614",
+    color: "white",
+    fontFamily: "Monsterrat",
+  },
   success: {
     duration: 8000,
     style: {

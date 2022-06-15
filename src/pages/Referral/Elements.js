@@ -8,7 +8,7 @@ export const CurLvlBox = (props) => {
   return (
     <div className={`cur-lvl-container ${width > 815 ? "" : "brd-top"}`}>
       <div className="medium-white-header">Current level</div>
-      <div className="ref-lvl-val">{curLvl ? curLvl : "-"}</div>
+      <div className="ref-lvl-val">{curLvl !== undefined ? curLvl : "-"}</div>
     </div>
   );
 };
@@ -25,49 +25,59 @@ export const RefHeader = (props) => {
 };
 
 // NEXT
-export const DepositNextL = () => {
+export const DepositNextL = (props) => {
+  let { depMiss } = props;
   return (
     <>
       <div className="dash-box">
         <div className="dash-box-header">Deposit</div>
-        <div className="dash-box-body">- GET</div>
-        <div className="dash-box-footer dash-box-colored-footer">0 USD</div>
+        <div className="dash-box-body">{depMiss ? depMiss : "-"} USDT</div>
+        {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
     </>
   );
 };
 
-export const FrontLineDepNextL = () => {
+export const FrontLineDepNextL = (props) => {
+  const { width } = useWindowDimensions();
+  let { frontLDepMis } = props;
   return (
     <>
       <div className="dash-box">
-        <div className="dash-box-header">Front-line deposit</div>
-        <div className="dash-box-body">- GET</div>
-        <div className="dash-box-footer dash-box-colored-footer">0 USD</div>
+        <div className="dash-box-header">
+          Front-line {width > 815 ? "deposit" : "dep"}
+        </div>
+
+        <div className="dash-box-body">
+          {frontLDepMis !== undefined ? frontLDepMis : "-"} USDT
+        </div>
+        {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
     </>
   );
 };
 
-export const VolumeNextL = () => {
+export const VolumeNextL = (props) => {
+  let { volMis } = props;
   return (
     <>
       <div className="dash-box">
         <div className="dash-box-header">Volume</div>
-        <div className="dash-box-body">- GET</div>
-        <div className="dash-box-footer dash-box-colored-footer">0 USD</div>
+        <div className="dash-box-body">{volMis ? volMis : "-"} USDT</div>
+        {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
     </>
   );
 };
 
-export const BonusNextL = () => {
+export const BonusNextL = (props) => {
+  let { bonus } = props;
   return (
     <>
       <div className="dash-box">
         <div className="dash-box-header">Bonus</div>
-        <div className="dash-box-body">- GET</div>
-        <div className="dash-box-footer dash-box-colored-footer">0 USD</div>
+        <div className="dash-box-body">{bonus ? bonus : "-"} </div>
+        {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
     </>
   );
@@ -75,11 +85,13 @@ export const BonusNextL = () => {
 
 // REVENUE BOXES
 export const RevenueBox = (props) => {
-  let { time, totalEarned } = props;
+  let { time, revVal } = props;
   return (
     <>
       <div className="dash-box">
-        <div className="dash-box-body">{totalEarned || "-"} GET</div>
+        <div className="dash-box-body">
+          {revVal !== undefined ? revVal : "-"} GET
+        </div>
         <div className="dash-box-footer dash-box-colored-footer">{time}</div>
       </div>
     </>
@@ -87,14 +99,18 @@ export const RevenueBox = (props) => {
 };
 
 //REF STATS
-export const TotalEarnedBox = (props) => {
-  let { totalEarned } = props;
+export const TeamVolumeBox = (props) => {
+  let { teamVolume, firstLineVolume } = props;
   return (
     <>
-      <div className="dash-box s-box">
-        <div className="small-grey-header">Total earned</div>
+      <div className="dash-box s-box" style={{ marginLeft: "0" }}>
+        <div className="small-grey-header">Team Volume</div>
         <div className="dash-box-body" style={{ paddingBottom: "0" }}>
-          {totalEarned || "-"} GET
+          {teamVolume !== undefined ? Math.round(teamVolume * 100) / 100 : "-"}{" "}
+          USD
+        </div>
+        <div className="dash-box-footer">
+          {Math.round(firstLineVolume * 100) / 100} USD
         </div>
       </div>
     </>

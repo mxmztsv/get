@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { SyncLoader } from "react-spinners";
 
 export const SuSButtons = (props) => {
@@ -17,9 +18,9 @@ export const SuSButtons = (props) => {
           <button
             className={`button-with-text ${!isS ? "" : "unselected-button"}`}
             onClick={() => {
-              setIsS(false);
+              // setIsS(false);
+              toast("Coming Soon");
             }}
-            disabled={true}
           >
             <p>Unstake</p>
           </button>
@@ -30,8 +31,17 @@ export const SuSButtons = (props) => {
 };
 
 export const SuSButtonsMob = (props) => {
-  let { cW, setCW, handleStake, handleUnstake, isLoading, setIsLoading } =
-    props;
+  let {
+    cW,
+    setCW,
+    handleStake,
+    handleStakeHelpers,
+    handleUnstake,
+    isLoading,
+    setIsLoading,
+  } = props;
+
+  let { tokensForStake, isL, isGet, setIsNeedUpdate } = handleStakeHelpers;
   return (
     <>
       <div className="stake-buttons-mob-wrapper">
@@ -39,9 +49,11 @@ export const SuSButtonsMob = (props) => {
           <>
             <button onClick={() => setCW(1)}>STAKE</button>
             <button
-              // onClick={() => setCW(2)}
-              className="transparent-button"
-              disabled={true}
+              onClick={() => {
+                // setCW(2);
+                toast("Coming Soon");
+              }}
+              className="transparent-button yellow-trans-btn"
             >
               UNSTAKE
             </button>
@@ -52,7 +64,12 @@ export const SuSButtonsMob = (props) => {
               <button
                 onClick={async () => {
                   setIsLoading(true);
-                  await handleStake();
+                  await handleStake(
+                    tokensForStake,
+                    isL,
+                    isGet,
+                    setIsNeedUpdate
+                  );
                   setIsLoading(false);
                 }}
               >
@@ -65,7 +82,14 @@ export const SuSButtonsMob = (props) => {
                 )}
               </button>
             ) : (
-              <button onClick={() => handleUnstake()}>UNSTAKE</button>
+              <button
+                onClick={() => {
+                  toast("Coming Soon");
+                  // handleUnstake()}
+                }}
+              >
+                UNSTAKE
+              </button>
             )}
           </>
         )}

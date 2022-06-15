@@ -4,8 +4,10 @@ import { DepButtons } from "../../components/DepButtons";
 import { TxTableBodyMemo } from "../../components/TxTable";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchBalancesE } from "../../utils/EffFetchers/fetchBalancesE";
+import { fetchChartE } from "../../utils/EffFetchers/fetchChartE";
 import { fetchDepositsE } from "../../utils/EffFetchers/fetchDepositE";
 import { fetchProfileE } from "../../utils/EffFetchers/fetchProfileE";
+import { fetchTokenPriceE } from "../../utils/EffFetchers/fetchTokenPriceE";
 import { fetchTxE } from "../../utils/EffFetchers/fetchTxE";
 import { getItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
@@ -64,6 +66,12 @@ export const Dashboard = () => {
 
   const [txArr, setTxArr] = useState(getItem("txArr") || []);
 
+  const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
+  const [tokenPrevPrice, setTokenPrevPrice] = useState(
+    getItem("prevTP") || 0.11
+  );
+  const [priceArray, setPriceArray] = useState(getItem("pPA") || []);
+
   // navbar update
   const { setNavPath } = useContext(PathContext); // for selected navbar item
   useEffect(() => {
@@ -76,6 +84,18 @@ export const Dashboard = () => {
     let navbar = document.getElementById("navbar");
     navbar.style.display = "flex";
   }, []);
+  // ------------------------------------
+
+  // token chart fetch
+  useEffect(() => {
+    fetchChartE(setPriceArray, setTokenPrevPrice);
+  }, [isNeedUpdate]);
+  // ------------------------------------
+
+  // token price fetch
+  useEffect(() => {
+    fetchTokenPriceE(setTokenPrice);
+  }, [isNeedUpdate]);
   // ------------------------------------
 
   // balance fetch
@@ -160,7 +180,10 @@ export const Dashboard = () => {
                   <div className="right-side-wrapper">
                     {/* RIGHT-TOP */}
                     <div className="right-top">
-                      <TokenBox />
+                      <TokenBox
+                        tokenPrice={tokenPrice}
+                        tokenPrevPrice={tokenPrevPrice}
+                      />
                     </div>
 
                     {/* RIGHT-BODY */}
@@ -171,7 +194,7 @@ export const Dashboard = () => {
 
                     {/* RIGHT-FOOTER */}
                     <div className="right-footer">
-                      <DashBody tb={tb} setTb={setTb} />
+                      <DashBody tb={tb} setTb={setTb} priceArray={priceArray} />
                     </div>
                   </div>
                 </div>
@@ -187,13 +210,16 @@ export const Dashboard = () => {
                     <DashGreet />
 
                     <div className="dash-header-boxes">
-                      <TokenBox />
+                      <TokenBox
+                        tokenPrice={tokenPrice}
+                        tokenPrevPrice={tokenPrevPrice}
+                      />
                       <TvlBox />
                       <RoiBox />
                     </div>
                   </div>
 
-                  <DashBody tb={tb} setTb={setTb} />
+                  <DashBody tb={tb} setTb={setTb} priceArray={priceArray} />
 
                   <DashFooter txArray={txArr} />
                 </div>
@@ -238,13 +264,16 @@ export const Dashboard = () => {
                 ) : (
                   <>
                     {/* TOKEN-TAB */}
-                    <TokenBox />
+                    <TokenBox
+                      tokenPrice={tokenPrice}
+                      tokenPrevPrice={tokenPrevPrice}
+                    />
 
                     <div className="dash-top-row-mob brd-btm">
                       <StakeRewardLocked />
                       <StakeRewardNonLocked />
                     </div>
-                    <DashBody tb={tb} setTb={setTb} />
+                    <DashBody tb={tb} setTb={setTb} priceArray={priceArray} />
                   </>
                 )}
               </div>
@@ -253,13 +282,16 @@ export const Dashboard = () => {
             <>
               {/* NOT-AUTHED */}
               <div className="header-1 brd-btm">Dashboard</div>
-              <TokenBox />
+              <TokenBox
+                tokenPrice={tokenPrice}
+                tokenPrevPrice={tokenPrevPrice}
+              />
               <div className="dash-top-row-mob">
                 <TvlBox />
                 <RoiBox />
               </div>
 
-              <DashBody tb={tb} setTb={setTb} />
+              <DashBody tb={tb} setTb={setTb} priceArray={priceArray} />
               <div className="brd-btm"></div>
               <DashFooter txArray={txArr} />
             </>

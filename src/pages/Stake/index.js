@@ -6,10 +6,10 @@ import { Container } from "../../components/Container/index";
 import { DepButtons } from "../../components/DepButtons";
 import { TxTableBodyMemo } from "../../components/TxTable";
 import useWindowDimensions from "../../hooks/useWindow";
+import { fetchTokenPriceE } from "../../utils/EffFetchers/fetchTokenPriceE";
 import { fetchTxE } from "../../utils/EffFetchers/fetchTxE";
 import { fetchBalances } from "../../utils/fetchBalances";
 import { fetchDeposits } from "../../utils/fetchDeposits";
-import { fetchTokenPrice } from "../../utils/fetchTokenPrice";
 import { getItem, setItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
 import { sendReq } from "../../utils/sendReq";
@@ -60,7 +60,8 @@ export const Stake = () => {
   // vars
   const [isLoading, setIsLoading] = useState(false);
 
-  const [tokenPrice, setTokenPrice] = useState(0.11);
+  const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
+
   const [tokensForStake, setTokensForStake] = useState(usdtBal);
   const [roiVal, setRoiVal] = useState(12);
   const [monthlyReward, setMonthlyReward] = useState(0);
@@ -123,6 +124,12 @@ export const Stake = () => {
   }, [user, lDepAmount, nlDepAmount]);
   // ------------------------------------
 
+  // token price fetch
+  useEffect(() => {
+    fetchTokenPriceE(setTokenPrice);
+  }, [isNeedUpdate]);
+  // ------------------------------------
+
   // deposits fetch
   useEffect(() => {
     console.log("");
@@ -160,17 +167,6 @@ export const Stake = () => {
   }, [user, isNeedUpdate]);
   // ------------------------------------
 
-  // token price fetch
-  useEffect(() => {
-    console.log("");
-    fetchTokenPrice().then((price) => {
-      if (price) {
-        setTokenPrice(price);
-      }
-    });
-  }, []);
-  // ------------------------------------
-
   // update view
   useEffect(() => {
     handleCalcChange(tokensForStake);
@@ -191,6 +187,8 @@ export const Stake = () => {
     if (isGet && value > getBal) return;
     if (!isGet && value > usdtBal) return;
     if (value > 10000000) return;
+
+    console.log("token price in func: ", tokenPrice);
 
     setTokensForStake(Math.round(value * 100) / 100);
     let usdVal = isGet ? value * tokenPrice : value;
@@ -216,7 +214,11 @@ export const Stake = () => {
       }
     }
 
-    setMonthlyReward(Math.round(getVal * (roiVal / 100) * 100) / 100);
+    console.log(
+      "value for monr",
+      Math.round(getVal * (roiVal / 100) * 100) / 100
+    );
+    setMonthlyReward(Math.round(getVal * (roiVal / 100) * 100) / 100 || 0);
   }
 
   async function handleStake() {

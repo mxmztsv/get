@@ -8,7 +8,6 @@ import {
   YAxis,
 } from "recharts";
 import useWindowDimensions from "../../hooks/useWindow";
-import { chartData } from "../../utils/fetchChartData";
 
 const CustomToolTip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -264,13 +263,15 @@ const CustomDot = ({ cx, cy }) => {
   );
 };
 
-export const Chart = () => {
+export const Chart = (props) => {
   const { width } = useWindowDimensions();
+
+  let { priceArray } = props;
 
   return (
     <ResponsiveContainer height="90%" className="chart-container">
       <LineChart
-        data={chartData}
+        data={priceArray || []}
         margin={{
           top: 5,
           right: width > 815 ? 40 : 20,
@@ -301,8 +302,8 @@ export const Chart = () => {
         </defs>
 
         <CartesianGrid horizontal={false} />
-        <XAxis axisLine={false} dataKey="name" />
-        <YAxis axisLine={false} />
+        <XAxis axisLine={false} dataKey="time" />
+        <YAxis axisLine={false} domain={["dataMin - 0.05", "dataMax + 0.05"]} />
         <Tooltip
           contentStyle={{
             backgroundColor: "rgba(134, 168, 231, 0.12)",

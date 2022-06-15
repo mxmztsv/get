@@ -22,6 +22,14 @@ export async function sendReq(method, url, data) {
           "x-auth": getItem("token"),
         },
       };
+    } else if (
+      url === "wallet/exchange-rates/GET/USDT" ||
+      url === "wallet/exchange-rates"
+    ) {
+      req = {
+        method: "get",
+        url: `${process.env.REACT_APP_BASE_URL}${url}`,
+      };
     } else {
       return;
     }

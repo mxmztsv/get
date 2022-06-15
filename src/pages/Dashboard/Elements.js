@@ -63,14 +63,19 @@ export const StakedBox = (props) => {
   );
 };
 
-export const TokenBox = () => {
+export const TokenBox = (props) => {
   const { user } = useContext(UserContext);
-  let token24hChange = 100;
-  const tokenPrice = 0.11;
+  let { tokenPrice, tokenPrevPrice } = props;
 
-  function countDif(price, change) {
-    return Math.abs(Math.round(((price * change) / 100) * 100) / 100);
+  function countDif(price, prevPrice) {
+    return Math.round((price - prevPrice) * 100) / 100;
   }
+
+  function countChange(price, prevPrice) {
+    let x = Math.round(((price * 100) / prevPrice) * 100) / 100 - 100;
+    return Math.round(x * 100) / 100;
+  }
+
   return (
     <>
       <div
@@ -79,18 +84,16 @@ export const TokenBox = () => {
         }`}
       >
         <div className="dash-box-header">GET Token</div>
-        <div className="dash-box-body">
-          {/* ${tokenPrice} */}
-          $0.11
-        </div>
+        <div className="dash-box-body">${tokenPrice}</div>
         <div
           className="dash-box-footer"
           // style={{
           //   color: `#${token24hChange > 0 ? "54F2F2" : "EF5A55"}`,
           // }}
         >
-          {token24hChange > 0 ? "+" : "-"}$
-          {countDif(tokenPrice, token24hChange)} ({token24hChange}%)
+          {countChange(tokenPrice, tokenPrevPrice) > 0 ? "+" : "-"}$
+          {countDif(tokenPrice, tokenPrevPrice)} (
+          {countChange(tokenPrice, tokenPrevPrice)}%)
         </div>
       </div>
     </>
@@ -183,7 +186,7 @@ export const DashGreet = () => {
 };
 
 export const DashBody = (props) => {
-  let { tb, setTb } = props;
+  let { tb, setTb, priceArray } = props;
   return (
     <>
       <div className="dash-body">
@@ -192,7 +195,7 @@ export const DashBody = (props) => {
             <ChartTimeButtons tb={tb} setTb={setTb} />
           </div>
           {/* <ChartDisabled /> */}
-          <Chart />
+          <Chart priceArray={priceArray} />
         </div>
       </div>
     </>

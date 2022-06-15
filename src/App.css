@@ -1520,13 +1520,19 @@ td {
 
 .get-token-box {
   background: none;
+  margin-left: 0;
+}
+
+.get-token-box > .dash-box-footer {
+  white-space: nowrap;
 }
 
 .a-token-box {
   background: linear-gradient(85.69deg, #feb85d 0%, #f49fbc 100.81%);
   border: 4px solid #494644;
   color: black;
-  max-width: 100px;
+  max-width: 200px;
+  width: fit-content;
 }
 
 .a-token-box .dash-box-header {

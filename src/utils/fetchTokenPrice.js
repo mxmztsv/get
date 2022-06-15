@@ -1,3 +1,6 @@
+import { sendReq } from "./sendReq";
+
 export async function fetchTokenPrice() {
-  return 0.11;
+  let res = await sendReq("get", "wallet/exchange-rates");
+  return res;
 }

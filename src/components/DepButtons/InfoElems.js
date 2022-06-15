@@ -79,7 +79,7 @@ export const DepWalletBox = (props) => {
 
           {/* footer */}
           <div className="dep-opt-footer">
-            <p>Fee 2.2%</p> <p>Minimum deposit: 30 USDT</p>
+            <p>Fee 2.5%</p> <p>Minimum deposit: 30 USDT</p>
           </div>
 
           {/* qrcode */}

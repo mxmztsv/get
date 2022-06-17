@@ -141,7 +141,137 @@ export const DepositDetailPopUp = ({setIsPopUpOpen}) => {
             </div>
         </>
     )
-}
+};
+
+export const RoiDetailPopUp = ({setIsPopUpOpen, isLocked}) => {
+
+    const [isL, setIsL] = useState(isLocked);
+
+    const close = () => {
+        setIsPopUpOpen(false);
+    }
+
+    const changeType = () => {
+        setIsL(prevState => !prevState)
+    }
+
+    return (
+        <>
+            <div className="popup-bg">
+                <div className="popup-container">
+                    <div className="popup-close">
+                        <p className="popup-close-text">
+                            Close
+                        </p>
+                        <img src={closeIcon} alt="close popup" className="popup-close-btn" onClick={close}/>
+                    </div>
+                    <div className="popup">
+                        <div className="popup-body">
+                            <div className="deposit-details-point">
+                                <p className="popup-title">
+                                    Monthly Profit
+                                </p>
+                                {isL ? (
+                                    <p className="popup-title-text">
+                                        Locked deposit grants higher profit percentage that can be withdrawn after your
+                                        lockup period is going to pass
+                                    </p>
+                                ) : (
+                                    <p className="popup-title-text">
+                                        Non-locked deposit is a withdrawable deposit can be unstaked at any point,
+                                        withdrawing any funds staked safely and securely
+                                    </p>
+                                )}
+
+                            </div>
+                            <div className="separator"/>
+                            {isL ? (
+                                <p className="popup-title-sm">
+                                    PROFIT ON LOCKED DEPOSIT
+                                </p>
+                            ) : (
+                                <p className="popup-title-sm">
+                                    PROFIT ON NON-LOCKED DEPOSIT
+                                </p>
+                            )}
+
+                            <div className="popup-profit-card profit-card1">
+
+                                <div className="popup-profit-card-body">
+                                    <div className="popup-profit-card-title">
+                                        $25 to $5,000
+                                    </div>
+                                    {isL ? (
+                                        <div className="popup-profit-card-percentage">
+                                            28%
+                                        </div>
+                                    ) : (
+                                        <div className="popup-profit-card-percentage">
+                                            14%
+                                        </div>
+                                    )}
+
+                                </div>
+
+
+                                <div className="popup-profit-card profit-card2">
+
+                                    <div className="popup-profit-card-body">
+                                        <div className="popup-profit-card-title">
+                                            $5,000 to $25,000
+                                        </div>
+                                        {isL ? (
+                                            <div className="popup-profit-card-percentage">
+                                                30%
+                                            </div>
+                                        ) : (
+                                            <div className="popup-profit-card-percentage">
+                                                15%
+                                            </div>
+                                        )}
+                                    </div>
+
+
+                                    <div className="popup-profit-card profit-card3">
+
+                                        <div className="popup-profit-card-body">
+                                            <div className="popup-profit-card-title">
+                                                $25,000+
+                                            </div>
+                                            {isL ? (
+                                                <div className="popup-profit-card-percentage">
+                                                    37%
+                                                </div>
+                                            ) : (
+                                                <div className="popup-profit-card-percentage">
+                                                    16%
+                                                </div>
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="popup-actions">
+                            <button onClick={close}>BACK TO STAKING</button>
+                            <div className="learn-more">
+                                <div className="popup-action-title">LEARN MORE</div>
+                                { isL ? (
+                                    <button className="popup-btn" onClick={changeType}>NON-LOCKED DEPOSIT</button>
+                                ) : (
+                                    <button className="popup-btn" onClick={changeType}>LOCKED DEPOSIT</button>
+                                ) }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+};
 
 export const StakeTimeContainer = (props) => {
     let {isL, setIsL, handleCalcChange, tokensForStake} = props;
@@ -228,11 +358,25 @@ export const UnstakeAmountContainer = (props) => {
 // STAKE ACT BOXES
 export const StakeActRoiBox = (props) => {
     let {isL} = props;
+
+    const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+
+    const openPopUp = () => {
+        setIsPopUpOpen(true);
+    }
+
     return (
-        <div className="stake-act-stats-box">
-            <div className="small-grey-header">Monthly</div>
-            <div className="big-numbers">{isL ? "28" : "14"}%</div>
-        </div>
+        <>
+            {isPopUpOpen && <RoiDetailPopUp setIsPopUpOpen={setIsPopUpOpen} isLocked={isL}/>}
+            <div className="stake-act-stats-box">
+                <div className="small-grey-header">
+                    Monthly
+                    <img src={question} alt="details" className="question-btn" onClick={openPopUp}/>
+                </div>
+
+                <div className="big-numbers">{isL ? "28" : "14"}%</div>
+            </div>
+        </>
     );
 };
 

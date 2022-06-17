@@ -273,7 +273,8 @@ export const refChartData = [
 
 export const fetchRefChartData = async () => {
     let res = {}
-    // let res = await sendReq("get", "affiliate/stat");
+    // res = await sendReq("get", "affiliate/stat");
+    console.log('res.data', res.data)
     res.data = {
         "result": "success",
         "data": {

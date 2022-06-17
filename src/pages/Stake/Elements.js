@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import toast from "react-hot-toast";
 import Slider from "react-rangeslider";
 import {TxTableBody} from "../../components/TxTable";
@@ -132,6 +132,95 @@ export const DepositDetailPopUp = ({setIsPopUpOpen}) => {
                                     lockup period is going to pass
                                 </p>
                             </div>
+                        </div>
+                        <div className="popup-actions">
+                            <button className="popup-btn" onClick={close}>BACK TO STAKING</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+};
+
+export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
+
+    const [isL, setIsL] = useState(true);
+
+    const close = () => {
+        setIsPopUpOpen(false);
+    }
+
+    return (
+        <>
+            <div className="popup-bg">
+                <div className="popup-container">
+                    <div className="popup-close">
+                        <p className="popup-close-text">
+                            Close
+                        </p>
+                        <img src={closeIcon} alt="close popup" className="popup-close-btn" onClick={close}/>
+                    </div>
+                    <div className="popup">
+                        <div className="popup-body">
+                            <div className="profit-calculator">
+                                <div className="profit-calculator-investment">
+                                    <p className="popup-title">
+                                        Investment
+                                    </p>
+                                    <div className="profit-calculator-amount">
+                                        <p className="medium-white-header">
+                                            AMOUNT
+                                        </p>
+
+                                    </div>
+                                    <div className="profit-calculator-deposit">
+                                        <StakeTimeContainer
+                                            isL={isL}
+                                            setIsL={setIsL}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="profit-calculator-profit">
+                                    <p className="popup-title">
+                                        Profit
+                                    </p>
+                                    <div className="profit-calculator-period">
+                                        <p className="medium-white-header">
+                                            STAKE FOR
+                                        </p>
+                                        <Slider
+                                            className="period-slider"
+                                            min={1}
+                                            max={53}
+                                            step={1}
+                                            value={0}
+                                            onChange={() => {}}
+                                            tooltip={false}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/*<div className="deposit-details-point">*/}
+                            {/*    <p className="popup-title">*/}
+                            {/*        Non-locked deposit*/}
+                            {/*    </p>*/}
+                            {/*    <p className="popup-title-text">*/}
+                            {/*        A withdrawable deposit can be unstaked at any point, withdrawing any funds staked*/}
+                            {/*        safely and securely*/}
+                            {/*    </p>*/}
+                            {/*</div>*/}
+                            {/*<div className="separator"/>*/}
+                            {/*<div className="deposit-details-point">*/}
+                            {/*    <p className="popup-title">*/}
+                            {/*        Locked deposit*/}
+                            {/*    </p>*/}
+                            {/*    <p className="popup-title-text">*/}
+                            {/*        A locked up deposit grants higher profit percentage that can be withdrawn after your*/}
+                            {/*        lockup period is going to pass*/}
+                            {/*    </p>*/}
+                            {/*</div>*/}
                         </div>
                         <div className="popup-actions">
                             <button className="popup-btn" onClick={close}>BACK TO STAKING</button>

@@ -230,13 +230,14 @@ button:disabled {
 
 .medium-white-header {
   font-size: 14px;
-  font-family: "Monsterrat-SemiBold";
-  font-weight: 800;
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-weight: 400;
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 5px;
-  color: var(--yellow-text);
+  /*color: var(--yellow-text);*/
+  color: #FFFFFF;
 }
 
 .question-btn {
@@ -1838,6 +1839,24 @@ td {
   width: 100%;
   background: rgba(255, 255, 255, 0.05);
   margin: 25px 0;
+}
+
+/* profit-calculator */
+.profit-calculator {
+  display: flex;
+  flex-direction: row;
+}
+
+.profit-calculator-investment {
+  /*width: 50%;*/
+}
+
+.profit-calculator-profit {
+  /*width: 50%;*/
+}
+
+.period-slider {
+  background: #7f7fd5;
 }
 
 /* dep-box */
@@ -3954,13 +3973,6 @@ input[type="number"] {
 
   .stake-act-stats-box {
     margin: 15px 0;
-  }
-
-  .stake-act-stats-box-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: #FEB85D !important;
   }
 
   /* deposit */

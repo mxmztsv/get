@@ -18,7 +18,7 @@ import { DepositBox } from "./DepBox";
 import { UnstakeDisclaimer } from "./Disclaimer";
 import {
   BackButton,
-  CurrencySwitcher,
+  CurrencySwitcher, ProfitCalculatorPopUp,
   StakeActMontlyRBox,
   StakeActRoiBox,
   StakeAmountContainer,
@@ -53,6 +53,8 @@ export const Stake = () => {
   const [cW, setCW] = useState(0); // current window. 0 - main stake. 1 - stake. 2 - unstake
 
   const [isGet, setIsGet] = useState(false); // is get (usdt) selected
+
+  const [isProfitCalculatorOpen, setIsProfitCalculatorOpen] = useState(false);
 
   const [usdtBal, setUsdtBal] = useState(getItem("pUsdtBal") || 0);
   const [getBal, setGetBal] = useState(getItem("pGetBal") || 0);
@@ -265,6 +267,7 @@ export const Stake = () => {
 
   return (
     <>
+      { isProfitCalculatorOpen && <ProfitCalculatorPopUp setIsPopUpOpen={setIsProfitCalculatorOpen}/> }
       {width > 815 ? (
         <Container>
           <div className="stake-container">
@@ -389,7 +392,8 @@ export const Stake = () => {
                   {isS ? (
                     <button
                       className="stake-footer-btn yellow-trans-btn"
-                      disabled={true}
+                      disabled={false}
+                      onClick={() => {setIsProfitCalculatorOpen(prevState => !prevState)}}
                     >
                       PROFIT CALCULATOR
                     </button>

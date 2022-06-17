@@ -9,17 +9,18 @@ import { UserContext } from "../../utils/UserContext";
 
 // boxes
 export const TotalEarnedBox = (props) => {
-  let { tb, setTb, totalEarned1, totalEarned2 } = props;
+  let { tb, setTb, totalEarned1, totalEarned2, tokenPrice } = props;
 
   let sum = totalEarned1 + totalEarned2;
 
   return (
     <div>
-      <div className="medium-white-header earned-header">Total earned</div>
+      <div className="medium-yellow-header earned-header">Total earned</div>
       <div className="numbers dash-num dark-span">
         {(Math.round(sum * 100) / 100).toLocaleString("en-US")} GET{" "}
-        <span>
-          | {(Math.round(sum * 0.11 * 100) / 100).toLocaleString("en-US")} USD
+        <span style={{ whiteSpace: "nowrap" }}>
+          | {(Math.round(sum * tokenPrice * 100) / 100).toLocaleString("en-US")}{" "}
+          USD
         </span>
       </div>
       <div className="earned-time-buttons-wrapper">
@@ -48,10 +49,7 @@ export const StakedBox = (props) => {
       >
         <div className="dash-box-header">Staked</div>
         <div className="dash-box-body">
-          {(
-            Math.round((totalStaked1 + totalStaked2) * 100) / 100
-          ).toLocaleString("en-US")}{" "}
-          GET
+          {(Math.round(sum * 100) / 100).toLocaleString("en-US")} GET
         </div>
 
         {/* <div className="dash-box-footer dash-box-colored-footer">
@@ -91,7 +89,7 @@ export const TokenBox = (props) => {
           //   color: `#${token24hChange > 0 ? "54F2F2" : "EF5A55"}`,
           // }}
         >
-          {countChange(tokenPrice, tokenPrevPrice) > 0 ? "+" : "-"}$
+          {countChange(tokenPrice, tokenPrevPrice) < 0 ? "-" : "+"}$
           {countDif(tokenPrice, tokenPrevPrice)} (
           {countChange(tokenPrice, tokenPrevPrice)}%)
         </div>
@@ -101,15 +99,18 @@ export const TokenBox = (props) => {
 };
 
 export const TvlBox = () => {
+  const { width } = useWindowDimensions();
   return (
     <>
       <div className="tvl-box dash-box">
-        <div className="dash-box-header">Total Value Locked</div>
+        <div className="dash-box-header">
+          {width > 815 ? "Total Value Locked" : "TVL"}
+        </div>
         <div className="dash-box-body">
-          {/* {tvl.toLocaleString("en-US")} GET */}0 GET
+          {/* {tvl.toLocaleString("en-US")} GET */}- GET
         </div>
         <div className="dash-box-footer dash-box-colored-footer">
-          {/* {Math.round(tvl * tokenPrice).toLocaleString("en-US")} USD */}0
+          {/* {Math.round(tvl * tokenPrice).toLocaleString("en-US")} USD */}-
           USD
         </div>
       </div>

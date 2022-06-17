@@ -5,9 +5,8 @@ export async function fetchTxE(user, setters) {
   let { setIsNeedUpdate, setTxArr } = setters;
 
   if (user) {
-    console.log("fetching tx");
     fetchTx().then((txArray) => {
-      console.log("tx arr:", txArray);
+      console.log("[fetchTxE] tx arr:", txArray);
 
       if (
         !getItem("txArr") ||
@@ -15,7 +14,9 @@ export async function fetchTxE(user, setters) {
       ) {
         setTxArr(txArray);
         setItem("txArr", txArray);
-        console.log("updated array");
+        console.log("[fetchTxE] updated txs");
+      } else {
+        console.log("[fetchTxE] txs the same");
       }
     });
 

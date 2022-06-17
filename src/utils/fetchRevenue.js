@@ -19,7 +19,7 @@ export async function fetchRevenue(
     let weekRev = metrics.total_week;
     let monthRev = metrics.total_month;
     let allRev = metrics.total_profit;
-    console.log("metrics:", dayRev, weekRev, monthRev, allRev);
+    console.log("[fetchRevenue] metrics:", dayRev, weekRev, monthRev, allRev);
 
     setDayRev(dayRev);
     setWeekRev(weekRev);

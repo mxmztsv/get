@@ -42,10 +42,15 @@ export const Dashboard = () => {
   }, [user, width]);
   // ---------------
 
+  // vars
+  const [isNeedUpdate, setIsNeedUpdate] = useState(false);
+
+  // general
   const [isA, setIsA] = useState(true); // is account tab selected
   const [tb, setTb] = useState([true, false, false, false]); // chart time buttons
   const [eb, setEb] = useState([true, false, false, false]); // earned time buttons
 
+  // bals
   const [usdtBal, setUsdtBal] = useState(getItem("pUsdtBal") || 0);
   const [getBal, setGetBal] = useState(getItem("pGetBal") || 0);
 
@@ -55,22 +60,27 @@ export const Dashboard = () => {
   // for total staked, earned
   const [lDepAmount, setLDepAmount] = useState(getItem("plDepA") || 0);
   const [nlDepAmount, setNLDepAmount] = useState(getItem("pnlDepA") || 0);
-
   const [lDepUsdAmount, setLDepUsdAmount] = useState(0);
   const [nlDepUsdAmount, setNLDepUsdAmount] = useState(0);
+  const [totalEarned1, setTotalEarned1] = useState(
+    getItem("pTotalEarned1") || 0
+  );
+  const [totalEarned2, setTotalEarned2] = useState(
+    getItem("pTotalEarned2") || 0
+  );
 
-  const [totalEarned1, setTotalEarned1] = useState(0);
-  const [totalEarned2, setTotalEarned2] = useState(0);
-
-  const [isNeedUpdate, setIsNeedUpdate] = useState(false);
-
-  const [txArr, setTxArr] = useState(getItem("txArr") || []);
-
+  // token price
   const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
   const [tokenPrevPrice, setTokenPrevPrice] = useState(
     getItem("prevTP") || 0.11
   );
+
+  // chart
   const [priceArray, setPriceArray] = useState(getItem("pPA") || []);
+
+  // tx
+  const [txArr, setTxArr] = useState(getItem("txArr") || []);
+  // ------------------------------------
 
   // navbar update
   const { setNavPath } = useContext(PathContext); // for selected navbar item
@@ -88,31 +98,35 @@ export const Dashboard = () => {
 
   // token chart fetch
   useEffect(() => {
+    console.log("[Dashboard] fetching chart");
     fetchChartE(setPriceArray, setTokenPrevPrice);
   }, [isNeedUpdate]);
   // ------------------------------------
 
   // token price fetch
   useEffect(() => {
-    fetchTokenPriceE(setTokenPrice);
+    console.log("[Dashboard] fetching token price");
+    fetchTokenPriceE(setTokenPrice, setTokenPrevPrice);
   }, [isNeedUpdate]);
   // ------------------------------------
 
   // balance fetch
   useEffect(() => {
+    console.log("[Dashboard] fetching balances");
     fetchBalancesE(user, { setUsdtBal, setGetBal, setUsdtBal4, setGetBal4 });
   }, [isNeedUpdate]);
   // ------------------------------------
 
   // profile fetch
   useEffect(() => {
+    console.log("[Dashboard] fetching profile");
     fetchProfileE(user, setUser);
   }, [isNeedUpdate]);
   // -----------------------------------
 
   // deposits fetch
   useEffect(() => {
-    console.log("");
+    console.log("[Dashboard] fetching deposits");
     fetchDepositsE(user, {
       setLDepAmount,
       setLDepUsdAmount,
@@ -127,7 +141,7 @@ export const Dashboard = () => {
 
   // tx fetch
   useEffect(() => {
-    console.log("");
+    console.log("[Dashboard] fetching transactions");
     fetchTxE(user, { setTxArr, setIsNeedUpdate });
   }, [user, isNeedUpdate]);
   // ------------------------------------
@@ -156,6 +170,7 @@ export const Dashboard = () => {
                         totalEarned2={totalEarned2}
                         tb={tb}
                         setTb={setTb}
+                        tokenPrice={tokenPrice}
                       />
                       <StakedBox
                         totalStaked1={lDepAmount}
@@ -253,6 +268,7 @@ export const Dashboard = () => {
                       totalEarned2={totalEarned2}
                       tb={tb}
                       setTb={setTb}
+                      tokenPrice={tokenPrice}
                     />
 
                     <div

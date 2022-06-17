@@ -90,8 +90,12 @@ export const Stake = () => {
       : 1
   );
 
-  const [totalEarned1, setTotalEarned1] = useState(0);
-  const [totalEarned2, setTotalEarned2] = useState(0);
+  const [totalEarned1, setTotalEarned1] = useState(
+    getItem("pTotalEarned1") || 0
+  );
+  const [totalEarned2, setTotalEarned2] = useState(
+    getItem("pTotalEarned2") || 0
+  );
 
   const [isNeedUpdate, setIsNeedUpdate] = useState(false);
 
@@ -108,7 +112,7 @@ export const Stake = () => {
   // balance fetch
   useEffect(() => {
     if (user) {
-      console.log("fetching balances");
+      console.log("[Stake] fetching balances");
       fetchBalances("0").then((bals) => {
         console.log(bals);
 
@@ -119,26 +123,25 @@ export const Stake = () => {
         setTokensForStake(isGet ? bals.getBal : bals.usdtBal);
         console.log("getb:", getBal);
       });
-      console.log("fetched bals");
+      console.log("[Stake] fetched balances");
     }
   }, [user, lDepAmount, nlDepAmount]);
   // ------------------------------------
 
   // token price fetch
   useEffect(() => {
+    console.log("[Stake] fetching token price");
     fetchTokenPriceE(setTokenPrice);
   }, [isNeedUpdate]);
   // ------------------------------------
 
   // deposits fetch
   useEffect(() => {
-    console.log("");
     if (user) {
-      console.log("fetching deposits");
+      console.log("[Stake] fetching deposits");
       fetchDeposits().then((depsArr) => {
-        console.log("deps arr:", depsArr);
         if (depsArr[0]) {
-          console.log("fetched non-locked:", depsArr[0]);
+          console.log("[Stake] fetched non-locked dep:", depsArr[0]);
           setNLDepId(depsArr[0].depId);
           setNLDepAmount(depsArr[0].getAmount);
           setNLDepUsdAmount(depsArr[0].usdAmount);
@@ -151,7 +154,7 @@ export const Stake = () => {
           setItem(`isR${getItem("pnlDepId")}`, depsArr[0].isReinvest);
         }
         if (depsArr[1]) {
-          console.log("fetched locked:", depsArr[1]);
+          console.log("[Stake] fetched locked dep:", depsArr[0]);
           setLDepId(depsArr[1].depId);
           setLDepAmount(depsArr[1].getAmount);
           setLDepUsdAmount(depsArr[1].usdAmount);
@@ -177,7 +180,7 @@ export const Stake = () => {
 
   // tx fetch
   useEffect(() => {
-    console.log("");
+    console.log("[Stake] fetching transactions");
     fetchTxE(user, { setTxArr, setIsNeedUpdate });
   }, [user, isNeedUpdate]);
   // ------------------------------------
@@ -190,7 +193,7 @@ export const Stake = () => {
     if (!isGet && value > usdtBal) return;
     if (value > 10000000) return;
 
-    console.log("token price in func: ", tokenPrice);
+    console.log("[Stake] token price:", tokenPrice);
 
     setTokensForStake(Math.round(value * 100) / 100);
     let usdVal = isGet ? value * tokenPrice : value;
@@ -217,7 +220,7 @@ export const Stake = () => {
     }
 
     console.log(
-      "value for monr",
+      "[Stake] monthly reward:",
       Math.round(getVal * (roiVal / 100) * 100) / 100
     );
     setMonthlyReward(Math.round(getVal * (roiVal / 100) * 100) / 100 || 0);
@@ -242,6 +245,7 @@ export const Stake = () => {
                     <TotalEarnedBox
                       totalEarned1={totalEarned1}
                       totalEarned2={totalEarned2}
+                      tokenPrice={tokenPrice}
                     />
                   </div>
                 </div>
@@ -259,6 +263,7 @@ export const Stake = () => {
                     isR={isR1}
                     setIsR={setIsR1}
                     totalEarned={totalEarned1}
+                    tokenPrice={tokenPrice}
                   />
 
                   <DepositBox
@@ -269,6 +274,7 @@ export const Stake = () => {
                     isR={isR2}
                     setIsR={setIsR2}
                     totalEarned={totalEarned2}
+                    tokenPrice={tokenPrice}
                   />
                 </div>
 
@@ -369,7 +375,8 @@ export const Stake = () => {
                             tokensForStake,
                             isL,
                             isGet,
-                            setIsNeedUpdate
+                            setIsNeedUpdate,
+                            tokenPrice
                           );
                         } else {
                           await handleUnstake(
@@ -408,7 +415,13 @@ export const Stake = () => {
             cW={cW}
             setCW={setCW}
             handleStake={handleStake}
-            handleStakeHelpers={{ tokensForStake, isL, isGet, setIsNeedUpdate }}
+            handleStakeHelpers={{
+              tokensForStake,
+              isL,
+              isGet,
+              setIsNeedUpdate,
+              tokenPrice,
+            }}
             handleUnstake={handleUnstake}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
@@ -436,6 +449,7 @@ export const Stake = () => {
                     <TotalEarnedBox
                       totalEarned1={totalEarned1}
                       totalEarned2={totalEarned2}
+                      tokenPrice={tokenPrice}
                     />
                   </div>
 
@@ -448,6 +462,7 @@ export const Stake = () => {
                       isR={isR1}
                       setIsR={setIsR1}
                       totalEarned={totalEarned1}
+                      tokenPrice={tokenPrice}
                     />
 
                     <DepositBox
@@ -458,6 +473,7 @@ export const Stake = () => {
                       isR={isR2}
                       setIsR={setIsR2}
                       totalEarned={totalEarned2}
+                      tokenPrice={tokenPrice}
                     />
                   </div>
                 </>

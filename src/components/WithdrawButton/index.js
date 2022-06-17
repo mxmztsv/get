@@ -5,6 +5,14 @@ import useWindowDimensions from "../../hooks/useWindow";
 import { UserContext } from "../../utils/UserContext";
 import { CloseButton } from "../CloseButton";
 import { DepNetworkSelector } from "../DepButton/Selectors";
+import {
+  SelectedNetBox,
+  SelectedWalletBox,
+  TotalAmountBox,
+  VerifCodeBox,
+  WithdrawSwitch,
+  WithFooter,
+} from "./Elements";
 import { WithAmountSlider } from "./WithSlider";
 
 export const WithdrawButton = (props) => {
@@ -23,67 +31,9 @@ export const WithdrawButton = (props) => {
 
   const [sDepNet, setSDepNet] = useState(0);
 
-  const [sDepCoin, setSDepCoin] = useState(0);
-
-  // WITHDRAW
-  const WithdrawSwitch = () => {
-    return (
-      <>
-        <div className="with-switch-wrapper brd-top brd-btm">
-          <div className="u-g-switch-container">
-            <button
-              className={`${!isGet ? "with-s-btn" : ""}`}
-              onClick={() => setIsGet(false)}
-            >
-              USDT
-            </button>
-            <button
-              className={`${isGet ? "with-s-btn" : ""}`}
-              onClick={() => setIsGet(true)}
-            >
-              GET
-            </button>
-          </div>
-        </div>
-      </>
-    );
-  };
+  const [sWallet, setSWallet] = useState("");
 
   async function handleWithCalcChange() {}
-
-  const TotalAmountBox = (props) => {
-    let { totalAmount, isGet } = props;
-    return (
-      <div className="with-total-wrapper">
-        <div className="medium-white-header">Total amount</div>
-        <div className="big-numbers">
-          {totalAmount}
-          {isGet ? " GET" : " USDT"}
-        </div>
-      </div>
-    );
-  };
-
-  const WithFooter = (props) => {
-    let { isFPage, setIsFPage } = props;
-    return (
-      <div className="with-footer-wrapper">
-        {isFPage ? (
-          <TotalAmountBox totalAmount={tokensForWith} isGet={isGet} />
-        ) : (
-          <>
-            <button
-              className="transparent-button yellow-trans-btn"
-              onClick={() => setIsFPage(true)}
-            >
-              BACK
-            </button>
-          </>
-        )}
-        <button onClick={() => setIsFPage(false)}>NEXT</button>
-      </div>
-    );
-  };
 
   return (
     <>
@@ -91,7 +41,7 @@ export const WithdrawButton = (props) => {
 
       <div
         className="with-button-container"
-        style={{ marginLeft: `${width > 815 ? "15px" : "0"}` }}
+        style={{ marginLeft: `${width > 815 ? "10px" : "0"}` }}
       >
         <button
           onClick={() => {
@@ -123,9 +73,7 @@ export const WithdrawButton = (props) => {
                     {isFPage ? (
                       <>
                         {/* FIRST-PAGE */}
-
-                        {/* DEP-CONTENT */}
-                        <WithdrawSwitch />
+                        <WithdrawSwitch isGet={isGet} setIsGet={setIsGet} />
                         <WithAmountSlider
                           func={{
                             tokensForWith,
@@ -152,7 +100,6 @@ export const WithdrawButton = (props) => {
                     ) : (
                       <>
                         {/* SECOND-PAGE */}
-
                         <div className="with-s-page-wrapper">
                           <TotalAmountBox
                             totalAmount={tokensForWith}
@@ -163,7 +110,22 @@ export const WithdrawButton = (props) => {
                     )}
                   </div>
 
-                  <WithFooter isFPage={isFPage} setIsFPage={setIsFPage} />
+                  {isFPage ? (
+                    <></>
+                  ) : (
+                    <>
+                      <SelectedNetBox sDepNet={sDepNet} />
+                      <SelectedWalletBox sWallet={sWallet} />
+                      <VerifCodeBox />
+                    </>
+                  )}
+
+                  <WithFooter
+                    isFPage={isFPage}
+                    setIsFPage={setIsFPage}
+                    tokensForWith={tokensForWith}
+                    isGet={isGet}
+                  />
                 </div>
               </div>
             </div>

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
   DepCCInfoBody,
@@ -72,9 +73,10 @@ export const Deposit = () => {
               <button
                 className={`trans-btn-mob ${!isC ? "s-trans-btn-mob" : ""}`}
                 onClick={() => {
-                  setIsC(false);
+                  // setIsC(false);
+                  toast("Coming soon");
                 }}
-                disabled={true}
+                // disabled={true}
               >
                 <p>With Card</p>
               </button>

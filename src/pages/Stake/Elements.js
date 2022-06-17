@@ -11,11 +11,11 @@ export const TotalStakedBox = (props) => {
   let { totalStaked1, totalStaked2 } = props;
   return (
     <div className="stake-total-staked-box">
-      <div className="medium-white-header">Total staked</div>
+      <div className="medium-yellow-header">Total staked</div>
       <div className="big-numbers dark-span">
         {(Math.round((totalStaked1 + totalStaked2) * 100) / 100).toLocaleString(
           "en-US"
-        )}
+        )}{" "}
         GET
       </div>
     </div>
@@ -23,7 +23,7 @@ export const TotalStakedBox = (props) => {
 };
 
 export const TotalEarnedBox = (props) => {
-  let { totalEarned1, totalEarned2 } = props;
+  let { totalEarned1, totalEarned2, tokenPrice } = props;
   const { width } = useWindowDimensions();
   let sum = totalEarned1 + totalEarned2;
 
@@ -32,11 +32,12 @@ export const TotalEarnedBox = (props) => {
       className="stake-total-staked-box"
       style={{ marginBottom: `${width > 815 ? "35px" : "15px"}` }}
     >
-      <div className="medium-white-header">Total earned</div>
+      <div className="medium-yellow-header">Total earned</div>
       <div className="big-numbers dark-span">
         {(Math.round(sum * 100) / 100).toLocaleString("en-US")} GET{" "}
-        <span>
-          | {(Math.round(sum * 0.11 * 100) / 100).toLocaleString("en-US")} USD
+        <span style={{ whiteSpace: "nowrap" }}>
+          | {(Math.round(sum * tokenPrice * 100) / 100).toLocaleString("en-US")}{" "}
+          USD
         </span>
       </div>
     </div>
@@ -50,7 +51,7 @@ export const StakeAmountContainer = (props) => {
     <>
       <div className="stake-amount-container">
         <div className="stake-amount-inner">
-          <div className="medium-white-header">YOUR INVESTEMENT</div>
+          <div className="medium-yellow-header">YOUR INVESTEMENT</div>
           <div className="stake-amount-slider-container">
             <div className="slider-header">
               {/* <input
@@ -100,7 +101,7 @@ export const StakeTimeContainer = (props) => {
     <>
       <div className="stake-time-options-button">
         <div className="stake-amount-inner">
-          <div className="medium-white-header">DEPOSIT OPTION</div>
+          <div className="medium-yellow-header">DEPOSIT OPTION</div>
           <div className="double-button-container">
             <button
               className={`${isL ? "" : "unselected-button"}`}
@@ -135,7 +136,7 @@ export const UnstakeAmountContainer = (props) => {
     <>
       <div className="stake-amount-container">
         <div className="stake-amount-inner">
-          <div className="medium-white-header">AMOUNT</div>
+          <div className="medium-yellow-header">AMOUNT</div>
           <div className="stake-amount-slider-container">
             <div className="slider-header">
               <p className="yellow-text dark-span numbers">{nlDepAmount} GET</p>
@@ -198,7 +199,7 @@ export const ReinvestToggle = (props) => {
         }}
       >
         <div
-          className="medium-white-header"
+          className="medium-yellow-header"
           style={{
             display: "flex",
             alignItems: "center",
@@ -249,7 +250,7 @@ export const CurrencySwitcher = (props) => {
     <>
       <div className="stake-time-options-button">
         <div className="stake-amount-inner">
-          <div className="medium-white-header">YOU PAY</div>
+          <div className="medium-yellow-header">YOU PAY</div>
           <div className="double-button-container">
             <button
               className={`${!isGet ? "" : "unselected-button"}`}

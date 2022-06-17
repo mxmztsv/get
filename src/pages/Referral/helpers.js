@@ -5,10 +5,11 @@ export async function fetchRefs(curLayerId) {
   if (!getItem("token")) return;
 
   let res = await sendReq("post", "team/get-followers", { uid: curLayerId });
-  if (res.data.result === "success") {
+
+  if (res && res.data.result === "success") {
     return res.data.data.list;
   } else {
-    console.log("fetchRefs error:", res);
+    console.error("[fetchRefs] error:", res);
     return [];
   }
 }
@@ -18,7 +19,6 @@ export function objToArray(obj) {
 
   // objects to array
   Object.values(obj).forEach((elem) => {
-    console.log("response elem:", elem);
     let refObj = {
       id: elem.id,
       name: `${elem.first_name} ${elem.last_name}`,

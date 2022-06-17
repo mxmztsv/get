@@ -55,15 +55,12 @@ export const Referral = () => {
   const [refLink, setRefLink] = useState("");
   const [invitedByName, setInvitedByName] = useState(getItem("byName") || "");
 
-  const [teamSize, setTeamSize] = useState("-");
-  const [frontLineSize, setFrontLineSize] = useState("-");
-  const [numberOfLines, setNumberOfLines] = useState("-");
+  const [teamSize, setTeamSize] = useState(getItem("ts") || "-");
+  const [frontLineSize, setFrontLineSize] = useState(getItem("fS") || "-");
+  const [numberOfLines, setNumberOfLines] = useState(getItem("lNum") || "-");
 
   const [curLvlRefs, setCurLvlRefs] = useState([]);
   const [isRev, setIsRev] = useState(true);
-
-  const [usdtBal4, setUsdtBal4] = useState(0);
-  const [getBal4, setGetBal4] = useState(0);
 
   const [dayRev, setDayRev] = useState(getItem("pDayRev") || 0);
   const [weekRev, setWeekRev] = useState(getItem("pWeekRev") || 0);
@@ -87,18 +84,21 @@ export const Referral = () => {
 
   // fetch ref link
   useEffect(() => {
+    console.log("[Referral] fetching ref link");
     fetchRefLink(setRefLink, setInvitedByName);
   }, []);
   // -----------------------------------------
 
   // revenue stats fetch
   useEffect(() => {
+    console.log("[Referral] fetching revenue stats");
     fetchRevenue(setDayRev, setWeekRev, setMonthRev, setAllRev);
   }, []);
   // -----------------------------------------
 
   // fetch team size, front line size, number of lines
   useEffect(() => {
+    console.log("[Referral] fetching ref body info");
     fetchBodyInfo(setTeamSize, setFrontLineSize, setNumberOfLines);
   }, []);
   // ------------------------------------------------------------
@@ -112,18 +112,21 @@ export const Referral = () => {
 
   // fetch first lvl refs. ref tree
   useEffect(() => {
+    console.log("[Referral] fetching first layer refs");
     fetchCurRefs(setCurLvl, setCurLvlRefs);
   }, []);
   // -------------------------
 
   // fetch missions
   useEffect(() => {
+    console.log("[Referral] fetching missions");
     fetchMissions(setDepMis, setFrontLDepMis, setVolMis, setBonus, setCurLvl);
   }, []);
   // -------------------------
 
   // team volume
   useEffect(() => {
+    console.log("[Referral] fetching team volume");
     fetchDepStats(setTeamVolume, setFirstLVolume);
   }, []);
 
@@ -147,7 +150,7 @@ export const Referral = () => {
 
             {/* REF-NEXT-LVL */}
             <div className="ref-next-lvl-container brd-btm">
-              <div className="medium-white-header">To get L{curLvl + 1}</div>
+              <div className="medium-yellow-header">To get L{curLvl + 1}</div>
               <div className="ref-boxes">
                 <DepositNextL depMiss={depMis} />
                 <FrontLineDepNextL frontLDepMis={frontLDepMis} />
@@ -158,7 +161,7 @@ export const Referral = () => {
 
             {/* REF-CHART */}
             <div className="ref-chart-container">
-              <div className="medium-white-header">Revenue</div>
+              <div className="medium-yellow-header">Revenue</div>
               <div className="ref-boxes">
                 <RevenueBox time="Today" revVal={dayRev} />
                 <RevenueBox time="Week" revVal={weekRev} />
@@ -172,7 +175,7 @@ export const Referral = () => {
 
             {/* REF-TREE */}
             <div className="ref-tree-container">
-              {/* <div className="medium-white-header">Your referrals</div> */}
+              {/* <div className="medium-yellow-header">Your referrals</div> */}
               <div className="ref-tree-header brd-btm">
                 {/* left */}
                 <div className="ref-total-earn">
@@ -219,7 +222,10 @@ export const Referral = () => {
               <NumberOfLinesBox numberOfLines={numberOfLines} />
             </div>
 
-            <div className="medium-white-header" style={{ marginLeft: "10px" }}>
+            <div
+              className="medium-yellow-header"
+              style={{ marginLeft: "10px" }}
+            >
               To get L{curLvl + 1}
             </div>
             <div

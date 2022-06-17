@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getItem } from "./localStorage";
+import { getItem, setItem } from "./localStorage";
 
 export async function fetchBodyInfo(
   setTeamSize,
@@ -30,7 +30,8 @@ export async function fetchBodyInfo(
 
       if (res.data.result === "success") {
         setFunc(res.data.data.count);
-        console.log(`ref: fetched ${name} from api`);
+        setItem(name, res.data.data.count);
+        console.log(`[fetchCount]: fetched ${name}`);
       }
     }
   }

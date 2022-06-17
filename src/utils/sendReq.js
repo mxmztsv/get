@@ -35,10 +35,10 @@ export async function sendReq(method, url, data) {
     }
 
     let res = await axios(req);
-    console.log(url, res);
+    console.log("[response]", url, res);
     return res;
   } catch (e) {
-    console.error(`${url} error:`, e);
+    console.error("[response]", url, e);
     return e;
   }
 }

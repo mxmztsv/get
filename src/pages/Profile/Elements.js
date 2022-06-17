@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import useWindowDimensions from "../../hooks/useWindow";
+import toast from "react-hot-toast";
+import { WithdrawButton } from "../../components/WithdrawButton";
 import { getItem } from "../../utils/localStorage";
 import { UserContext } from "../../utils/UserContext";
 
-// boxes
 export const ProfHeader = () => {
   const { user } = useContext(UserContext);
 
@@ -25,9 +25,21 @@ export const ProfHeader = () => {
   );
 };
 
+export const ProfHeaderMob = () => {
+  const { user } = useContext(UserContext);
+  return (
+    <div className="prof-header-wrapper brd-btm">
+      <div className="profile-top-wrapper-mob">
+        <div className="header-1">{user ? user.name : ""}</div>
+        <div className="small-grey-header">{user ? user.email : ""}</div>
+      </div>
+      <WithdrawButton />
+    </div>
+  );
+};
+
 export const TgBotBox = (props) => {
   let { isC } = props;
-  const { width } = useWindowDimensions();
 
   function handleConnectClick() {
     console.log("tgToken:", getItem("tgToken"));
@@ -44,15 +56,15 @@ export const TgBotBox = (props) => {
       </p>
 
       <button
-        className={`${isC ? "transparent-button red-trans-btn" : ""}`}
-        disabled={true}
-        // onClick={() => {
-        //   if (!isC) {
-        //     handleConnectClick();
-        //   }
-        // }}
+        className={`${isC ? "transparent-button " : ""}`}
+        style={{ cursor: `${isC ? "not-allowed" : "pointer"}` }}
+        onClick={() => {
+          if (!isC) {
+            handleConnectClick();
+          }
+        }}
       >
-        {isC ? "DISCONNECT" : "CONNECT"}
+        {isC ? "CONNECTED" : "CONNECT"}
       </button>
     </div>
   );
@@ -63,11 +75,86 @@ export const EditProfileBtnMob = (props) => {
   return (
     <button
       className="transparent-button yellow-trans-btn"
-      onClick={() => setIsE(true)}
-      disabled={true}
+      onClick={() => {
+        // setIsE(true);
+        toast("Coming Soon");
+      }}
     >
       <p> EDIT PROFILE</p>
     </button>
   );
 };
-// -------------------------------
+
+export const EditBody = (props) => {
+  let { handleSubmit, register, errors, onSubmit } = props;
+  return (
+    <div className="edit-page-body">
+      <form id="edit-form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="input-field">
+          First name
+          <input {...register("firstName")} />
+        </div>
+        <div className="input-field">
+          Last name
+          <input {...register("lastName", { required: true })} />
+          {errors.lastName && <p>Last name is required.</p>}
+        </div>
+        <div className="input-field">
+          Email
+          <input
+            {...register("age", {
+              pattern:
+                /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
+            })}
+          />
+          {errors.age && <p className="error-p">Please enter valid Email</p>}
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export const EditStateFooterMob = (props) => {
+  let { setIsE } = props;
+  return (
+    <>
+      <button onClick={() => setIsE(false)} className="transparent-button">
+        Cancel
+      </button>
+      <button
+        onClick={() => setIsE(false)}
+        style={{ marginRight: "0" }}
+        className="transparent-button green-trans-button"
+      >
+        Save
+      </button>
+    </>
+  );
+};
+
+export const EditStateFooter = (props) => {
+  let { setIsE } = props;
+  return (
+    <>
+      <button
+        onClick={() => {
+          setIsE(false);
+        }}
+        className="transparent-button"
+      >
+        Cancel
+      </button>
+      <button
+        onClick={() => {
+          // alert("todo");
+          // setIsE(false);
+        }}
+        className="transparent-button green-trans-button"
+        type="submit"
+        form="edit-form"
+      >
+        Save
+      </button>
+    </>
+  );
+};

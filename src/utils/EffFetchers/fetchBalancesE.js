@@ -5,7 +5,6 @@ export async function fetchBalancesE(user, setters) {
   let { setUsdtBal, setGetBal, setUsdtBal4, setGetBal4 } = setters;
 
   if (user) {
-    console.log("fetching balances");
     if (setUsdtBal) {
       fetchBalances("0").then((bals) => {
         setUsdtBal(bals.usdtBal);
@@ -22,7 +21,6 @@ export async function fetchBalancesE(user, setters) {
         setItem("pUsdtBal4", bals.usdtBal);
         setItem("pGetBal4", bals.getBal);
       });
-      console.log("fetched balances");
     }
   }
 }

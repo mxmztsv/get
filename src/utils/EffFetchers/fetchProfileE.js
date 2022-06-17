@@ -1,10 +1,9 @@
 import { getItem, setItem } from "../localStorage";
 import { sendReq } from "../sendReq";
 
-export async function fetchProfileE(user, setUser) {
+export async function fetchProfileE(user, setUser, setIsC) {
   if (user) {
     if (!getItem("token")) return;
-    if (user.id && user.name) return;
 
     let res = await sendReq("get", "profile/base-info");
 
@@ -18,20 +17,27 @@ export async function fetchProfileE(user, setUser) {
         copyOfUser["id"] = resUser.id;
         copyOfUser["uRefCode"] = resUser.login;
         copyOfUser["email"] = resUser.email;
-        copyOfUser["isTgC"] = resUser["telegram-subscribe"];
+        copyOfUser["isTgC"] = !!resUser["telegram_chat_id"];
         copyOfUser["tgToken"] = resUser["telegram-token"];
+
         setUser(copyOfUser);
+
+        if (setIsC) setIsC(resUser["telegram-subscribe"]);
 
         setItem("user", copyOfUser);
         setItem("userName", `${resUser.first_name} ${resUser.last_name}`);
         setItem("uid", resUser.id);
         setItem("uRefCode", resUser.login);
         setItem("byName", resUser.sponsor.fio);
-        setItem("isTgC", resUser["telegram-subscribe"]);
+        setItem("isTgC", !!resUser["telegram_chat_id"]);
         setItem("tgToken", resUser["telegram-token"]);
 
-        console.log("TG TOKEN IN FP", resUser["telegram-token"]);
+        setItem("ercWal", resUser["eth_wallet"]);
+        setItem("bepWal", resUser["bnb_wallet"]);
+        setItem("trcWal", resUser["trx_wallet"]);
       }
     }
+  } else {
+    console.log("[fetchProfileE] no user");
   }
 }

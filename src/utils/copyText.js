@@ -1,6 +1,11 @@
-export function copyText(classN, num) {
+export function copyText(name, num, isName) {
   if (!num) num = 0;
-  // @ts-ignore
-  let copyText = document.getElementsByClassName(classN)[num].innerText;
+  let copyText;
+  if (!isName) {
+    // @ts-ignore
+    copyText = document.getElementsByClassName(name)[num].innerText;
+  } else {
+    copyText = document.getElementsByName(name)[num].innerText;
+  }
   navigator.clipboard.writeText(copyText);
 }

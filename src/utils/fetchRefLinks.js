@@ -6,26 +6,20 @@ export async function fetchRefLink(setRefLink, setInvitedByName) {
   if (getItem("uRefCode") && getItem("byName")) {
     setRefLink(`${refUrlBase}${getItem("uRefCode")}`);
     setInvitedByName(getItem("byName"));
-    console.log("fetched id from localstorage");
+    console.log("[fetchRefLink] fetched id from localstorage");
   }
-
   if (!getItem("token")) return;
 
   let res = await sendReq("get", "profile/base-info");
+  if (res && res.data.result === "success") {
+    if (res.data.data.login) {
+      setRefLink(`${refUrlBase}${res.data.data.login}`);
+      setInvitedByName(res.data.data.sponsor.fio);
 
-  if (res) {
-    console.log(res);
+      setItem("uRefCode", res.data.data.login);
+      setItem("byName", res.data.data.sponsor.fio);
 
-    if (res.data.result === "success") {
-      if (res.data.data.login) {
-        setRefLink(`${refUrlBase}${res.data.data.login}`);
-        setInvitedByName(res.data.data.sponsor.fio);
-
-        setItem("uRefCode", res.data.data.login);
-        setItem("byName", res.data.data.sponsor.fio);
-
-        console.log("ref l: fetched");
-      }
+      console.log("[fetchRefLink] fetched");
     }
   }
 }

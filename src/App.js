@@ -30,7 +30,7 @@ function App() {
     let user = getItem("user");
     if (!user) setUser(null);
     else setUser(user);
-    console.log(user);
+    console.log("[App] user:", user);
   }, []);
 
   return (

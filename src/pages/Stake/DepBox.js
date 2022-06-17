@@ -1,8 +1,16 @@
 import { ReinvestToggle } from "./Elements";
 
 export const DepositBox = (props) => {
-  let { isLocked, isR, setIsR, getAmount, usdAmount, depId, totalEarned } =
-    props;
+  let {
+    isLocked,
+    isR,
+    setIsR,
+    getAmount,
+    usdAmount,
+    depId,
+    totalEarned,
+    tokenPrice,
+  } = props;
 
   let icon;
   if (isLocked) icon = require("../../assets/img/locked.svg").default;
@@ -34,7 +42,7 @@ export const DepositBox = (props) => {
         <div className="small-grey-header">Total Earned</div>
         <div className="dep-box-num numbers">{totalEarned} GET</div>
         <div className="dash-box-footer dash-box-colored-footer">
-          {Math.round(totalEarned * 0.11)} USD
+          {Math.round(totalEarned * tokenPrice * 100) / 100} USD
         </div>
       </div>
 

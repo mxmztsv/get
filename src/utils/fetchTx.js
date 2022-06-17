@@ -14,6 +14,7 @@ export async function fetchTx() {
         if (tx.type === 11) type = "AUTO-SWAP";
         if (tx.type === 9) type = "BONUS";
         if (tx.type === 6) type = "REFERRAL BONUS";
+        if (tx.type === 20) type = "STAKING PROFIT";
 
         if (tx.description === "Exchange from USDT") return;
 

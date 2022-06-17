@@ -7,7 +7,7 @@ export const CurLvlBox = (props) => {
   let { curLvl } = props;
   return (
     <div className={`cur-lvl-container ${width > 815 ? "" : "brd-top"}`}>
-      <div className="medium-white-header">Current level</div>
+      <div className="medium-yellow-header">Current level</div>
       <div className="ref-lvl-val">{curLvl !== undefined ? curLvl : "-"}</div>
     </div>
   );
@@ -149,7 +149,7 @@ export const InvitedByBox = (props) => {
 
   return (
     <div className={`cur-lvl-container ${width > 815 ? "" : "brd-top"}`}>
-      <div className="medium-white-header">Invited by</div>
+      <div className="medium-yellow-header">Invited by</div>
       <div className="ref-lvl-val header-2">
         {invitedByName !== "" ? invitedByName : "-"}
       </div>
@@ -163,7 +163,7 @@ export const TeamSizeBox = (props) => {
 
   return (
     <div className={`cur-lvl-container ${width > 815 ? "" : "brd-top"}`}>
-      <div className="medium-white-header">Team Size</div>
+      <div className="medium-yellow-header">Team Size</div>
       <div className="ref-lvl-val">{teamSize !== "" ? teamSize : "-"}</div>
     </div>
   );
@@ -175,7 +175,7 @@ export const FirstLineSizeBox = (props) => {
 
   return (
     <div className={`cur-lvl-container ${width > 815 ? "" : "brd-top"}`}>
-      <div className="medium-white-header">Front-Line Size</div>
+      <div className="medium-yellow-header">Front-Line Size</div>
       <div className="ref-lvl-val">
         {frontLineSize !== "" ? frontLineSize : "-"}
       </div>
@@ -189,7 +189,7 @@ export const NumberOfLinesBox = (props) => {
 
   return (
     <div className={`cur-lvl-container ${width > 815 ? "" : "brd-top"}`}>
-      <div className="medium-white-header">Number of Lines</div>
+      <div className="medium-yellow-header">Number of Lines</div>
       <div className="ref-lvl-val">
         {numberOfLines !== "" ? numberOfLines : "-"}
       </div>

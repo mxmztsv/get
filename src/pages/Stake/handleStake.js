@@ -2,7 +2,13 @@ import toast from "react-hot-toast";
 import { getItem } from "../../utils/localStorage";
 import { sendReq } from "../../utils/sendReq";
 
-export async function handleStake(tokensForStake, isL, isGet, setIsNeedUpdate) {
+export async function handleStake(
+  tokensForStake,
+  isL,
+  isGet,
+  setIsNeedUpdate,
+  tokenPrice
+) {
   if (isGet && tokensForStake < 230) {
     toast.error("Minimum deposit: 230 GET");
     return;
@@ -27,7 +33,7 @@ export async function handleStake(tokensForStake, isL, isGet, setIsNeedUpdate) {
     if (isGet) amount = `${tokensForStake} GET`;
     else
       amount = `${tokensForStake} USDT (${
-        Math.round((tokensForStake / 0.11) * 100) / 100
+        Math.round((tokensForStake / tokenPrice) * 100) / 100
       } GET)`;
 
     let mes = `Successfully staked ${amount} in ${

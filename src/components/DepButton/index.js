@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import caD2 from "../../assets/img/card-dep-2.svg";
 import caD from "../../assets/img/card-dep.svg";
@@ -133,7 +134,10 @@ export const DepButton = (props) => {
                   <div
                     className={`dep-nav-button ${!isC ? "s-nav-button" : ""}`}
                     // onClick={() => setIsC(false)}
-                    style={{ cursor: "not-allowed" }}
+                    onClick={() => {
+                      toast("Coming Soon");
+                    }}
+                    // style={{ cursor: "not-allowed" }}
                   >
                     <img className="dep-img" src={isC ? caD : caD2} alt="" />
                     <div className="dep-button-text">With Card</div>

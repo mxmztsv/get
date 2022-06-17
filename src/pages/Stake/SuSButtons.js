@@ -39,6 +39,7 @@ export const SuSButtonsMob = (props) => {
     handleUnstake,
     isLoading,
     setIsLoading,
+    tokenPrice,
   } = props;
 
   let { tokensForStake, isL, isGet, setIsNeedUpdate } = handleStakeHelpers;
@@ -68,7 +69,8 @@ export const SuSButtonsMob = (props) => {
                     tokensForStake,
                     isL,
                     isGet,
-                    setIsNeedUpdate
+                    setIsNeedUpdate,
+                    tokenPrice
                   );
                   setIsLoading(false);
                 }}

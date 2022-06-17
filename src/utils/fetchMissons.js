@@ -9,7 +9,6 @@ export async function fetchMissions(
   setCurLvl
 ) {
   let res = await sendReq("get", "career");
-  console.log("carr res in f:", res);
 
   if (
     res &&
@@ -18,9 +17,11 @@ export async function fetchMissions(
     res.data.data.career
   ) {
     let missions = res.data.data.career.missions;
+
     let lvl;
     let statusKey = res.data.data.career.statusKey;
 
+    // fetch lvl
     if (statusKey === "client") lvl = 0;
     else if (statusKey.includes("level"))
       lvl = parseInt(statusKey.replaceAll(/\D+/g, ""));
@@ -28,19 +29,22 @@ export async function fetchMissions(
     setCurLvl(lvl);
     setItem("pLvl", lvl);
 
+    // missions
     let curLvlMissions = Object.values(missions)[lvl];
-    let bonus = curLvlMissions.description.en;
 
+    // bonus
+    let bonus = curLvlMissions.description.en;
     setBonus(bonus);
     setItem("pBonus", bonus);
 
+    // other tasks
     let tasks = curLvlMissions.task;
 
     let depMis = parseInt(tasks[0].text.en.replace(/\D+/g, ""));
     let frontLMis = parseInt(tasks[1].text.en.replace(/\D+/g, ""));
     let volMis = parseInt(tasks[2].text.en.replace(/\D+/g, ""));
 
-    console.log("carr:", depMis, frontLMis, volMis);
+    console.log("[fetchMissions] career:", depMis, frontLMis, volMis);
 
     setDepMis(depMis);
     setItem("pDepMis", depMis);

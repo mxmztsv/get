@@ -5,7 +5,7 @@ export const UnstakeDisclaimer = () => {
         <img src={require("../../assets/img/alarm.svg").default} alt="" />
       </div>
       <div className="withdraw-disclaimer-text">
-        <div className="medium-white-header" style={{ fontSize: "18px" }}>
+        <div className="medium-yellow-header" style={{ fontSize: "18px" }}>
           Important
         </div>
         <div className="withdraw-disclaimer-body">

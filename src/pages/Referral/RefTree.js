@@ -5,7 +5,6 @@ import { fetchRefs, objToArray } from "./helpers";
 
 export const RefTree = (props) => {
   let { curLvlRefs } = props;
-  console.log("CurllvlRefs in tree: ", curLvlRefs);
 
   return (
     <>
@@ -23,7 +22,7 @@ export const RefTree = (props) => {
         <tbody>
           {curLvlRefs ? (
             curLvlRefs.map((elem) => {
-              console.log("reftreehead elem:", elem);
+              console.log("[RefTree] elem:", elem);
               return <RefTreeRow curLvlRef={elem} key={elem.id} lvl={1} />;
             })
           ) : (
@@ -112,7 +111,7 @@ const RefTreeRow = (props) => {
       {showSub ? (
         <>
           {subLvlRefs.map((subRef, index) => {
-            console.log("subref in map:", subRef);
+            console.log("[RefTreeRow] subRef:", subRef);
             return (
               <RefTreeRow
                 curLvlRef={subRef}

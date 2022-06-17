@@ -111,7 +111,6 @@ export const Navbar = () => {
                 <div className="nav-top-logo">
                   <img src={logo} alt="logo" /> GET
                 </div>
-
                 {/* BURGER */}
                 <div className="nav-top-burger">
                   <input
@@ -122,9 +121,7 @@ export const Navbar = () => {
                   <label
                     htmlFor="checkbox4"
                     onClick={() => {
-                      console.log(isN);
                       setIsN(!isN);
-                      console.log("opened");
                     }}
                   >
                     <div className="hamburger hamburger4">

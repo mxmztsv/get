@@ -1,15 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Container } from "../../components/Container/index";
-import { DepButton } from "../../components/DepButton";
 import { WithdrawButton } from "../../components/WithdrawButton";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchProfileE } from "../../utils/EffFetchers/fetchProfileE";
-import { getItem } from "../../utils/localStorage";
+import { getItem, setItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
+import { sendReq } from "../../utils/sendReq";
 import { UserContext } from "../../utils/UserContext";
-import { EditProfileBtnMob, ProfHeader, TgBotBox } from "./Elements";
+import {
+  EditBody,
+  EditProfileBtnMob,
+  EditStateFooter,
+  EditStateFooterMob,
+  ProfHeader,
+  ProfHeaderMob,
+  TgBotBox,
+} from "./Elements";
+import { ProfileWithdrawBody } from "./ProfileWithdrawBody";
 
 export const Profile = () => {
   // auth
@@ -32,7 +42,30 @@ export const Profile = () => {
   // vars
   const [isE, setIsE] = useState(false); // is editing profile
   const [isC, setIsC] = useState(getItem("isTgC") || false); // is telegram bot connected
+
+  // with wallets vars
+  const [isWE, setIsWE] = useState(false); // set is editing wallets
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCodePage, setIsCodePage] = useState(false);
+
+  const [ercWal, setErcWal] = useState(getItem("ercWal") || "");
+  const [bepWal, setBepWal] = useState(getItem("bepWal") || "");
+  const [trcWal, setTrcWal] = useState(getItem("trcWal") || "");
   // -----------------------------------
+
+  // editing helpers
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    setIsE(false);
+    // todo setItem("userName", newName)
+  };
+  // -------------
 
   // navbar update
   const { setNavPath } = useContext(PathContext);
@@ -43,32 +76,61 @@ export const Profile = () => {
 
   // profile fetch
   useEffect(() => {
-    fetchProfileE(user, setUser);
+    console.log("[Profile] fetching profile info");
+    fetchProfileE(user, setUser, setIsC);
   }, []);
   // -----------------------------------
 
-  // editing helpers
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = (data) => {
-    setIsE(false);
-    // todo setItem("userName", newName)
-  };
-  // -------------
-
-  // fetching is bot connected
-  // TODO
-  // -------------
-
   function handleLogout() {
-    console.log("logged out");
     setUser(null);
     localStorage.clear();
     navigate("/dashboard");
+  }
+
+  async function onSubmitWallets(data) {
+    // on new wallets submit
+    if (!data.erc && !data.bep && !data.trc) {
+      toast.error("Please provide wallet(-s)");
+      return;
+    }
+    setIsLoading(true);
+    let payload = {
+      eth_wallet: data.erc,
+      trc_wallet: data.trc,
+      bnb_wallet: data.bep,
+    };
+    let res = await sendReq("post", "profile/edit-payments-details", payload);
+
+    if (res && res.data && res.data.result === "success" && res.data.data) {
+      setIsCodePage(true);
+    }
+
+    setIsLoading(false);
+  }
+
+  async function handleEditComplete(code, eW, bW, tW) {
+    // on code submit
+    if (!code) {
+      toast.error("Invalid code");
+      return;
+    }
+    let res = await sendReq("post", "check-delay-query-code", { code: code });
+    if (res && res.data && res.data.result === "success") {
+      toast.success("Updated wallets successfully");
+
+      setItem("ercWal", eW);
+      setItem("bepWal", bW);
+      setItem("trcWal", tW);
+
+      setErcWal(eW);
+      setBepWal(bW);
+      setTrcWal(tW);
+
+      setIsWE(false);
+      setIsCodePage(false);
+    } else {
+      toast.error("Invalid code");
+    }
   }
 
   return (
@@ -77,7 +139,10 @@ export const Profile = () => {
         <Container>
           <div className="profile-page-container">
             <div>
-              <DepButton />
+              {/* <DepButton /> */}
+              <div className="with-header-btn-container">
+                <WithdrawButton />
+              </div>
               <div className="profile-page-body">
                 {!isE ? (
                   <>
@@ -86,7 +151,24 @@ export const Profile = () => {
                       <ProfHeader />
                       <TgBotBox isC={isC} />
 
-                      <WithdrawButton />
+                      <ProfileWithdrawBody
+                        functions={{
+                          getValues,
+                          onSubmitWallets,
+                          handleSubmit,
+                          handleEditComplete,
+                          register,
+                          errors,
+                          ercWal,
+                          bepWal,
+                          trcWal,
+                          isWE,
+                          setIsWE,
+                          isCodePage,
+                          isLoading,
+                          setIsLoading,
+                        }}
+                      />
                     </div>
                   </>
                 ) : (
@@ -95,25 +177,13 @@ export const Profile = () => {
                     <div className="edit-page-header header-1">
                       Edit Profile
                     </div>
-                    <div className="edit-page-body">
-                      <form id="edit-form" onSubmit={handleSubmit(onSubmit)}>
-                        <div className="input-field">
-                          First name
-                          <input
-                            {...register("firstName")}
-                            defaultValue={user.first_name}
-                          />
-                        </div>
-                        <div className="input-field">
-                          Last name
-                          <input
-                            {...register("lastName")}
-                            defaultValue={user.last_name}
-                          />
-                          {errors.last_name && <p>Last name is required.</p>}
-                        </div>
-                      </form>
-                    </div>
+
+                    <EditBody
+                      handleSubmit={handleSubmit}
+                      register={register}
+                      errors={errors}
+                      onSubmit={onSubmit}
+                    />
                   </div>
                 )}
               </div>
@@ -123,13 +193,17 @@ export const Profile = () => {
             <div className="profile-page-footer">
               {!isE ? (
                 <>
+                  {/* MAIN-PROFILE-FOOTER */}
                   <div>
                     <button
-                      className="transparent-button blue-trans-button"
-                      onClick={() => setIsE(true)}
-                      disabled={true}
+                      className="transparent-button"
+                      style={{ fontSize: "14px" }}
+                      onClick={() => {
+                        // setIsE(true);
+                        toast("Coming Soon");
+                      }}
                     >
-                      Edit Profile
+                      Edit profile
                     </button>
                   </div>
                   <div className="profile-page-buttons-container">
@@ -143,25 +217,8 @@ export const Profile = () => {
                 </>
               ) : (
                 <div className="edit-buttons-container">
-                  <button
-                    onClick={() => {
-                      setIsE(false);
-                    }}
-                    className="transparent-button"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => {
-                      // alert("todo");
-                      // setIsE(false);
-                    }}
-                    className="transparent-button green-trans-button"
-                    type="submit"
-                    form="edit-form"
-                  >
-                    Save
-                  </button>
+                  {/* EDITING */}
+                  <EditStateFooter setIsE={setIsE} />
                 </div>
               )}
             </div>
@@ -173,18 +230,30 @@ export const Profile = () => {
             <div className="prof-body-container-mob">
               {!isE ? (
                 <>
-                  <div className="profile-top-wrapper-mob brd-btm">
-                    <div className="header-1">{user ? user.name : ""}</div>
-                    <div className="small-grey-header">
-                      {user ? user.email : ""}
-                    </div>
-                  </div>
-
+                  {/* MAIN-PROFILE-MOB */}
+                  <ProfHeaderMob />
                   <div className="prof-action-buttons-container">
                     <TgBotBox isC={isC} />
                   </div>
                   <div className="with-prof-container brd-btm">
-                    <WithdrawButton />
+                    <ProfileWithdrawBody
+                      functions={{
+                        getValues,
+                        onSubmitWallets,
+                        handleSubmit,
+                        handleEditComplete,
+                        register,
+                        errors,
+                        ercWal,
+                        bepWal,
+                        trcWal,
+                        isWE,
+                        setIsWE,
+                        isCodePage,
+                        isLoading,
+                        setIsLoading,
+                      }}
+                    />
                   </div>
                 </>
               ) : (
@@ -194,33 +263,12 @@ export const Profile = () => {
                     <div className="edit-page-header header-1">
                       Edit Profile
                     </div>
-                    <div className="edit-page-body">
-                      <form id="edit-form" onSubmit={handleSubmit(onSubmit)}>
-                        <div className="input-field">
-                          First name
-                          <input {...register("firstName")} />
-                        </div>
-                        <div className="input-field">
-                          Last name
-                          <input
-                            {...register("lastName", { required: true })}
-                          />
-                          {errors.lastName && <p>Last name is required.</p>}
-                        </div>
-                        <div className="input-field">
-                          Email
-                          <input
-                            {...register("age", {
-                              pattern:
-                                /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-                            })}
-                          />
-                          {errors.age && (
-                            <p className="error-p">Please enter valid Email</p>
-                          )}
-                        </div>
-                      </form>
-                    </div>
+                    <EditBody
+                      handleSubmit={handleSubmit}
+                      register={register}
+                      errors={errors}
+                      onSubmit={onSubmit}
+                    />
                   </div>
                 </>
               )}
@@ -229,6 +277,7 @@ export const Profile = () => {
             <div className="prof-footer-container">
               {!isE ? (
                 <>
+                  {/* MAIN-PROFILE-MOB-FOOTER */}
                   <div className="profile-page-buttons-container">
                     <EditProfileBtnMob setIsE={setIsE} />
 
@@ -244,19 +293,8 @@ export const Profile = () => {
               ) : (
                 <>
                   <div className="profile-page-buttons-container">
-                    <button
-                      onClick={() => setIsE(false)}
-                      className="transparent-button"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => setIsE(false)}
-                      style={{ marginRight: "0" }}
-                      className="transparent-button green-trans-button"
-                    >
-                      Save
-                    </button>
+                    {/* EDITING-PROF-FOOTER-MOB */}
+                    <EditStateFooterMob setIsE={setIsE} />
                   </div>
                 </>
               )}

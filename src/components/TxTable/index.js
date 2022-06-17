@@ -405,7 +405,7 @@ export const TxTableBodyMob = () => {
           <div className="tx-row-mob" key={tx.time}>
             <div className="tx-icon">{getTxIcon(tx.type)}</div>
             <div className="tx-type-time-mob flex-bottom">
-              <div className="tx-type-mob medium-white-header">{tx.type}</div>
+              <div className="tx-type-mob medium-yellow-header">{tx.type}</div>
               <div className="tx-time">{getTime(tx.time)}</div>
             </div>
             <div className="tx-amount-mob">{getAmount(tx.type, tx.amount)}</div>

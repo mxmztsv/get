@@ -64,7 +64,8 @@ export const Dashboard = () => {
   const [isNeedUpdate, setIsNeedUpdate] = useState(false);
 
   const [txArr, setTxArr] = useState(getItem("txArr") || []);
-  const [showingTxArr, setShowingTxArr] = useState(getItem("txArr") || []);
+  // const [showingTxArr, setShowingTxArr] = useState(getItem("txArr") || []);
+  const [showingTxArr, setShowingTxArr] = useState([]);
 
   // navbar update
   const { setNavPath } = useContext(PathContext); // for selected navbar item
@@ -156,6 +157,7 @@ export const Dashboard = () => {
                           Transactions
                         </div>
                         <Filters sourceTxArray={txArr} setFilteredTxArray={setShowingTxArr}/>
+                        {/*<Filters sourceTxArray={getItem("txArr") || []} setFilteredTxArray={setShowingTxArr}/>*/}
                       </div>
                       <TxTableBodyMemo txArray={showingTxArr} />
                     </div>
@@ -200,7 +202,7 @@ export const Dashboard = () => {
 
                   <DashBody tb={tb} setTb={setTb} />
 
-                  <DashFooter txArray={txArr} />
+                  <DashFooter txArray={showingTxArr} />
                 </div>
               </Container>
             </>
@@ -237,7 +239,7 @@ export const Dashboard = () => {
                         totalStaked2={nlDepAmount}
                       />
                     </div>
-                    <DashFooter txArray={txArr} />
+                    <DashFooter txArray={showingTxArr} />
                   </>
                 ) : (
                   <>
@@ -265,7 +267,7 @@ export const Dashboard = () => {
 
               <DashBody tb={tb} setTb={setTb} />
               <div className="brd-btm"></div>
-              <DashFooter txArray={txArr} />
+              <DashFooter txArray={showingTxArr} />
             </>
           )}
         </div>

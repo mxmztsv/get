@@ -1,46 +1,51 @@
 import {useEffect, useState} from "react";
 import openIcon from '../../assets/img/dropdown-open.svg';
 import closeIcon from '../../assets/img/dropdown-close.svg';
-import {useForm} from "react-hook-form";
 
 export const Filters = ({sourceTxArray, setFilteredTxArray}) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const {register, watch, handleSubmit} = useForm({
-        defaultValues: {
-            'STAKE': true,
-            'AUTO-SWAP': true,
-            'BONUS': true,
-            'REFERRAL BONUS': true,
-        }
-    });
-
-    const filtersState = watch();
-
-    const onSubmit = data => console.log(data);
+    const [stake, setStake] = useState(true);
+    const [autoSwap, setAutoSwap] = useState(true);
+    const [bonus, setBonus] = useState(true);
+    const [referralBonus, setReferralBonus] = useState(true);
 
     const openHandler = () => {
-        setIsOpen((prevState => !prevState))
-    }
+        setIsOpen(!isOpen);
+    };
+
+    const stakeFilterHandler = () => {
+        setStake(!stake);
+    };
+
+    const autoSwapFilterHandler = () => {
+        setAutoSwap(!autoSwap);
+    };
+
+    const bonusFilterHandler = () => {
+        setBonus(!bonus);
+    };
+
+    const referralBonusFilterHandler = () => {
+        setReferralBonus(!referralBonus);
+    };
 
     const filterTx = () => {
-        let enabledFilters = [];
-        for (let filter in filtersState) {
-            if (filtersState[filter]) {
-                enabledFilters.push(filter);
-            }
+        const filtersState = {
+            'STAKE': stake,
+            'AUTO-SWAP': autoSwap,
+            'BONUS': bonus,
+            'REFERRAL BONUS': referralBonus,
         }
-        let filteredTxArray = sourceTxArray.filter(tx => enabledFilters.includes(tx.type));
-        // console.log(filteredTxArray);
+        let filteredTxArray = sourceTxArray.filter(tx => filtersState[tx.type]);
         setFilteredTxArray(filteredTxArray);
     }
 
 
     useEffect(() => {
-        // console.log(filtersState)
         filterTx();
-    }, [filtersState]);
+    }, [stake, autoSwap, bonus, referralBonus]);
 
 
     return (
@@ -59,7 +64,8 @@ export const Filters = ({sourceTxArray, setFilteredTxArray}) => {
                                 Stake
                             </p>
                             <input type="checkbox" className="dash-tx-filter-checkbox"
-                                   {...register("STAKE")}
+                                   checked={stake}
+                                   onChange={stakeFilterHandler}
                             />
                         </div>
                         <div className="dash-tx-filters-item">
@@ -67,7 +73,8 @@ export const Filters = ({sourceTxArray, setFilteredTxArray}) => {
                                 Auto-Swap
                             </p>
                             <input type="checkbox" className="dash-tx-filter-checkbox"
-                                   {...register("AUTO-SWAP")}
+                                   checked={autoSwap}
+                                   onChange={autoSwapFilterHandler}
                             />
                         </div>
                         <div className="dash-tx-filters-item">
@@ -75,7 +82,8 @@ export const Filters = ({sourceTxArray, setFilteredTxArray}) => {
                                 Bonus
                             </p>
                             <input type="checkbox" className="dash-tx-filter-checkbox"
-                                   {...register("BONUS")}
+                                   checked={bonus}
+                                   onChange={bonusFilterHandler}
                             />
                         </div>
                         <div className="dash-tx-filters-item">
@@ -83,7 +91,8 @@ export const Filters = ({sourceTxArray, setFilteredTxArray}) => {
                                 Referral Bonus
                             </p>
                             <input type="checkbox" className="dash-tx-filter-checkbox"
-                                   {...register("REFERRAL BONUS")}
+                                   checked={referralBonus}
+                                   onChange={referralBonusFilterHandler}
                             />
                         </div>
                     </div>

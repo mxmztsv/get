@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import { SyncLoader } from "react-spinners";
 import { Input } from "../../components/Input";
 import { getItem } from "../../utils/localStorage";
@@ -94,14 +93,14 @@ export const ProfileWithdrawBody = (props) => {
                         <input type="number" id="code-input" />
                       </div>
 
-                      <div
+                      {/* <div
                         className="medium-yellow-header"
                         onClick={() => {
-                          toast("todo");
+                          toastC("todo");
                         }}
                       >
                         Resend code
-                      </div>
+                      </div> */}
                     </div>
                     <button
                       className="transparent-button yellow-trans-btn"
@@ -109,6 +108,7 @@ export const ProfileWithdrawBody = (props) => {
                         e.preventDefault();
                         setIsLoading(true);
                         await handleEditComplete(
+                          // @ts-ignore
                           document.getElementById("code-input").value,
                           getValues("erc"),
                           getValues("bep"),
@@ -133,10 +133,13 @@ export const ProfileWithdrawBody = (props) => {
                         e.preventDefault();
                         setIsWE(false);
 
+                        // @ts-ignore
                         document.getElementsByName("erc")[0].value =
                           getItem("ercWal");
+                        // @ts-ignore
                         document.getElementsByName("bep")[0].value =
                           getItem("bepWal");
+                        // @ts-ignore
                         document.getElementsByName("trc")[0].value =
                           getItem("trcWal");
                       }}

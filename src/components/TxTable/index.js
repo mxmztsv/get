@@ -1,162 +1,10 @@
 import React from "react";
-import { fetchTx } from "../../utils/fetchTx";
+import { fetchTx } from "../../utils/fetchers/fetchTx";
 
 // @ts-ignore
-const Image = React.memo(function Image({ src }) {
+export const Image = React.memo(function Image({ src }) {
   return <img src={src} alt="" className="tx-icon" />;
 });
-
-export const TxTableBody = (props) => {
-  let { txArray } = props;
-
-  function getAmount(tx) {
-    let amountGet = tx.amount.token;
-    let amountUsd = tx.amount.usd;
-    let description = tx.description;
-
-    if (amountGet) {
-      return (
-        <>
-          <div className="numbers dark-span">
-            {amountGet} GET
-            <div className="tx-text">{description}</div>
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div className="numbers">{amountUsd} USD</div>
-          <div className="tx-text">{description}</div>
-        </>
-      );
-    }
-  }
-
-  function getTime(time) {
-    let dateArr = time.split(" ");
-
-    return (
-      <p className="tx-time">
-        <span className="time-span">{dateArr[1].slice(0, -3) + " "}</span>
-        {dateArr[0]}
-      </p>
-    );
-  }
-
-  function getStatus(status) {
-    if (status === "Pending") {
-      return (
-        <p style={{ color: "#F6BD60" }}>
-          <span>
-            <img
-              className="status-icon"
-              src={require("../../assets/img/pending.svg").default}
-              alt=""
-            />
-          </span>
-          {status}
-        </p>
-      );
-    } else if (status === "Complete") {
-      return (
-        <p style={{ color: "#A5FFD6" }}>
-          <span>
-            <img
-              className="status-icon"
-              src={require("../../assets/img/complete.svg").default}
-              alt=""
-            />
-          </span>
-          {status}
-        </p>
-      );
-    } else if (status === "Cancelled") {
-      return (
-        <p style={{ color: "#F28482" }}>
-          <span>
-            <img
-              className="status-icon"
-              src={require("../../assets/img/cancelled.svg").default}
-              alt=""
-            />
-          </span>
-          {status}
-        </p>
-      );
-    }
-  }
-
-  function getType(type) {
-    type = type.toLowerCase();
-    let icon;
-    if (type === "withdraw" || type === "unstake")
-      icon = require("../../assets/img/down-type.svg").default;
-    else if (type === "deposit" || type === "staked")
-      icon = require("../../assets/img/up-type.svg").default;
-    else icon = require("../../assets/img/circle-type.png");
-
-    // return <img className="tx-icon" src={icon} alt="tx-type" />;
-    return <Image src={icon} />;
-  }
-
-  function getInfo(tx) {
-    return tx.avail_after ? (
-      <>
-        <div className="header-3 yellow-text">{tx.avail_after}</div>
-        <div className="grey-text">Withdrawable after</div>
-      </>
-    ) : (
-      <></>
-    );
-  }
-
-  return (
-    <div className="tx-body-wrapper">
-      {txArray && txArray.length ? (
-        <>
-          {txArray.map((tx) => {
-            return (
-              <div className="tx-row" key={tx.time + Math.random()}>
-                {/* TOP */}
-                <div className="tx-row-top">
-                  {/* TOP-LEFT */}
-                  <div className="left-tx-top">
-                    {getType(tx.type)}
-                    <div>
-                      <div className="header-3">{tx.type}</div>
-                      <div>{getTime(tx.time)}</div>
-                    </div>
-                  </div>
-                  {/* TOP-RIGHT */}
-                  <div className="right-tx-top">{getStatus(tx.status)}</div>
-                </div>
-
-                {/* FOOTER */}
-                <div className="tx-row-footer">
-                  {/* FOOTER-LEFT */}
-                  <div className="tx-row-footer-left">{getAmount(tx)}</div>
-                  {/* FOOTER-RIGHT */}
-                  <div className="tx-row-footer-right">{getInfo(tx)}</div>
-                </div>
-              </div>
-            );
-          })}
-        </>
-      ) : (
-        <>
-          <div className="no-tx-wrapper">
-            <img
-              src={require("../../assets/img/red-cross.svg").default}
-              alt=""
-            />
-            <div className="header-3">No transactions yet</div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
 
 export const TxTableBodyMemo = React.memo((props) => {
   let { txArray } = props;
@@ -166,32 +14,26 @@ export const TxTableBodyMemo = React.memo((props) => {
     let amountUsd = tx.amount.usd;
     let description = tx.description;
 
-    if (amountGet) {
-      return (
-        <>
-          <div className="numbers dark-span">
-            {amountGet} GET
-            <div className="tx-text">{description}</div>
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div className="numbers">{amountUsd} USD</div>
+    return (
+      <>
+        <div className="numbers">
+          {amountGet ? `${amountGet} GET` : `${amountUsd} USD`}
           <div className="tx-text">{description}</div>
-        </>
-      );
-    }
+        </div>
+      </>
+    );
   }
 
   function getTime(time) {
     let dateArr = time.split(" ");
 
+    let year = dateArr[0].split("-");
+    let timeStr = dateArr[1].slice(0, -3) + " ";
+
     return (
       <p className="tx-time">
-        <span className="time-span">{dateArr[1].slice(0, -3) + " "}</span>
-        {dateArr[0]}
+        <span className="time-span">{timeStr}</span>
+        {year[1]}.{year[2]}.{year[0]}
       </p>
     );
   }
@@ -223,7 +65,7 @@ export const TxTableBodyMemo = React.memo((props) => {
           {status}
         </p>
       );
-    } else if (status === "Cancelled") {
+    } else if (status === "Canceled") {
       return (
         <p style={{ color: "#F28482" }}>
           <span>
@@ -248,7 +90,6 @@ export const TxTableBodyMemo = React.memo((props) => {
       icon = require("../../assets/img/up-type.svg").default;
     else icon = require("../../assets/img/circle-type.png");
 
-    // return <img className="tx-icon" src={icon} alt="tx-type" />;
     return <Image src={icon} />;
   }
 

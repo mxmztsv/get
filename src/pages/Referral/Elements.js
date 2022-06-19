@@ -1,4 +1,5 @@
 import useWindowDimensions from "../../hooks/useWindow";
+import { fN } from "../../utils/formatNumber";
 import { RefLinkBody } from "./RefLinkBody";
 
 // elems
@@ -31,7 +32,7 @@ export const DepositNextL = (props) => {
     <>
       <div className="dash-box">
         <div className="dash-box-header">Deposit</div>
-        <div className="dash-box-body">{depMiss ? depMiss : "-"} USDT</div>
+        <div className="dash-box-body">{depMiss ? depMiss : "-"} USD</div>
         {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
     </>
@@ -49,7 +50,7 @@ export const FrontLineDepNextL = (props) => {
         </div>
 
         <div className="dash-box-body">
-          {frontLDepMis !== undefined ? frontLDepMis : "-"} USDT
+          {frontLDepMis !== undefined ? frontLDepMis : "-"} USD
         </div>
         {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
@@ -63,7 +64,7 @@ export const VolumeNextL = (props) => {
     <>
       <div className="dash-box">
         <div className="dash-box-header">Volume</div>
-        <div className="dash-box-body">{volMis ? volMis : "-"} USDT</div>
+        <div className="dash-box-body">{volMis ? volMis : "-"} USD</div>
         {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
     </>
@@ -76,7 +77,7 @@ export const BonusNextL = (props) => {
     <>
       <div className="dash-box">
         <div className="dash-box-header">Bonus</div>
-        <div className="dash-box-body">{bonus ? bonus : "-"} </div>
+        <div className="dash-box-body">{bonus ? bonus.slice(0, -1) : "-"} </div>
         {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
     </>
@@ -106,11 +107,10 @@ export const TeamVolumeBox = (props) => {
       <div className="dash-box s-box" style={{ marginLeft: "0" }}>
         <div className="small-grey-header">Team Volume</div>
         <div className="dash-box-body" style={{ paddingBottom: "0" }}>
-          {teamVolume !== undefined ? Math.round(teamVolume * 100) / 100 : "-"}{" "}
-          USD
+          {teamVolume !== undefined ? fN(teamVolume, 2, true) : "-"} USD
         </div>
         <div className="dash-box-footer">
-          {Math.round(firstLineVolume * 100) / 100} USD
+          {fN(firstLineVolume, 2, true)} USD
         </div>
       </div>
     </>
@@ -196,4 +196,3 @@ export const NumberOfLinesBox = (props) => {
     </div>
   );
 };
-// -------------------------------------------------

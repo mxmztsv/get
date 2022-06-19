@@ -1,22 +1,41 @@
-import toast from "react-hot-toast";
+import { useState } from "react";
+import { SyncLoader } from "react-spinners";
 import useWindowDimensions from "../../hooks/useWindow";
 import { netArr } from "../../utils/depArrs";
+import { fN } from "../../utils/formatNumber";
+import { handleWithdraw } from "./handleWithdraw";
+import { requestCode } from "./requestCode";
 
 export const WithdrawSwitch = (props) => {
-  let { isGet, setIsGet } = props;
+  let {
+    isGet,
+    isMain,
+    setIsGet,
+    usdtBalMain,
+    getBalMain,
+    usdtBalBonus,
+    getBalBonus,
+    setTokensForWith,
+  } = props;
   return (
     <>
-      <div className="with-switch-wrapper brd-top brd-btm">
+      <div className="with-switch-wrapper brd-btm">
         <div className="u-g-switch-container">
           <button
             className={`${!isGet ? "with-s-btn" : ""}`}
-            onClick={() => setIsGet(false)}
+            onClick={() => {
+              setIsGet(false);
+              setTokensForWith(isMain ? usdtBalMain : usdtBalBonus);
+            }}
           >
-            USDT
+            USD
           </button>
           <button
             className={`${isGet ? "with-s-btn" : ""}`}
-            onClick={() => setIsGet(true)}
+            onClick={() => {
+              setIsGet(true);
+              setTokensForWith(isMain ? getBalMain : getBalBonus);
+            }}
           >
             GET
           </button>
@@ -27,24 +46,55 @@ export const WithdrawSwitch = (props) => {
 };
 
 export const TotalAmountBox = (props) => {
-  let { totalAmount, isGet } = props;
+  let { totalAmount, isGet, isMain, tokenPrice, isFPage } = props;
+
   return (
-    <div className="with-total-wrapper">
+    <div
+      className={`with-total-wrapper ${
+        isFPage ? "with-total-wrapper-fpage" : ""
+      }`}
+    >
       <div className="medium-yellow-header">Total amount</div>
-      <div className="big-numbers">
-        {totalAmount}
-        {isGet ? " GET" : " USDT"}
+      <div className="big-numbers dark-span">
+        {fN(totalAmount, 2)}
+        {isGet ? " GET" : " USD"}{" "}
+        {isGet ? <span>| {fN(totalAmount * tokenPrice, 2)} USD</span> : <></>}
       </div>
+      {isMain !== undefined ? (
+        <div className="grey-text">
+          {isMain ? "From Main Balance" : "From Bonus Balance"}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
 
 export const WithFooter = (props) => {
-  let { isFPage, setIsFPage, tokensForWith, isGet } = props;
+  const [isLoading, setIsLoading] = useState(false);
+  let { isFPage, setIsFPage, tokensForWith, isGet, tokenPrice, setIsW } = props;
+
+  function getCondition(isG, tFW, tP) {
+    if (isG) {
+      return tFW * tP < 100;
+    } else {
+      return tFW < 100;
+    }
+  }
+
   return (
-    <div className="with-footer-wrapper">
+    <div
+      className={`with-footer-wrapper ${
+        !isFPage ? "with-footer-second-page" : ""
+      }`}
+    >
       {isFPage ? (
-        <TotalAmountBox totalAmount={tokensForWith} isGet={isGet} />
+        <TotalAmountBox
+          totalAmount={tokensForWith}
+          isGet={isGet}
+          tokenPrice={tokenPrice}
+        />
       ) : (
         <>
           <button
@@ -55,7 +105,41 @@ export const WithFooter = (props) => {
           </button>
         </>
       )}
-      <button onClick={() => setIsFPage(false)}>NEXT</button>
+      <button
+        // disabled={getCondition(isGet, tokensForWith, tokenPrice)}
+        onClick={async () => {
+          setIsLoading(true);
+
+          if (isFPage) {
+            // request code
+            let res = await requestCode();
+            if (!res) {
+              setIsLoading(false);
+              return;
+            }
+          } else {
+            // submit withdraw
+            // @ts-ignore
+            let code = document.getElementById("code-input").value;
+            let res = await handleWithdraw(isGet, tokensForWith, code);
+            if (res) {
+              setIsW(false);
+              setIsFPage(true);
+            }
+          }
+
+          setIsFPage(false);
+          setIsLoading(false);
+        }}
+      >
+        {isLoading ? (
+          <div>
+            <SyncLoader color="black" size={10} speedMultiplier={0.5} />
+          </div>
+        ) : (
+          <>{isFPage ? "NEXT" : "COMPLETE"}</>
+        )}
+      </button>
     </div>
   );
 };
@@ -86,8 +170,6 @@ export const SelectedWalletBox = (props) => {
 };
 
 export const VerifCodeBox = () => {
-  function onSubmit(code) {}
-
   return (
     <div className="with-verif-code-wrapper">
       <div className="header-3">VERIFICATION CODE</div>
@@ -100,17 +182,17 @@ export const VerifCodeBox = () => {
         >
           <input type="number" id="code-input" />
         </div>
-
+        {/* 
         <div
           className="medium-yellow-header"
           onClick={() => {
-            toast("todo");
+            toastC("todo");
           }}
         >
           Resend code
-        </div>
+        </div> */}
       </div>
-      <div className="grey-text">Input code from Email or Telegram</div>
+      <div className="grey-text">Enter code from Email or Telegram</div>
     </div>
   );
 };

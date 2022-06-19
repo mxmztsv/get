@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import toast from "react-hot-toast";
+import { useContext, useState } from "react";
 import Slider from "react-rangeslider";
-import { TxTableBody } from "../../components/TxTable";
 import useWindowDimensions from "../../hooks/useWindow";
+import { fN } from "../../utils/formatNumber";
 import { setItem } from "../../utils/localStorage";
 import { sendReq } from "../../utils/sendReq";
+import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
 
 export const TotalStakedBox = (props) => {
@@ -13,10 +13,7 @@ export const TotalStakedBox = (props) => {
     <div className="stake-total-staked-box">
       <div className="medium-yellow-header">Total staked</div>
       <div className="big-numbers dark-span">
-        {(Math.round((totalStaked1 + totalStaked2) * 100) / 100).toLocaleString(
-          "en-US"
-        )}{" "}
-        GET
+        {fN(totalStaked1 + totalStaked2, 2, true)} GET
       </div>
     </div>
   );
@@ -34,10 +31,9 @@ export const TotalEarnedBox = (props) => {
     >
       <div className="medium-yellow-header">Total earned</div>
       <div className="big-numbers dark-span">
-        {(Math.round(sum * 100) / 100).toLocaleString("en-US")} GET{" "}
+        {fN(sum, 2, true)} GET
         <span style={{ whiteSpace: "nowrap" }}>
-          | {(Math.round(sum * tokenPrice * 100) / 100).toLocaleString("en-US")}{" "}
-          USD
+          | {fN(sum * tokenPrice, 2, true)} USD
         </span>
       </div>
     </div>
@@ -46,7 +42,22 @@ export const TotalEarnedBox = (props) => {
 
 // STAKE ACT CONT
 export const StakeAmountContainer = (props) => {
-  let { handleCalcChange, isGet, usdtBal, getBal, tokensForStake } = props;
+  let {
+    handleCalcChange,
+    isMain,
+    isGet,
+    usdtBalMain,
+    getBalMain,
+    usdtBalBonus,
+    getBalBonus,
+    tokensForStake,
+  } = props;
+
+  function getMax(isM, isG, uBM, gBM, uBB, gBB) {
+    if (isM) return isG ? gBM : uBM;
+    else return isG ? gBB : uBB;
+  }
+
   return (
     <>
       <div className="stake-amount-container">
@@ -62,14 +73,21 @@ export const StakeAmountContainer = (props) => {
               /> */}
               <p className="yellow-text numbers">
                 {tokensForStake}
-                {isGet ? " GET" : " USDT"}
+                {isGet ? " GET" : " USD"}
               </p>
             </div>
             <div className="stake-slider">
               <Slider
                 className="range-slider"
                 min={0}
-                max={isGet ? getBal : usdtBal}
+                max={getMax(
+                  isMain,
+                  isGet,
+                  usdtBalMain,
+                  getBalMain,
+                  usdtBalBonus,
+                  getBalBonus
+                )}
                 step={0.1}
                 value={tokensForStake}
                 onChange={(value) => handleCalcChange(value)}
@@ -84,7 +102,7 @@ export const StakeAmountContainer = (props) => {
               </>
             ) : (
               <>
-                <p>Minimum deposit: 25 USDT</p>
+                <p>Minimum deposit: 25 USD</p>
               </>
             )}
           </div>
@@ -136,7 +154,9 @@ export const UnstakeAmountContainer = (props) => {
     <>
       <div className="stake-amount-container">
         <div className="stake-amount-inner">
-          <div className="medium-yellow-header">AMOUNT</div>
+          <div className="header-3" style={{ marginBottom: "10px" }}>
+            AMOUNT
+          </div>
           <div className="stake-amount-slider-container">
             <div className="slider-header">
               <p className="yellow-text dark-span numbers">{nlDepAmount} GET</p>
@@ -150,11 +170,11 @@ export const UnstakeAmountContainer = (props) => {
 
 // STAKE ACT BOXES
 export const StakeActRoiBox = (props) => {
-  let { isL } = props;
+  let { roiVal } = props;
   return (
     <div className="stake-act-stats-box">
       <div className="small-grey-header">Monthly</div>
-      <div className="big-numbers">{isL ? "28" : "14"}%</div>
+      <div className="big-numbers">{roiVal}%</div>
     </div>
   );
 };
@@ -175,8 +195,14 @@ export const StakeActMontlyRBox = (props) => {
 
 export const ReinvestToggle = (props) => {
   let { isR, setIsR, depId } = props;
+  const [isLock, setIsLock] = useState(false);
 
   async function handleToggle(did) {
+    if (!did) {
+      toastC("You need to make a deposit first", 1);
+      return;
+    }
+
     let res = await sendReq("post", `deposit/auto-reinvest/${did}`, {
       auto_reinvest: isR ? 0 : 1,
     });
@@ -184,7 +210,7 @@ export const ReinvestToggle = (props) => {
       setItem(`isR${did}`, isR ? 0 : 1);
       return true;
     } else {
-      toast.error("Internal error. Try again later");
+      toastC("Internal error. Try again later", 1);
       return false;
     }
   }
@@ -194,8 +220,14 @@ export const ReinvestToggle = (props) => {
       <div
         className="reinvest-toggle-container "
         onClick={async () => {
-          let res = await handleToggle(depId);
-          if (res) setIsR(!isR);
+          if (!isLock) {
+            setIsLock(true);
+            let res = await handleToggle(depId);
+            if (res) setIsR(!isR);
+            setIsLock(false);
+          } else {
+            toastC("Please wait, previous request being processed", 1);
+          }
         }}
       >
         <div
@@ -209,19 +241,6 @@ export const ReinvestToggle = (props) => {
         </div>
         <div className={`rei-toggle-button ${isR ? "toggled" : ""}`}>
           <img src={require("../../assets/img/check.svg").default} alt="" />
-        </div>
-      </div>
-    </>
-  );
-};
-
-export const TxBodyBox = () => {
-  return (
-    <>
-      <div className="dash-tx-container">
-        <div className="dash-tx-header header-2">Transactions</div>
-        <div className="dash-transactions-body">
-          <TxTableBody />
         </div>
       </div>
     </>
@@ -244,7 +263,16 @@ export const BackButton = (props) => {
 };
 
 export const CurrencySwitcher = (props) => {
-  let { isGet, setIsGet, usdtBal, getBal, setTokensForStake } = props;
+  let {
+    isGet,
+    isMain,
+    setIsGet,
+    usdtBalMain,
+    getBalMain,
+    usdtBalBonus,
+    getBalBonus,
+    setTokensForStake,
+  } = props;
 
   return (
     <>
@@ -256,19 +284,74 @@ export const CurrencySwitcher = (props) => {
               className={`${!isGet ? "" : "unselected-button"}`}
               onClick={() => {
                 setIsGet(false);
-                setTokensForStake(usdtBal);
+                setTokensForStake(isMain ? usdtBalMain : usdtBalBonus);
               }}
             >
-              <p>USDT</p>
+              <p>USD</p>
             </button>
             <button
               className={`${isGet ? "" : "unselected-button"}`}
               onClick={() => {
                 setIsGet(true);
-                setTokensForStake(getBal);
+                setTokensForStake(isMain ? getBalMain : getBalBonus);
               }}
             >
               <p>GET</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export const BalanceSwitcher = (props) => {
+  let {
+    isGet,
+    isMain,
+    setIsMain,
+    usdtBalMain,
+    getBalMain,
+    usdtBalBonus,
+    getBalBonus,
+    setTokens,
+    noHeader,
+  } = props;
+
+  return (
+    <>
+      <div className="stake-time-options-button stake-balance-options">
+        <div className="stake-amount-inner">
+          {noHeader === undefined ? (
+            <div className="medium-yellow-header">CHOOSE BALANCE</div>
+          ) : (
+            <></>
+          )}
+          <div className="double-button-container">
+            <button
+              className={`${isMain ? "" : "unselected-button"}`}
+              onClick={() => {
+                setIsMain(true);
+                setTokens(isGet ? getBalMain : usdtBalMain);
+              }}
+            >
+              <p>MAIN</p>
+              <p className="button-sub-text">
+                USD: {fN(usdtBalMain)} | GET: {fN(getBalMain)}
+              </p>
+            </button>
+
+            <button
+              className={`${!isMain ? "" : "unselected-button"}`}
+              onClick={() => {
+                setIsMain(false);
+                setTokens(isGet ? getBalBonus : usdtBalBonus);
+              }}
+            >
+              <p>BONUS</p>
+              <p className="button-sub-text">
+                USD: {fN(usdtBalBonus)} | GET: {fN(getBalBonus)}
+              </p>
             </button>
           </div>
         </div>

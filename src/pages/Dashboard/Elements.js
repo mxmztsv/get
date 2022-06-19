@@ -3,6 +3,7 @@ import { Chart } from "../../components/Chart";
 import { ChartTimeButtons } from "../../components/ChartTimeButton";
 import { EarnedTimeButtons } from "../../components/EarnedTimeButtons";
 import useWindowDimensions from "../../hooks/useWindow";
+import { fN } from "../../utils/formatNumber";
 import { getGreeting } from "../../utils/getGreeting";
 import { getItem } from "../../utils/localStorage";
 import { UserContext } from "../../utils/UserContext";
@@ -17,10 +18,9 @@ export const TotalEarnedBox = (props) => {
     <div>
       <div className="medium-yellow-header earned-header">Total earned</div>
       <div className="numbers dash-num dark-span">
-        {(Math.round(sum * 100) / 100).toLocaleString("en-US")} GET{" "}
+        {fN(sum, 2, true)} GET{" "}
         <span style={{ whiteSpace: "nowrap" }}>
-          | {(Math.round(sum * tokenPrice * 100) / 100).toLocaleString("en-US")}{" "}
-          USD
+          | {fN(sum * tokenPrice, 2, true)} USD
         </span>
       </div>
       <div className="earned-time-buttons-wrapper">
@@ -48,9 +48,7 @@ export const StakedBox = (props) => {
         }}
       >
         <div className="dash-box-header">Staked</div>
-        <div className="dash-box-body">
-          {(Math.round(sum * 100) / 100).toLocaleString("en-US")} GET
-        </div>
+        <div className="dash-box-body">{fN(sum, 2, true)} GET</div>
 
         {/* <div className="dash-box-footer dash-box-colored-footer">
           {" "}
@@ -62,25 +60,20 @@ export const StakedBox = (props) => {
 };
 
 export const TokenBox = (props) => {
-  const { user } = useContext(UserContext);
   let { tokenPrice, tokenPrevPrice } = props;
 
   function countDif(price, prevPrice) {
-    return Math.round((price - prevPrice) * 100) / 100;
+    return fN(price - prevPrice, 3);
   }
 
   function countChange(price, prevPrice) {
     let x = Math.round(((price * 100) / prevPrice) * 100) / 100 - 100;
-    return Math.round(x * 100) / 100;
+    return fN(x, 2);
   }
 
   return (
     <>
-      <div
-        className={`get-token-box dash-box a-token-box ${
-          !user ? "a-token-box" : ""
-        }`}
-      >
+      <div className="get-token-box dash-box a-token-box">
         <div className="dash-box-header">GET Token</div>
         <div className="dash-box-body">${tokenPrice}</div>
         <div
@@ -106,13 +99,8 @@ export const TvlBox = () => {
         <div className="dash-box-header">
           {width > 815 ? "Total Value Locked" : "TVL"}
         </div>
-        <div className="dash-box-body">
-          {/* {tvl.toLocaleString("en-US")} GET */}- GET
-        </div>
-        <div className="dash-box-footer dash-box-colored-footer">
-          {/* {Math.round(tvl * tokenPrice).toLocaleString("en-US")} USD */}-
-          USD
-        </div>
+        <div className="dash-box-body">- GET</div>
+        <div className="dash-box-footer dash-box-colored-footer">- USD</div>
       </div>
     </>
   );
@@ -163,9 +151,21 @@ export const DashGreet = () => {
 
   function getName() {
     if (getItem("userName")) {
-      return `, ${getItem("userName")}`;
+      return (
+        <>
+          ,
+          {width > 815 ? (
+            <> </>
+          ) : (
+            <>
+              <br />
+            </>
+          )}
+          {getItem("userName")}
+        </>
+      );
     } else if (user && user.name) {
-      return `, ${user.name}`;
+      return `,${width > 815 ? " " : "\n"}${user.name}`;
     } else return "";
   }
 

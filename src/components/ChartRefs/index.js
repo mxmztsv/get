@@ -8,7 +8,10 @@ import {
   YAxis,
 } from "recharts";
 import useWindowDimensions from "../../hooks/useWindow";
-import { refChartData, refChartDataMob } from "../../utils/fetchRefChartData";
+import {
+  refChartData,
+  refChartDataMob,
+} from "../../utils/fetchers/fetchRefChartData";
 
 const CustomToolTip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {

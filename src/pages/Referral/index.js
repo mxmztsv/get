@@ -4,12 +4,12 @@ import { ChartRefs } from "../../components/ChartRefs";
 import { Container } from "../../components/Container/index";
 import { DepButton } from "../../components/DepButton";
 import useWindowDimensions from "../../hooks/useWindow";
-import { fetchDepStats } from "../../utils/fetchDepStats";
-import { fetchCurRefs } from "../../utils/fetchFLvlRefs";
-import { fetchMissions } from "../../utils/fetchMissons";
-import { fetchBodyInfo } from "../../utils/fetchRefBodyInfo";
-import { fetchRefLink } from "../../utils/fetchRefLinks";
-import { fetchRevenue } from "../../utils/fetchRevenue";
+import { fetchDepStats } from "../../utils/fetchers/fetchDepStats";
+import { fetchCurRefs } from "../../utils/fetchers/fetchFLvlRefs";
+import { fetchMissions } from "../../utils/fetchers/fetchMissons";
+import { fetchBodyInfo } from "../../utils/fetchers/fetchRefBodyInfo";
+import { fetchRefLink } from "../../utils/fetchers/fetchRefLinks";
+import { fetchRevenue } from "../../utils/fetchers/fetchRevenue";
 import { getItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
 import { UserContext } from "../../utils/UserContext";
@@ -41,7 +41,7 @@ export const Referral = () => {
     if (!user) {
       let user = getItem("user");
       if (!user) {
-        navigate("/login");
+        window.location.href = "/login";
       } else {
         setUser(user);
       }

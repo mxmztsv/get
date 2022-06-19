@@ -1,15 +1,16 @@
-const cssStyle = {
-  background: "#171614",
-  color: "white",
-  fontFamily: "Monsterrat",
-  paddingRight: "0px",
-};
 export const toastStyles = {
-  duration: 5000,
-  style: cssStyle,
+  style: {
+    background: "#171614",
+    color: "white",
+    fontFamily: "Monsterrat",
+  },
   success: {
     duration: 8000,
-    style: cssStyle,
+    style: {
+      background: "#171614",
+      color: "white",
+      fontFamily: "Monsterrat",
+    },
   },
   error: {
     duration: 10000,
@@ -17,6 +18,10 @@ export const toastStyles = {
       primary: "red",
       secondary: "black",
     },
-    style: cssStyle,
+    style: {
+      background: "#171614",
+      color: "white",
+      fontFamily: "Monsterrat",
+    },
   },
 };

@@ -1,14 +1,12 @@
 import { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import caD2 from "../../assets/img/card-dep-2.svg";
 import caD from "../../assets/img/card-dep.svg";
 import cD2 from "../../assets/img/crypto-dep-2.svg";
 import cD from "../../assets/img/crypto-dep.svg";
 import useWindowDimensions from "../../hooks/useWindow";
-import { fetchAddrs } from "../../utils/fetchers/fetchAddrs";
-import { fN } from "../../utils/formatNumber";
-import { getItem } from "../../utils/localStorage";
-import { toastC } from "../../utils/toastC";
+import { fetchAddrs } from "../../pages/Deposit/fetchAddrs";
 import { UserContext } from "../../utils/UserContext";
 import { CloseButton } from "../CloseButton";
 import { DepCardButton, DepCCButton } from "./Buttons";
@@ -35,8 +33,6 @@ export const DepButton = (props) => {
   const [depWallet, setDepWallet] = useState("");
   const [isCop, setIsCop] = useState(false); // is copied
 
-  const [tokenPrice, setTokenPrice] = useState(getItem("pTP"));
-
   function handleCardDeposit() {
     console.log("deposit card:", sDepNet);
   }
@@ -46,12 +42,10 @@ export const DepButton = (props) => {
     if (usd > 1000000000000000000000 || tokens > 1000000000000000000000) return;
     if (usd !== -1) {
       setUsdToDeposit(usd);
-      // @ts-ignore
-      setTokensToGet(fN(usd / 1.5, 2));
+      setTokensToGet(Math.round((usd / 1.5) * 100) / 100);
     } else {
       setTokensToGet(tokens);
-      // @ts-ignore
-      setUsdToDeposit(fN(tokens * tokenPrice, 2));
+      setUsdToDeposit(Math.round(tokens * 1.5 * 100) / 100);
     }
   }
 
@@ -141,7 +135,7 @@ export const DepButton = (props) => {
                     className={`dep-nav-button ${!isC ? "s-nav-button" : ""}`}
                     // onClick={() => setIsC(false)}
                     onClick={() => {
-                      toastC("Coming Soon");
+                      toast("Coming Soon");
                     }}
                     // style={{ cursor: "not-allowed" }}
                   >

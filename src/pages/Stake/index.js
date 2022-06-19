@@ -3,24 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { Container } from "../../components/Container/index";
 import { DepButton } from "../../components/DepButton";
-import { PendingDepositsMemo } from "../../components/PendingDeposits";
 import { TxTableBodyMemo } from "../../components/TxTable";
 import useWindowDimensions from "../../hooks/useWindow";
-import { fetchBalancesE } from "../../utils/EffFetchers/fetchBalancesE";
-import { fetchDepositsE } from "../../utils/EffFetchers/fetchDepositE";
 import { fetchTokenPriceE } from "../../utils/EffFetchers/fetchTokenPriceE";
 import { fetchTxE } from "../../utils/EffFetchers/fetchTxE";
-import { fN } from "../../utils/formatNumber";
-import { getItem } from "../../utils/localStorage";
+import { fetchBalances } from "../../utils/fetchBalances";
+import { fetchDeposits } from "../../utils/fetchDeposits";
+import { getItem, setItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
-import { tempDep } from "../../utils/tempDep";
-import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
 import { DepositBox } from "./DepBox";
 import { UnstakeDisclaimer } from "./Disclaimer";
 import {
   BackButton,
-  BalanceSwitcher,
   CurrencySwitcher,
   StakeActMontlyRBox,
   StakeActRoiBox,
@@ -44,7 +39,7 @@ export const Stake = () => {
     if (!user) {
       let user = getItem("user");
       if (!user) {
-        window.location.href = "/login";
+        navigate("/login");
       } else {
         setUser(user);
       }
@@ -56,27 +51,32 @@ export const Stake = () => {
   const [isS, setIsS] = useState(true); // is stake button selected
   const [isL, setIsL] = useState(true); // is locked deposit
   const [cW, setCW] = useState(0); // current window. 0 - main stake. 1 - stake. 2 - unstake
-  const [isMain, setIsMain] = useState(true); // is main balance selected
+
   const [isGet, setIsGet] = useState(false); // is get (usdt) selected
 
-  // balances
-  const [usdtBalMain, setUsdtBalMain] = useState(getItem("pUsdtBal") || 0);
-  const [getBalMain, setGetBalMain] = useState(getItem("pGetBal") || 0);
+  const [usdtBal, setUsdtBal] = useState(getItem("pUsdtBal") || 0);
+  const [getBal, setGetBal] = useState(getItem("pGetBal") || 0);
 
-  const [usdtBalBonus, setUsdtBalBonus] = useState(getItem("pUsdtBal4") || 0);
-  const [getBalBonus, setGetBalBonus] = useState(getItem("pGetBal4") || 0);
-
-  // helpers
+  // vars
   const [isLoading, setIsLoading] = useState(false);
-  const [isNeedUpdate, setIsNeedUpdate] = useState(false);
 
-  // token
   const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
 
-  // stake helpers
-  const [tokensForStake, setTokensForStake] = useState(usdtBalMain);
+  const [tokensForStake, setTokensForStake] = useState(usdtBal);
   const [roiVal, setRoiVal] = useState(12);
   const [monthlyReward, setMonthlyReward] = useState(0);
+
+  // deposits
+  const [lDepId, setLDepId] = useState(getItem("plDepId") || ""); // locked
+  const [nlDepId, setNLDepId] = useState(getItem("pnlDepId") || ""); // non-locked
+
+  const [lDepAmount, setLDepAmount] = useState(getItem("plDepA") || 0);
+  const [nlDepAmount, setNLDepAmount] = useState(getItem("pnlDepA") || 0);
+
+  const [lDepUsdAmount, setLDepUsdAmount] = useState(getItem("plDepAU") || 0);
+  const [nlDepUsdAmount, setNLDepUsdAmount] = useState(
+    getItem("pnlDepAU") || 0
+  );
 
   // is reinvest on
   const [isR1, setIsR1] = useState(
@@ -90,13 +90,15 @@ export const Stake = () => {
       : 1
   );
 
-  // deposits
-  const [lockedDep, setLockedDep] = useState(getItem("lDep") || tempDep);
-  const [nonLockedDep, setNonLockedDep] = useState(getItem("nlDep") || tempDep);
+  const [totalEarned1, setTotalEarned1] = useState(
+    getItem("pTotalEarned1") || 0
+  );
+  const [totalEarned2, setTotalEarned2] = useState(
+    getItem("pTotalEarned2") || 0
+  );
 
-  const [pendingDeps, setPendingDeps] = useState(getItem("pendingDeps") || []);
+  const [isNeedUpdate, setIsNeedUpdate] = useState(false);
 
-  // tx
   const [txArr, setTxArr] = useState(getItem("txArr") || []);
   // -----------------------------------------------------
 
@@ -109,14 +111,21 @@ export const Stake = () => {
 
   // balance fetch
   useEffect(() => {
-    console.log("[Stake] fetching balances");
-    fetchBalancesE(
-      setUsdtBalMain,
-      setGetBalMain,
-      setUsdtBalBonus,
-      setGetBalBonus
-    );
-  }, [user, lockedDep, nonLockedDep]);
+    if (user) {
+      console.log("[Stake] fetching balances");
+      fetchBalances("0").then((bals) => {
+        console.log(bals);
+
+        setUsdtBal(bals.usdtBal);
+        setGetBal(bals.getBal);
+        setItem("pUsdtBal", bals.usdtBal);
+        setItem("pGetBal", bals.getBal);
+        setTokensForStake(isGet ? bals.getBal : bals.usdtBal);
+        console.log("getb:", getBal);
+      });
+      console.log("[Stake] fetched balances");
+    }
+  }, [user, lDepAmount, nlDepAmount]);
   // ------------------------------------
 
   // token price fetch
@@ -128,16 +137,40 @@ export const Stake = () => {
 
   // deposits fetch
   useEffect(() => {
-    console.log("[Stake] fetching deposits");
-    fetchDepositsE(setLockedDep, setNonLockedDep, setIsNeedUpdate, null, null);
+    if (user) {
+      console.log("[Stake] fetching deposits");
+      fetchDeposits().then((depsArr) => {
+        if (depsArr[0]) {
+          console.log("[Stake] fetched non-locked dep:", depsArr[0]);
+          setNLDepId(depsArr[0].depId);
+          setNLDepAmount(depsArr[0].getAmount);
+          setNLDepUsdAmount(depsArr[0].usdAmount);
+          setIsR2(depsArr[0].isReinvest);
+          setTotalEarned2(depsArr[0].totalEarned);
+
+          setItem("pnlDepId", depsArr[0].depId);
+          setItem("pnlDepA", depsArr[0].getAmount);
+          setItem("pnlDepAU", depsArr[0].usdAmount);
+          setItem(`isR${getItem("pnlDepId")}`, depsArr[0].isReinvest);
+        }
+        if (depsArr[1]) {
+          console.log("[Stake] fetched locked dep:", depsArr[0]);
+          setLDepId(depsArr[1].depId);
+          setLDepAmount(depsArr[1].getAmount);
+          setLDepUsdAmount(depsArr[1].usdAmount);
+          setIsR1(depsArr[1].isReinvest);
+          setTotalEarned1(depsArr[1].totalEarned);
+
+          setItem("plDepId", depsArr[1].depId);
+          setItem("plDepA", depsArr[1].getAmount);
+          setItem("plDepAU", depsArr[1].usdAmount);
+          setItem(`isR${getItem("plDepId")}`, depsArr[1].isReinvest);
+        }
+      });
+      setIsNeedUpdate(false);
+    }
   }, [user, isNeedUpdate]);
   // ------------------------------------
-
-  // pendgin deps fetch
-  useEffect(() => {
-    console.log("[Stake] fetching pending deps");
-    fetchDepositsE(null, null, setIsNeedUpdate, true, setPendingDeps);
-  }, [user, isNeedUpdate]);
 
   // update view
   useEffect(() => {
@@ -148,7 +181,7 @@ export const Stake = () => {
   // tx fetch
   useEffect(() => {
     console.log("[Stake] fetching transactions");
-    fetchTxE(setTxArr, setIsNeedUpdate);
+    fetchTxE(user, { setTxArr, setIsNeedUpdate });
   }, [user, isNeedUpdate]);
   // ------------------------------------
 
@@ -156,20 +189,13 @@ export const Stake = () => {
     if (value.target) {
       value = parseFloat(value.target.value);
     }
-
-    if (isMain) {
-      if (isGet && value > getBalMain) return;
-      if (!isGet && value > usdtBalMain) return;
-      if (value > 10000000) return;
-    } else {
-      if (isGet && value > getBalBonus) return;
-      if (!isGet && value > usdtBalBonus) return;
-      if (value > 10000000) return;
-    }
+    if (isGet && value > getBal) return;
+    if (!isGet && value > usdtBal) return;
+    if (value > 10000000) return;
 
     console.log("[Stake] token price:", tokenPrice);
 
-    setTokensForStake(fN(value, 2));
+    setTokensForStake(Math.round(value * 100) / 100);
     let usdVal = isGet ? value * tokenPrice : value;
     let getVal = isGet ? value : tokensForStake / tokenPrice;
 
@@ -193,9 +219,11 @@ export const Stake = () => {
       }
     }
 
-    console.log("[Stake] monthly reward:", fN(getVal * (roiVal / 100), 2));
-    // @ts-ignore
-    setMonthlyReward(fN(getVal * (roiVal / 100), 2) || 0);
+    console.log(
+      "[Stake] monthly reward:",
+      Math.round(getVal * (roiVal / 100) * 100) / 100
+    );
+    setMonthlyReward(Math.round(getVal * (roiVal / 100) * 100) / 100 || 0);
   }
 
   return (
@@ -211,12 +239,12 @@ export const Stake = () => {
                 <div className="left-top">
                   <div className="stake-header-wrapper">
                     <TotalStakedBox
-                      totalStaked1={lockedDep.getAmount}
-                      totalStaked2={nonLockedDep.getAmount}
+                      totalStaked1={lDepAmount}
+                      totalStaked2={nlDepAmount}
                     />
                     <TotalEarnedBox
-                      totalEarned1={lockedDep.totalEarned}
-                      totalEarned2={nonLockedDep.totalEarned}
+                      totalEarned1={totalEarned1}
+                      totalEarned2={totalEarned2}
                       tokenPrice={tokenPrice}
                     />
                   </div>
@@ -228,18 +256,24 @@ export const Stake = () => {
                   style={{ paddingBottom: "25px", marginBottom: "25px" }}
                 >
                   <DepositBox
-                    dep={lockedDep}
                     isLocked={true}
+                    getAmount={lDepAmount}
+                    usdAmount={lDepUsdAmount}
+                    depId={lDepId}
                     isR={isR1}
                     setIsR={setIsR1}
+                    totalEarned={totalEarned1}
                     tokenPrice={tokenPrice}
                   />
 
                   <DepositBox
-                    dep={nonLockedDep}
                     isLocked={false}
+                    getAmount={nlDepAmount}
+                    usdAmount={nlDepUsdAmount}
+                    depId={nlDepId}
                     isR={isR2}
                     setIsR={setIsR2}
+                    totalEarned={totalEarned2}
                     tokenPrice={tokenPrice}
                   />
                 </div>
@@ -252,11 +286,7 @@ export const Stake = () => {
               </div>
 
               {/* RIGHT */}
-              <div
-                className={`right-side-wrapper ${
-                  pendingDeps.length ? "right-side-update-height" : ""
-                }`}
-              >
+              <div className="right-side-wrapper">
                 {/* STAKE-HEADER */}
                 <div className="stake-header-container">
                   {/* HEADER-TEXT */}
@@ -270,35 +300,19 @@ export const Stake = () => {
                       <>
                         {/* HEADER-DEPOSIT-OPTION */}
                         <div className="header-deposit-options">
-                          <BalanceSwitcher
-                            isGet={isGet}
-                            isMain={isMain}
-                            setIsMain={setIsMain}
-                            usdtBalMain={usdtBalMain}
-                            getBalMain={getBalMain}
-                            usdtBalBonus={usdtBalBonus}
-                            getBalBonus={getBalBonus}
-                            setTokens={setTokensForStake}
-                          />
                           <CurrencySwitcher
                             isGet={isGet}
-                            isMain={isMain}
                             setIsGet={setIsGet}
-                            usdtBalMain={usdtBalMain}
-                            getBalMain={getBalMain}
-                            usdtBalBonus={usdtBalBonus}
-                            getBalBonus={getBalBonus}
+                            usdtBal={usdtBal}
+                            getBal={getBal}
                             setTokensForStake={setTokensForStake}
                           />
                           <StakeAmountContainer
                             handleCalcChange={handleCalcChange}
                             isGet={isGet}
-                            isMain={isMain}
                             tokensForStake={tokensForStake}
-                            usdtBalMain={usdtBalMain}
-                            getBalMain={getBalMain}
-                            usdtBalBonus={usdtBalBonus}
-                            getBalBonus={getBalBonus}
+                            usdtBal={usdtBal}
+                            getBal={getBal}
                           />
                           <StakeTimeContainer
                             isL={isL}
@@ -312,9 +326,7 @@ export const Stake = () => {
                       <>
                         {/* UNSTAKE-CONTAINER */}
                         <div className="unstake-container">
-                          <UnstakeAmountContainer
-                            nlDepAmount={nonLockedDep.getAmount}
-                          />
+                          <UnstakeAmountContainer nlDepAmount={nlDepAmount} />
                         </div>
                       </>
                     )}
@@ -325,7 +337,7 @@ export const Stake = () => {
                   {isS ? (
                     <>
                       <div className="stake-action-stats-container">
-                        <StakeActRoiBox roiVal={roiVal} />
+                        <StakeActRoiBox isL={isL} roiVal={roiVal} />
                         <StakeActMontlyRBox monthlyReward={monthlyReward} />
                       </div>
                     </>
@@ -338,70 +350,60 @@ export const Stake = () => {
 
                 {/* STAKE-FOOTER */}
                 <div className="stake-footer">
-                  <div className="stake-upper-footer">
-                    {isS ? (
-                      <button
-                        className="stake-footer-btn yellow-trans-btn"
-                        onClick={() => toastC("Coming Soon")}
-                      >
-                        PROFIT CALCULATOR
-                      </button>
-                    ) : (
-                      <></>
-                    )}
-
+                  {isS ? (
                     <button
-                      disabled={!user}
-                      style={{ margin: "20px", marginRight: "0" }}
-                      onClick={async () => {
-                        setIsLoading(true);
-
-                        try {
-                          if (isS) {
-                            await handleStake(
-                              tokensForStake,
-                              isL,
-                              isGet,
-                              setIsNeedUpdate,
-                              tokenPrice,
-                              isMain
-                            );
-                          } else {
-                            await handleUnstake(
-                              nonLockedDep.depId,
-                              nonLockedDep.getAmount,
-                              setIsNeedUpdate
-                            );
-                          }
-                        } catch (e) {
-                          console.log("[Stake] stake:", e);
-                        }
-
-                        setIsLoading(false);
-                      }}
+                      className="stake-footer-btn yellow-trans-btn"
+                      disabled={true}
                     >
-                      {isLoading ? (
-                        <div>
-                          <SyncLoader
-                            color="black"
-                            size={10}
-                            speedMultiplier={0.5}
-                          />
-                        </div>
-                      ) : (
-                        "COMPLETE"
-                      )}
+                      PROFIT CALCULATOR
                     </button>
-                  </div>
-
-                  {!isS ? (
-                    <PendingDepositsMemo
-                      depsArr={pendingDeps}
-                      setIsNeedUpdate={setIsNeedUpdate}
-                    />
                   ) : (
                     <></>
                   )}
+
+                  <button
+                    disabled={!user}
+                    style={{ margin: "20px", marginRight: "0" }}
+                    onClick={async () => {
+                      console.log("setted isloadng: true");
+
+                      setIsLoading(true);
+
+                      try {
+                        if (isS) {
+                          await handleStake(
+                            tokensForStake,
+                            isL,
+                            isGet,
+                            setIsNeedUpdate,
+                            tokenPrice
+                          );
+                        } else {
+                          await handleUnstake(
+                            nlDepId,
+                            nlDepAmount,
+                            setIsNeedUpdate
+                          );
+                        }
+                      } catch (e) {
+                        console.log("stake page:", e);
+                      }
+
+                      setIsLoading(false);
+                    }}
+                  >
+                    {isLoading ? (
+                      <div>
+                        <SyncLoader
+                          color="black"
+                          size={10}
+                          speedMultiplier={0.5}
+                        />
+                      </div>
+                    ) : (
+                      "COMPLETE"
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
@@ -418,11 +420,9 @@ export const Stake = () => {
               isL,
               isGet,
               setIsNeedUpdate,
+              tokenPrice,
             }}
-            tokenPrice={tokenPrice}
-            isMain={isMain}
             handleUnstake={handleUnstake}
-            nonLockedDep={nonLockedDep}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
           />
@@ -432,7 +432,7 @@ export const Stake = () => {
           >
             {/* HEADER */}
             <BackButton cW={cW} setCW={setCW} />
-            <div className="stake-page-header header-1">
+            <div className="stake-page-header header-1 brd-btm">
               {cW === 0 ? "Staking" : cW === 1 ? "Stake" : "Unstake"}
             </div>
 
@@ -443,30 +443,36 @@ export const Stake = () => {
                   {/* MAIN-PAGE */}
                   <div className="brd-btm">
                     <TotalStakedBox
-                      totalStaked1={lockedDep.getAmount}
-                      totalStaked2={nonLockedDep.getAmount}
+                      totalStaked1={lDepAmount}
+                      totalStaked2={nlDepAmount}
                     />
                     <TotalEarnedBox
-                      totalEarned1={lockedDep.totalEarned}
-                      totalEarned2={nonLockedDep.totalEarned}
+                      totalEarned1={totalEarned1}
+                      totalEarned2={totalEarned2}
                       tokenPrice={tokenPrice}
                     />
                   </div>
 
                   <div className="stake-mob-body-wrapper">
                     <DepositBox
-                      dep={lockedDep}
                       isLocked={true}
+                      getAmount={lDepAmount}
+                      usdAmount={lDepUsdAmount}
+                      depId={lDepId}
                       isR={isR1}
                       setIsR={setIsR1}
+                      totalEarned={totalEarned1}
                       tokenPrice={tokenPrice}
                     />
 
                     <DepositBox
-                      dep={nonLockedDep}
                       isLocked={false}
+                      getAmount={nlDepAmount}
+                      usdAmount={nlDepUsdAmount}
+                      depId={nlDepId}
                       isR={isR2}
                       setIsR={setIsR2}
+                      totalEarned={totalEarned2}
                       tokenPrice={tokenPrice}
                     />
                   </div>
@@ -476,35 +482,19 @@ export const Stake = () => {
                   {cW === 1 ? (
                     <>
                       {/* STAKE-PAGE */}
-                      <BalanceSwitcher
-                        isGet={isGet}
-                        isMain={isMain}
-                        setIsMain={setIsMain}
-                        usdtBalMain={usdtBalMain}
-                        getBalMain={getBalMain}
-                        usdtBalBonus={usdtBalBonus}
-                        getBalBonus={getBalBonus}
-                        setTokens={setTokensForStake}
-                      />
                       <CurrencySwitcher
                         isGet={isGet}
-                        isMain={isMain}
                         setIsGet={setIsGet}
-                        usdtBalMain={usdtBalMain}
-                        getBalMain={getBalMain}
-                        usdtBalBonus={usdtBalBonus}
-                        getBalBonus={getBalBonus}
+                        usdtBal={usdtBal}
+                        getBal={getBal}
                         setTokensForStake={setTokensForStake}
                       />
                       <StakeAmountContainer
                         handleCalcChange={handleCalcChange}
                         isGet={isGet}
-                        isMain={isMain}
                         tokensForStake={tokensForStake}
-                        usdtBalMain={usdtBalMain}
-                        getBalMain={getBalMain}
-                        usdtBalBonus={usdtBalBonus}
-                        getBalBonus={getBalBonus}
+                        usdtBal={usdtBal}
+                        getBal={getBal}
                       />
                       <StakeTimeContainer
                         isL={isL}
@@ -516,9 +506,7 @@ export const Stake = () => {
                   ) : (
                     <>
                       {/* UNSTAKE-PAGE  */}
-                      <UnstakeAmountContainer
-                        nlDepAmount={nonLockedDep.getAmount}
-                      />
+                      <UnstakeAmountContainer nlDepAmount={nlDepAmount} />
                     </>
                   )}
                 </>
@@ -535,17 +523,13 @@ export const Stake = () => {
               ) : cW === 1 ? (
                 <>
                   {/* STAKE-PAGE */}
-                  <StakeActRoiBox roiVal={roiVal} />
+                  <StakeActRoiBox isL={isL} roiVal={roiVal} />
                   <StakeActMontlyRBox monthlyReward={monthlyReward} />
                 </>
               ) : (
                 <>
                   {/* UNSTAKE-PAGE  */}
                   <UnstakeDisclaimer />
-                  <PendingDepositsMemo
-                    depsArr={pendingDeps}
-                    setIsNeedUpdate={setIsNeedUpdate}
-                  />
                 </>
               )}
             </div>

@@ -34,27 +34,6 @@
   font-weight: 650;
   font-style: normal;
 }
-
-.toast-span {
-  display: flex;
-  justify-content: space-between;
-}
-
-.toast-btn {
-  min-width: auto !important;
-  display: inline-flex !important;
-  justify-content: center !important;
-
-  font-size: 10px !important;
-  width: 20px !important;
-  height: 20px !important;
-  margin-left: 15px;
-  font-family: "Monsterrat-SemiBold" !important;
-  margin-right: 0 !important;
-  border-radius: 5px !important;
-  margin-bottom: 3px !important;
-}
-
 /* 
 .global-wrapper {
   display: flex;
@@ -390,7 +369,7 @@ input:focus {
   /* margin: 5px; */
   margin-left: 225px;
 
-  width: calc(100% - 190px);
+  width: 100%;
 
   min-width: 880px;
   max-width: 1205px;
@@ -1093,10 +1072,6 @@ input:focus {
   padding: 15px;
 }
 
-.right-side-update-height {
-  height: fit-content;
-}
-
 .left-side-wrapper {
   padding: 15px;
   padding-left: 10px;
@@ -1428,19 +1403,6 @@ td {
   border-radius: 12px;
 }
 
-.right-side-wrapper .tx-row {
-  margin-left: 15px;
-}
-
-.right-side-wrapper .tx-body-wrapper {
-  margin-top: 15px;
-}
-
-.right-side-wrapper .tx-body-wrapper .header-3 {
-  margin-left: 15px;
-  margin-bottom: 15px;
-}
-
 .tx-row-top {
   display: flex;
   justify-content: space-between;
@@ -1463,14 +1425,6 @@ td {
   flex-direction: column;
 }
 
-.tx-row-footer-right {
-  text-align: right;
-}
-
-.tx-row-footer-right .header-3 {
-  font-size: 15px;
-}
-
 .tx-row-footer {
   display: flex;
 
@@ -1491,7 +1445,7 @@ td {
 .tx-text {
   color: var(--grey-text);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   font-family: "Monsterrat";
 }
 
@@ -1772,8 +1726,9 @@ td {
 }
 
 .stake-footer-mob {
-  margin-top: 5px;
+  margin-top: 20px;
   padding-top: 10px;
+  border-top: solid 1px var(--border-color);
 }
 
 .stake-info-box-mob {
@@ -1877,10 +1832,8 @@ td {
   margin-bottom: 20px;
 }
 
-@media only screen and (max-width: 815px) {
-  .stake-amount-inner {
-    margin-bottom: 0;
-  }
+.stake-amount-inner p {
+  /* margin-top: 5px; */
 }
 
 .stake-time-options-container {
@@ -1912,14 +1865,6 @@ td {
   border-radius: 12px;
 
   width: calc(40vw - 50px);
-}
-
-.stake-container-mob .mob-container > * {
-  margin-bottom: 15px;
-}
-
-.stake-balance-options button {
-  height: 45px;
 }
 
 .slider-header > p {
@@ -2181,9 +2126,6 @@ td {
 
 /* footer */
 .stake-footer {
-}
-
-.stake-upper-footer {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -2193,26 +2135,6 @@ td {
 /* ------------------------------ 
    Unstake 
    ------------------------------ */
-
-.unstake-pending-mob {
-  margin-top: 45px;
-}
-
-.unstake-pending-mob .header-3 {
-  margin-bottom: 10px;
-  margin-left: 10px;
-}
-
-@media only screen and (max-width: 815px) {
-  .left-tx-top .header-3 {
-    margin-left: 0;
-    margin-bottom: 0;
-  }
-
-  .unstake-pending-mob .transparent-button {
-    height: 38px;
-  }
-}
 
 .unstake-container {
   display: flex;
@@ -2260,7 +2182,6 @@ td {
   display: flex;
   justify-self: start;
   width: 100%;
-  margin-top: 15px;
 }
 
 .withdraw-disclaimer-img {
@@ -3084,7 +3005,6 @@ input[type="number"] {
 
 .forgot-pass-container {
   margin: 20px 5px;
-  cursor: pointer;
 }
 
 /* ------------------------------ 
@@ -3253,6 +3173,8 @@ input[type="number"] {
 
 .s-dep-button {
   background: linear-gradient(85.69deg, #feb85d 0%, #f49fbc 100.81%), #d9d9d9;
+  backdrop-filter: blur(100px);
+
   border-radius: 10px;
 }
 .s-dep-button button {
@@ -3434,7 +3356,7 @@ input[type="number"] {
 .selected-net-wrapper,
 .selected-wal-wrapper {
   margin-left: 35px;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .selected-net-body {
@@ -3448,9 +3370,9 @@ input[type="number"] {
   white-space: nowrap;
 
   width: fit-content;
-  height: 45px;
+  height: 50px;
   padding: 0 30px;
-  margin: 5px 0;
+  margin: 10px 0;
   border: 2px solid var(--solid-border-color);
   border-radius: 10px;
 }
@@ -3471,13 +3393,6 @@ input[type="number"] {
 
   margin: 10px 0;
   padding: 15px;
-}
-
-@media only screen and (max-width: 815px) {
-  .selected-wal-body {
-    font-size: 13px;
-    overflow: scroll;
-  }
 }
 
 .with-verif-code-wrapper {
@@ -3562,8 +3477,8 @@ input[type="number"] {
   width: 100%;
   background: none;
   color: white;
-  height: 38px;
-  font-size: 20px;
+  height: 50px;
+  font-size: 22px;
   text-align: left;
 }
 
@@ -3571,13 +3486,13 @@ input[type="number"] {
   color: black;
   background: linear-gradient(85.69deg, #feb85d 0%, #f49fbc 100.81%);
 
+  backdrop-filter: blur(100px);
   border-radius: 12px;
 }
 
 .with-slider-wrapper {
   height: 120px;
-  margin: 10px 15px;
-  padding-bottom: 0;
+  margin: 20px 15px;
 }
 
 /* profile withdraw wallets */
@@ -3636,12 +3551,6 @@ input[type="number"] {
 .with-wallets-body-wrapper input {
   /* font-size: 13px; */
   height: 25px;
-}
-
-@media only screen and (min-width: 815px) {
-  .with-wallets-body-wrapper input {
-    font-size: 13px;
-  }
 }
 
 .with-wallets-container p {
@@ -3779,22 +3688,6 @@ input[type="number"] {
   padding-bottom: 5px;
 }
 
-.with-modal-body .stake-balance-options {
-  margin-left: 15px;
-  width: 100%;
-}
-
-.with-modal-body .stake-amount-inner {
-  width: calc(100% - 30px);
-  margin-right: 15px;
-  max-width: none;
-  margin-bottom: 15px;
-}
-
-.with-modal-boyd .stake-balance-options > * {
-  width: 100%;
-}
-
 .with-slider-body .range-slider {
   margin: 15px 10px;
   max-width: none;
@@ -3815,7 +3708,7 @@ input[type="number"] {
 }
 
 .with-row-wrapper .dep-coins-selector-wrapper {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .with-footer-wrapper {
@@ -3826,18 +3719,14 @@ input[type="number"] {
   align-items: flex-end;
 }
 
-.with-footer-second-page {
-  margin-top: 9px;
-}
-
 .with-footer-wrapper button {
-  width: 105px;
+  width: 100px;
 }
 
 .with-s-page-wrapper {
   margin-top: 25px;
   margin-left: 25px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 @media only screen and (max-width: 815px) {
@@ -3883,10 +3772,6 @@ input[type="number"] {
   justify-content: space-between;
 }
 
-.withdraw-container-mob .with-total-wrapper-fpage {
-  margin-bottom: 15vh;
-}
-
 .with-coins-container {
   display: flex;
   width: 100%;
@@ -3919,15 +3804,7 @@ input[type="number"] {
 }
 
 .withdraw-btn-mob button {
-  width: calc(100% - 20px);
-}
-
-.withdraw-container-mob .stake-buttons-mob-wrapper {
-  margin-left: -10px;
-}
-
-.withdraw-container-mob .with-verif-code-wrapper {
-  margin-bottom: 10vh;
+  width: 100%;
 }
 
 /* ------------------------------ 
@@ -4158,11 +4035,6 @@ input[type="number"] {
     padding: 10px;
   }
 
-  .sign-up-form .input-field {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-
   .input-field {
     width: auto;
   }
@@ -4275,23 +4147,4 @@ input[type="number"] {
   .stake-time-options-button .double-button-container > * {
     height: 40px;
   }
-}
-
-.error-page {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.captcha-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: -90px;
-  height: 90px;
 }

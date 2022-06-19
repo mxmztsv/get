@@ -1,26 +1,23 @@
-import { fN } from "../../utils/formatNumber";
+import toast from "react-hot-toast";
 import { getItem } from "../../utils/localStorage";
 import { sendReq } from "../../utils/sendReq";
-import { toastC } from "../../utils/toastC";
 
 export async function handleStake(
   tokensForStake,
   isL,
   isGet,
   setIsNeedUpdate,
-  tokenPrice,
-  isMain
+  tokenPrice
 ) {
   if (isGet && tokensForStake < 230) {
-    toastC("Minimum deposit: 230 GET", 1);
+    toast.error("Minimum deposit: 230 GET");
     return;
   } else if (!isGet && tokensForStake < 25) {
-    toastC("Minimum deposit: 25 USDT", 1);
+    toast.error("Minimum deposit: 25 USDT");
     return;
   }
 
   let data = {
-    wallet_type: isMain ? "0" : "4",
     type: isL ? "5" : "4", // 5 - locked, 4 - non-locked
     currency: isGet ? "GET" : "USDT",
     amount: tokensForStake,
@@ -33,27 +30,19 @@ export async function handleStake(
     console.log(res);
     let percent = res.data.data.deposit.percent;
     let amount;
-
-    console.log("tp", tokenPrice);
-    console.log("tfs", tokensForStake);
-    console.log(tokensForStake / tokenPrice);
-    console.log(parseFloat(tokensForStake) / parseFloat(tokenPrice));
-
     if (isGet) amount = `${tokensForStake} GET`;
     else
-      amount = `${tokensForStake} USD (${fN(
-        parseFloat(tokensForStake) / parseFloat(tokenPrice),
-        2,
-        true
-      )} GET)`;
+      amount = `${tokensForStake} USDT (${
+        Math.round((tokensForStake / tokenPrice) * 100) / 100
+      } GET)`;
 
     let mes = `Successfully staked ${amount} in ${
       isL ? "locked" : "non-locked"
     } deposit for ${percent}% monthly`;
 
-    toastC(mes, 0);
+    toast.success(mes);
   } else if (res.response.data.result === "error") {
-    toastC(res.response.data.error_message, 1);
+    toast.error(res.response.data.error_message);
   }
   setIsNeedUpdate(true);
 }

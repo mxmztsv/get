@@ -1,4 +1,4 @@
-import { fetchChartData } from "../fetchers/fetchChartData";
+import { fetchChartData } from "../fetchChartData";
 import { getItem, setItem } from "../localStorage";
 
 export async function fetchChartE(setPriceArray, setTokenPrevPrice) {
@@ -18,14 +18,14 @@ export async function fetchChartE(setPriceArray, setTokenPrevPrice) {
       !getItem("pPA") ||
       resArray.at(-1).time !== getItem("pPA").at(-1).time
     ) {
+      setTokenPrevPrice(resArray.at(-2).price);
       setPriceArray(resArray);
+
+      setItem("prevTP", resArray.at(-2).price);
       setItem("pPA", resArray);
       console.log("[fetchChartE] updated chart");
     } else {
       console.log("[fetchChartE] chart the same");
     }
-
-    setTokenPrevPrice(resArray.at(-2).price);
-    setItem("prevTP", resArray.at(-2).price);
   }
 }

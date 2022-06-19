@@ -34,7 +34,7 @@ export const DepDescription = () => {
   return (
     <>
       <div className="description">
-        · Currently we accept deposits only in USDT{" "}
+        · We accept deposits in ETH, BNB, TRX and USDT{" "}
       </div>
       <br />
       <div className="description brd-btm" style={{ paddingBottom: "20px" }}>

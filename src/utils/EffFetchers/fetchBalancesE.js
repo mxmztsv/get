@@ -1,10 +1,13 @@
-import { fetchBalances } from "../fetchBalances";
-import { setItem } from "../localStorage";
+import { fetchBalances } from "../fetchers/fetchBalances";
+import { getItem, setItem } from "../localStorage";
 
-export async function fetchBalancesE(user, setters) {
-  let { setUsdtBal, setGetBal, setUsdtBal4, setGetBal4 } = setters;
-
-  if (user) {
+export async function fetchBalancesE(
+  setUsdtBal,
+  setGetBal,
+  setUsdtBal4,
+  setGetBal4
+) {
+  if (getItem("token")) {
     if (setUsdtBal) {
       fetchBalances("0").then((bals) => {
         setUsdtBal(bals.usdtBal);

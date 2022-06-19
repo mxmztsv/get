@@ -11,6 +11,7 @@ import { fetchTokenPriceE } from "../../utils/EffFetchers/fetchTokenPriceE";
 import { fetchTxE } from "../../utils/EffFetchers/fetchTxE";
 import { getItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
+import { tempDep } from "../../utils/tempDep";
 import { UserContext } from "../../utils/UserContext";
 import { BalanceBox } from "./BalanceBox";
 import { DashFooter } from "./DashFooter";
@@ -36,7 +37,10 @@ export const Dashboard = () => {
     if (!user) {
       let user = getItem("user");
       if (user) {
+        console.log("[Dashboard] setted user", user);
         setUser(user);
+      } else {
+        console.log("[Dashboard] no user in localstorage");
       }
     }
   }, [user, width]);
@@ -57,22 +61,10 @@ export const Dashboard = () => {
   const [usdtBal4, setUsdtBal4] = useState(getItem("pUsdtBal4") || 0);
   const [getBal4, setGetBal4] = useState(getItem("pGetBal4") || 0);
 
-  // for total staked, earned
-  const [lDepAmount, setLDepAmount] = useState(getItem("plDepA") || 0);
-  const [nlDepAmount, setNLDepAmount] = useState(getItem("pnlDepA") || 0);
-  const [lDepUsdAmount, setLDepUsdAmount] = useState(0);
-  const [nlDepUsdAmount, setNLDepUsdAmount] = useState(0);
-  const [totalEarned1, setTotalEarned1] = useState(
-    getItem("pTotalEarned1") || 0
-  );
-  const [totalEarned2, setTotalEarned2] = useState(
-    getItem("pTotalEarned2") || 0
-  );
-
   // token price
-  const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
+  const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.146);
   const [tokenPrevPrice, setTokenPrevPrice] = useState(
-    getItem("prevTP") || 0.11
+    getItem("prevTP") || 0.144
   );
 
   // chart
@@ -80,6 +72,10 @@ export const Dashboard = () => {
 
   // tx
   const [txArr, setTxArr] = useState(getItem("txArr") || []);
+
+  // deposits
+  const [lockedDep, setLockedDep] = useState(getItem("lDep") || tempDep);
+  const [nonLockedDep, setNonLockedDep] = useState(getItem("nlDep") || tempDep);
   // ------------------------------------
 
   // navbar update
@@ -100,49 +96,41 @@ export const Dashboard = () => {
   useEffect(() => {
     console.log("[Dashboard] fetching chart");
     fetchChartE(setPriceArray, setTokenPrevPrice);
-  }, [isNeedUpdate]);
+  }, [user, isNeedUpdate]);
   // ------------------------------------
 
   // token price fetch
   useEffect(() => {
     console.log("[Dashboard] fetching token price");
     fetchTokenPriceE(setTokenPrice, setTokenPrevPrice);
-  }, [isNeedUpdate]);
+  }, [user, isNeedUpdate]);
   // ------------------------------------
 
   // balance fetch
   useEffect(() => {
     console.log("[Dashboard] fetching balances");
-    fetchBalancesE(user, { setUsdtBal, setGetBal, setUsdtBal4, setGetBal4 });
-  }, [isNeedUpdate]);
+    fetchBalancesE(setUsdtBal, setGetBal, setUsdtBal4, setGetBal4);
+  }, [user, isNeedUpdate]);
   // ------------------------------------
 
   // profile fetch
   useEffect(() => {
     console.log("[Dashboard] fetching profile");
     fetchProfileE(user, setUser);
-  }, [isNeedUpdate]);
+  }, [user, isNeedUpdate]);
   // -----------------------------------
 
   // deposits fetch
   useEffect(() => {
     console.log("[Dashboard] fetching deposits");
-    fetchDepositsE(user, {
-      setLDepAmount,
-      setLDepUsdAmount,
-      setTotalEarned1,
-      setNLDepAmount,
-      setNLDepUsdAmount,
-      setTotalEarned2,
-      setIsNeedUpdate,
-    });
+    fetchDepositsE(setLockedDep, setNonLockedDep, setIsNeedUpdate);
   }, [user, isNeedUpdate]);
   // ------------------------------------
 
   // tx fetch
   useEffect(() => {
     console.log("[Dashboard] fetching transactions");
-    fetchTxE(user, { setTxArr, setIsNeedUpdate });
+    fetchTxE(setTxArr, setIsNeedUpdate);
   }, [user, isNeedUpdate]);
   // ------------------------------------
 
@@ -166,15 +154,16 @@ export const Dashboard = () => {
                     {/* LEFT-TOP */}
                     <div className="left-top">
                       <TotalEarnedBox
-                        totalEarned1={totalEarned1}
-                        totalEarned2={totalEarned2}
+                        totalEarned1={nonLockedDep.totalEarned}
+                        totalEarned2={lockedDep.totalEarned}
                         tb={tb}
                         setTb={setTb}
                         tokenPrice={tokenPrice}
                       />
+
                       <StakedBox
-                        totalStaked1={lDepAmount}
-                        totalStaked2={nlDepAmount}
+                        totalStaked1={nonLockedDep.getAmount}
+                        totalStaked2={lockedDep.getAmount}
                       />
                     </div>
                     {/* LEFT-BODY */}
@@ -264,8 +253,8 @@ export const Dashboard = () => {
                   <>
                     {/* ACCOUNT-TAB */}
                     <TotalEarnedBox
-                      totalEarned1={totalEarned1}
-                      totalEarned2={totalEarned2}
+                      totalEarned1={nonLockedDep.totalEarned}
+                      totalEarned2={lockedDep.totalEarned}
                       tb={tb}
                       setTb={setTb}
                       tokenPrice={tokenPrice}
@@ -288,8 +277,8 @@ export const Dashboard = () => {
                         tokenPrice={tokenPrice}
                       />
                       <StakedBox
-                        totalStaked1={lDepAmount}
-                        totalStaked2={nlDepAmount}
+                        totalStaked1={nonLockedDep.getAmount}
+                        totalStaked2={lockedDep.getAmount}
                       />
                     </div>
 

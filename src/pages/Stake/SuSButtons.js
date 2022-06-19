@@ -1,6 +1,6 @@
-import toast from "react-hot-toast";
 import { SyncLoader } from "react-spinners";
 
+// DESKTOP STAKE USTAKE BUTTONS
 export const SuSButtons = (props) => {
   let { setIsS, isS } = props;
   return (
@@ -18,8 +18,7 @@ export const SuSButtons = (props) => {
           <button
             className={`button-with-text ${!isS ? "" : "unselected-button"}`}
             onClick={() => {
-              // setIsS(false);
-              toast("Coming Soon");
+              setIsS(false);
             }}
           >
             <p>Unstake</p>
@@ -30,6 +29,7 @@ export const SuSButtons = (props) => {
   );
 };
 
+// MOBILE STAKE UNSTAKE BUTTONS
 export const SuSButtonsMob = (props) => {
   let {
     cW,
@@ -40,6 +40,8 @@ export const SuSButtonsMob = (props) => {
     isLoading,
     setIsLoading,
     tokenPrice,
+    isMain,
+    nonLockedDep,
   } = props;
 
   let { tokensForStake, isL, isGet, setIsNeedUpdate } = handleStakeHelpers;
@@ -51,8 +53,7 @@ export const SuSButtonsMob = (props) => {
             <button onClick={() => setCW(1)}>STAKE</button>
             <button
               onClick={() => {
-                // setCW(2);
-                toast("Coming Soon");
+                setCW(2);
               }}
               className="transparent-button yellow-trans-btn"
             >
@@ -70,7 +71,8 @@ export const SuSButtonsMob = (props) => {
                     isL,
                     isGet,
                     setIsNeedUpdate,
-                    tokenPrice
+                    tokenPrice,
+                    isMain
                   );
                   setIsLoading(false);
                 }}
@@ -85,12 +87,23 @@ export const SuSButtonsMob = (props) => {
               </button>
             ) : (
               <button
-                onClick={() => {
-                  toast("Coming Soon");
-                  // handleUnstake()}
+                onClick={async () => {
+                  setIsLoading(true);
+                  await handleUnstake(
+                    nonLockedDep.depId,
+                    nonLockedDep.getAmount,
+                    setIsNeedUpdate
+                  );
+                  setIsLoading(false);
                 }}
               >
-                UNSTAKE
+                {isLoading ? (
+                  <div>
+                    <SyncLoader color="black" size={10} speedMultiplier={0.5} />
+                  </div>
+                ) : (
+                  "UNSTAKE"
+                )}
               </button>
             )}
           </>

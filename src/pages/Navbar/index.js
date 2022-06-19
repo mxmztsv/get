@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo-icon.svg";
 import { DepButton } from "../../components/DepButton";
 import { LoginButtons } from "../../components/LoginButtons";
@@ -14,7 +14,6 @@ import { UserContext } from "../../utils/UserContext";
 
 export const Navbar = () => {
   // vars
-  const navigate = useNavigate();
   const { width } = useWindowDimensions();
   const { user } = useContext(UserContext);
   const [sArr, setSArr] = useState([true, false, false, false]); // selected link
@@ -41,7 +40,7 @@ export const Navbar = () => {
           <nav id="navbar" className="navbar">
             <div className="nav-top">
               {/* NAV-LOGO */}
-              <div className="logo" onClick={() => navigate("/dashboard")}>
+              <div className="logo">
                 <img src={logo} alt="logo" /> GET
               </div>
 
@@ -109,10 +108,7 @@ export const Navbar = () => {
             <div className="nav-body-container">
               <div className="nav-top-mob">
                 {/* LOGO */}
-                <div
-                  className="nav-top-logo"
-                  onClick={() => navigate("/dashboard9")}
-                >
+                <div className="nav-top-logo">
                   <img src={logo} alt="logo" /> GET
                 </div>
                 {/* BURGER */}

@@ -1,5 +1,4 @@
 import useWindowDimensions from "../../hooks/useWindow";
-import { fN } from "../../utils/formatNumber";
 
 const InnerBalBox = (props) => {
   const { width } = useWindowDimensions();
@@ -9,22 +8,22 @@ const InnerBalBox = (props) => {
     let result;
     if (iG) {
       if (gB !== "") {
-        result = fN(gB, 2) + " GET";
+        result = Math.round(gB * 100) / 100 + " GET";
       } else {
         result = "0 GET";
       }
     } else {
       if (uB !== "") {
-        result = fN(uB, 2) + " USD";
+        result = Math.round(uB * 100) / 100 + " USDT";
       } else {
-        result = "0 USD";
+        result = "0 USDT";
       }
     }
     return result;
   }
 
   function getUsd(gB, tP) {
-    return fN(gB * tP, 2);
+    return Math.round(gB * tP * 100) / 100;
   }
 
   return (
@@ -47,7 +46,7 @@ const InnerBalBox = (props) => {
               src={require("../../assets/img/usd-icon.svg").default}
               alt=""
             />
-            USD
+            USDT
           </>
         )}
       </div>

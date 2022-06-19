@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Container } from "../../components/Container/index";
 import { WithdrawButton } from "../../components/WithdrawButton";
@@ -8,7 +9,6 @@ import { fetchProfileE } from "../../utils/EffFetchers/fetchProfileE";
 import { getItem, setItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
 import { sendReq } from "../../utils/sendReq";
-import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
 import {
   EditBody,
@@ -31,7 +31,7 @@ export const Profile = () => {
     if (!user) {
       let user = getItem("user");
       if (!user) {
-        window.location.href = "/login";
+        navigate("/login");
       } else {
         setUser(user);
       }
@@ -89,10 +89,10 @@ export const Profile = () => {
 
   async function onSubmitWallets(data) {
     // on new wallets submit
-    // if (!data.erc && !data.bep && !data.trc) {
-    //   toast.error("Please provide wallet(-s)");
-    //   return;
-    // }
+    if (!data.erc && !data.bep && !data.trc) {
+      toast.error("Please provide wallet(-s)");
+      return;
+    }
     setIsLoading(true);
     let payload = {
       eth_wallet: data.erc,
@@ -111,12 +111,12 @@ export const Profile = () => {
   async function handleEditComplete(code, eW, bW, tW) {
     // on code submit
     if (!code) {
-      toastC("Invalid code", 1);
+      toast.error("Invalid code");
       return;
     }
     let res = await sendReq("post", "check-delay-query-code", { code: code });
     if (res && res.data && res.data.result === "success") {
-      toastC("Updated wallets successfully", 0);
+      toast.success("Updated wallets successfully");
 
       setItem("ercWal", eW);
       setItem("bepWal", bW);
@@ -129,7 +129,7 @@ export const Profile = () => {
       setIsWE(false);
       setIsCodePage(false);
     } else {
-      toastC("Invalid code", 1);
+      toast.error("Invalid code");
     }
   }
 
@@ -200,7 +200,7 @@ export const Profile = () => {
                       style={{ fontSize: "14px" }}
                       onClick={() => {
                         // setIsE(true);
-                        toastC("Coming Soon");
+                        toast("Coming Soon");
                       }}
                     >
                       Edit profile

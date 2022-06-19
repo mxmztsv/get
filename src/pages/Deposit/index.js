@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
   DepCCInfoBody,
@@ -7,10 +8,9 @@ import {
 } from "../../components/DepButton/InfoElems";
 import { DepNetworkSelector } from "../../components/DepButton/Selectors";
 import useWindowDimensions from "../../hooks/useWindow";
-import { fetchAddrs } from "../../utils/fetchers/fetchAddrs";
 import { getItem } from "../../utils/localStorage";
-import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
+import { fetchAddrs } from "./fetchAddrs";
 
 export const Deposit = () => {
   // auth
@@ -23,7 +23,7 @@ export const Deposit = () => {
     if (!user) {
       let user = getItem("user");
       if (!user) {
-        window.location.href = "/login";
+        navigate("/login");
       } else {
         setUser(user);
       }
@@ -74,7 +74,7 @@ export const Deposit = () => {
                 className={`trans-btn-mob ${!isC ? "s-trans-btn-mob" : ""}`}
                 onClick={() => {
                   // setIsC(false);
-                  toastC("Coming soon");
+                  toast("Coming soon");
                 }}
                 // disabled={true}
               >

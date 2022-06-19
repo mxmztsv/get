@@ -1,7 +1,6 @@
 import { useState } from "react";
 import downArrow from "../../assets/img/down-arrow.svg";
 import useWindowDimensions from "../../hooks/useWindow";
-import { fN } from "../../utils/formatNumber";
 import { fetchRefs, objToArray } from "./helpers";
 
 export const RefTree = (props) => {
@@ -93,7 +92,7 @@ const RefTreeRow = (props) => {
         <td className="ref-tree-col grey-text">{curLvlRef.name}</td>
         <td className="ref-tree-col ref-tree-num">{curLvlRef.network}</td>
         <td className="ref-tree-col ref-tree-num yellow-text">
-          {fN(curLvlRef.amount, 2)}
+          {curLvlRef.amount}
         </td>
         {curLvlRef.refsNum !== "0" && width > 815 ? (
           <td className="ref-arrow-container">

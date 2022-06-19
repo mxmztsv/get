@@ -1,14 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { ErrorPage } from "./components/ErrorPage";
 import { Dashboard } from "./pages/Dashboard";
 import { Deposit } from "./pages/Deposit";
-import { ForgotPassword } from "./pages/ForgotPassword";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Navbar } from "./pages/Navbar";
-import { NewPassword } from "./pages/NewPassword";
 import { Profile } from "./pages/Profile";
 import { Referral } from "./pages/Referral";
 import { Signup } from "./pages/Signup";
@@ -44,18 +41,15 @@ function App() {
             <BrowserRouter>
               <Navbar />
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/stake" element={<Stake />} />
-                <Route path="/referral" element={<Referral />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/new-password" element={<NewPassword />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/deposit" element={<Deposit />} />
-                <Route path="/withdraw" element={<Withdraw />} />
-                <Route path="*" element={<ErrorPage />} />
+                <Route path="/" element={<Home />}></Route>
+                <Route path="/dashboard" element={<Dashboard />}></Route>
+                <Route path="/stake" element={<Stake />}></Route>
+                <Route path="/referral" element={<Referral />}></Route>
+                <Route path="/profile" element={<Profile />}></Route>
+                <Route path="/signup" element={<Signup />}></Route>
+                <Route path="/login" element={<Login />}></Route>
+                <Route path="/deposit" element={<Deposit />}></Route>
+                <Route path="/withdraw" element={<Withdraw />}></Route>
               </Routes>
             </BrowserRouter>
           </div>

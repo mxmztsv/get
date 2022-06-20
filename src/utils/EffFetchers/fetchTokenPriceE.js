@@ -1,4 +1,4 @@
-import { fetchTokenPrice } from "../fetchTokenPrice";
+import { fetchTokenPrice } from "../fetchers/fetchTokenPrice";
 import { getItem, setItem } from "../localStorage";
 
 export async function fetchTokenPriceE(setTokenPrice, setTokenPrevPrice) {

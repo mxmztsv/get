@@ -1,40 +1,59 @@
-import { fetchDeposits } from "../fetchDeposits";
-import { setItem } from "../localStorage";
+import { fetchDeposits } from "../fetchers/fetchDeposits";
+import { getItem, setItem } from "../localStorage";
+import { tempDep } from "../tempDep";
 
-export async function fetchDepositsE(user, setters) {
-  let {
-    setLDepAmount,
-    setLDepUsdAmount,
-    setTotalEarned1,
-    setNLDepAmount,
-    setNLDepUsdAmount,
-    setTotalEarned2,
-    setIsNeedUpdate,
-  } = setters;
-  if (user) {
+export async function fetchDepositsE(
+  setLockedDep,
+  setNonLockedDep,
+  setIsNeedUpdate,
+  pendingMode,
+  setPendingDeps
+) {
+  if (getItem("token")) {
     fetchDeposits().then((depsArr) => {
       console.log("[fetchDepositsE] deps arr:", depsArr);
-      if (depsArr[0]) {
-        console.log("[fetchDepositsE] fetched non-locked:", depsArr[0]);
-        setNLDepAmount(depsArr[0].getAmount);
-        setNLDepUsdAmount(depsArr[0].usdAmount);
-        setTotalEarned2(depsArr[0].totalEarned);
+      if (pendingMode) {
+        depsArr = depsArr.filter((dep) => dep.status === 2 && dep.type === 4);
+        setPendingDeps(depsArr);
+        setItem("pendingDeps", depsArr);
+      } else {
+        // fetching pending deposits
+        let nonLockedDep = depsArr.filter(
+          (dep) => dep.status === 1 && dep.type === 4
+        )[0];
+        let lockedDep = depsArr.filter(
+          (dep) => dep.status === 1 && dep.type === 5
+        )[0];
 
-        setItem("pnlDepId", depsArr[0].depId);
-        setItem("pnlDepA", depsArr[0].getAmount);
-        setItem("pnlDepAU", depsArr[0].usdAmount);
-        setItem("pTotalEarned2", depsArr[0].totalEarned);
-      }
-      if (depsArr[1]) {
-        console.log("[fetchDepositsE] fetched locked:", depsArr[1]);
-        setLDepAmount(depsArr[1].getAmount);
-        setLDepUsdAmount(depsArr[1].usdAmount);
-        setTotalEarned1(depsArr[1].totalEarned);
+        if (nonLockedDep) {
+          // fetching non-locked deposits
+          console.log("[fetchDepositsE] fetched non-locked:", nonLockedDep);
+          setNonLockedDep(nonLockedDep);
+          setItem("nlDep", nonLockedDep);
 
-        setItem("plDepId", depsArr[1].depId);
-        setItem("plDepA", depsArr[1].getAmount);
-        setItem("plDepAU", depsArr[1].usdAmount);
-        setItem("pTotalEarned1", depsArr[1].totalEarned);
+          setItem("pnlDepId", nonLockedDep.depId);
+          setItem("pnlDepA", nonLockedDep.getAmount);
+          setItem("pnlDepAU", nonLockedDep.usdAmount);
+          setItem(`isR${nonLockedDep.depId}`, nonLockedDep.isR);
+          setItem("pTotalEarned2", nonLockedDep.totalEarned);
+        } else {
+          console.log("[fetchDepositsE] no non-locked deps");
+          setNonLockedDep(tempDep);
+          setItem("nlDep", tempDep);
+        }
+
+        if (lockedDep) {
+          // fetching locked deposits
+          console.log("[fetchDepositsE] fetched locked:", lockedDep);
+          setLockedDep(lockedDep);
+          setItem("lDep", lockedDep);
+
+          setItem("plDepId", lockedDep.depId);
+          setItem("plDepA", lockedDep.getAmount);
+          setItem("plDepAU", lockedDep.usdAmount);
+          setItem(`isR${lockedDep.depId}`, lockedDep.isR);
+          setItem("pTotalEarned1", lockedDep.totalEarned);
+        }
       }
     });
     setIsNeedUpdate(false);

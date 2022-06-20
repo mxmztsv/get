@@ -1,16 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 export const LoginButtons = (props) => {
-  const navigate = useNavigate();
   function handleLogin() {
     if (props.setF) props.setF([false, false, false, false]);
-    navigate("/login");
+    window.location.href = "/login";
   }
 
   function handleSignup() {
     if (props.setF) props.setF([false, false, false, false]);
-    navigate("/signup");
+    window.location.href = "/signup";
   }
 
   return (

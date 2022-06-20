@@ -1,7 +1,11 @@
-import { useContext, useState } from "react";
-import toast from "react-hot-toast";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useWindowDimensions from "../../hooks/useWindow";
+import { BalanceSwitcher } from "../../pages/Stake/Elements";
+import { fetchTokenPriceE } from "../../utils/EffFetchers/fetchTokenPriceE";
+import { fN } from "../../utils/formatNumber";
+import { getItem } from "../../utils/localStorage";
+import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
 import { CloseButton } from "../CloseButton";
 import { DepNetworkSelector } from "../DepButton/Selectors";
@@ -21,38 +25,74 @@ export const WithdrawButton = (props) => {
 
   const navigate = useNavigate();
 
-  const [isW, setIsW] = useState(false); // is withdraw modal visible
+  const [isW, setIsW] = useState(false); // is withdraw modal visiblej
   const [isGet, setIsGet] = useState(true); // is usdt withdraw selected
+  const [isMain, setIsMain] = useState(true); // is main balance selected
   const [isFPage, setIsFPage] = useState(true); // is first page
 
   const [tokensForWith, setTokensForWith] = useState(0);
-  const [getBal, setGetBal] = useState(0);
-  const [usdtBal, setUsdtBal] = useState(0);
+  const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
+
+  // balances
+  const [usdtBalMain, setUsdtBalMain] = useState(getItem("pUsdtBal") || 0);
+  const [getBalMain, setGetBalMain] = useState(getItem("pGetBal") || 0);
+
+  const [usdtBalBonus, setUsdtBalBonus] = useState(getItem("pUsdtBal4") || 0);
+  const [getBalBonus, setGetBalBonus] = useState(getItem("pGetBal4") || 0);
 
   const [sDepNet, setSDepNet] = useState(0);
 
-  const [sWallet, setSWallet] = useState("");
+  let walletsArr = [getItem("ercWal"), getItem("bepWal"), getItem("trcWal")];
 
-  async function handleWithCalcChange() {}
+  async function handleWithCalcChange(value) {
+    if (value.target) {
+      value = parseFloat(value.target.value);
+    }
+
+    if (isMain) {
+      if (isGet && value > getBalMain) return;
+      if (!isGet && value > usdtBalMain) return;
+      if (value > 10000000) return;
+    } else {
+      if (isGet && value > getBalBonus) return;
+      if (!isGet && value > usdtBalBonus) return;
+      if (value > 10000000) return;
+    }
+
+    // @ts-ignore
+    setTokensForWith(fN(value, 2));
+  }
+
+  // token price fetch
+  useEffect(() => {
+    console.log("[WithdrawModal] fetching token price");
+    fetchTokenPriceE(setTokenPrice);
+  }, []);
+  // ------------------------------------
 
   return (
     <>
-      {/* WITHDRAW-BUTTON */}
-
       <div
         className="with-button-container"
         style={{ marginLeft: `${width > 815 ? "10px" : "0"}` }}
       >
         <button
           onClick={() => {
-            // if (width > 815 && user) setIsW(true); // show w modal
-            // else if (width > 815 && !user)
-            //   navigate("/login", { replace: true });
-            // else {
-            //   if (props.setSArr) props.setSArr([false, false, false, false]);
-            //   navigate("/withdraw");
-            // }
-            toast("Comming Soon");
+            if (
+              getItem("ercWal") === "" &&
+              getItem("bepWal") === "" &&
+              getItem("trcWal") === ""
+            ) {
+              toastC("Please add withdrawal wallet(-s) first", 1);
+              return;
+            } else if (width > 815 && !user) {
+              navigate("/login", { replace: true });
+            } else if (width > 815 && user) {
+              setIsW(true); // show w modal
+            } else {
+              if (props.setSArr) props.setSArr([false, false, false, false]);
+              navigate("/withdraw");
+            }
           }}
           className="transparent-button yellow-trans-btn"
         >
@@ -73,13 +113,37 @@ export const WithdrawButton = (props) => {
                     {isFPage ? (
                       <>
                         {/* FIRST-PAGE */}
-                        <WithdrawSwitch isGet={isGet} setIsGet={setIsGet} />
+                        <BalanceSwitcher
+                          isGet={isGet}
+                          isMain={isMain}
+                          setIsMain={setIsMain}
+                          usdtBalMain={usdtBalMain}
+                          getBalMain={getBalMain}
+                          usdtBalBonus={usdtBalBonus}
+                          getBalBonus={getBalBonus}
+                          setTokens={setTokensForWith}
+                          noHeader
+                        />
+
+                        <WithdrawSwitch
+                          isGet={isGet}
+                          setIsGet={setIsGet}
+                          isMain={isMain}
+                          usdtBalMain={usdtBalMain}
+                          getBalMain={getBalMain}
+                          usdtBalBonus={usdtBalBonus}
+                          getBalBonus={getBalBonus}
+                          setTokensForWith={setTokensForWith}
+                        />
                         <WithAmountSlider
                           func={{
                             tokensForWith,
                             isGet,
-                            getBal,
-                            usdtBal,
+                            isMain,
+                            usdtBalMain,
+                            getBalMain,
+                            usdtBalBonus,
+                            getBalBonus,
                             handleWithCalcChange,
                           }}
                         />
@@ -88,6 +152,7 @@ export const WithdrawButton = (props) => {
                           <DepNetworkSelector
                             sDepNet={sDepNet}
                             setSDepNet={setSDepNet}
+                            walletsArr={walletsArr}
                           />
                           <div
                             className="grey-text"
@@ -104,6 +169,8 @@ export const WithdrawButton = (props) => {
                           <TotalAmountBox
                             totalAmount={tokensForWith}
                             isGet={isGet}
+                            isMain={isMain}
+                            tokenPrice={tokenPrice}
                           />
                         </div>
                       </>
@@ -115,7 +182,7 @@ export const WithdrawButton = (props) => {
                   ) : (
                     <>
                       <SelectedNetBox sDepNet={sDepNet} />
-                      <SelectedWalletBox sWallet={sWallet} />
+                      <SelectedWalletBox sWallet={walletsArr[sDepNet]} />
                       <VerifCodeBox />
                     </>
                   )}
@@ -124,7 +191,9 @@ export const WithdrawButton = (props) => {
                     isFPage={isFPage}
                     setIsFPage={setIsFPage}
                     tokensForWith={tokensForWith}
+                    tokenPrice={tokenPrice}
                     isGet={isGet}
+                    setIsW={setIsW}
                   />
                 </div>
               </div>

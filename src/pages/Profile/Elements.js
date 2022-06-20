@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import toast from "react-hot-toast";
 import { WithdrawButton } from "../../components/WithdrawButton";
 import { getItem } from "../../utils/localStorage";
+import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
 
 export const ProfHeader = () => {
@@ -77,7 +77,7 @@ export const EditProfileBtnMob = (props) => {
       className="transparent-button yellow-trans-btn"
       onClick={() => {
         // setIsE(true);
-        toast("Coming Soon");
+        toastC("Coming Soon");
       }}
     >
       <p> EDIT PROFILE</p>

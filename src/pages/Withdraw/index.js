@@ -176,6 +176,7 @@ export const Withdraw = () => {
           tokensForWith={tokensForWith}
           tokenPrice={tokenPrice}
           isGet={isGet}
+          isMain={isMain}
         />
       </div>
     </>

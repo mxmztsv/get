@@ -194,6 +194,7 @@ export const WithdrawButton = (props) => {
                     tokenPrice={tokenPrice}
                     isGet={isGet}
                     setIsW={setIsW}
+                    isMain={isMain}
                   />
                 </div>
               </div>

@@ -73,7 +73,15 @@ export const TotalAmountBox = (props) => {
 
 export const WithFooter = (props) => {
   const [isLoading, setIsLoading] = useState(false);
-  let { isFPage, setIsFPage, tokensForWith, isGet, tokenPrice, setIsW } = props;
+  let {
+    isFPage,
+    setIsFPage,
+    tokensForWith,
+    isGet,
+    tokenPrice,
+    setIsW,
+    isMain,
+  } = props;
 
   function getCondition(isG, tFW, tP) {
     if (isG) {
@@ -121,7 +129,7 @@ export const WithFooter = (props) => {
             // submit withdraw
             // @ts-ignore
             let code = document.getElementById("code-input").value;
-            let res = await handleWithdraw(isGet, tokensForWith, code);
+            let res = await handleWithdraw(isGet, tokensForWith, code, isMain);
             if (res) {
               setIsW(false);
               setIsFPage(true);

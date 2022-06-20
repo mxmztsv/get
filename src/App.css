@@ -4295,3 +4295,17 @@ input[type="number"] {
   margin-bottom: -90px;
   height: 90px;
 }
+
+@-moz-document url-prefix() {
+  .dep-modal-container {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .with-modal-wrapper {
+    background: radial-gradient(
+      113.83% 128.79% at 0% 100%,
+      rgb(83, 83, 83) 0%,
+      rgb(18, 18, 18) 100%
+    );
+  }
+}

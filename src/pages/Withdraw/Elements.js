@@ -22,7 +22,7 @@ export const BackButtonWith = (props) => {
 export const WithFooterMob = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  let { isFPage, setIsFPage, tokensForWith, isGet, tokenPrice } = props;
+  let { isFPage, setIsFPage, tokensForWith, isGet, tokenPrice, isMain } = props;
 
   function getCondition(isG, tFW, tP) {
     if (isG) {
@@ -51,7 +51,12 @@ export const WithFooterMob = (props) => {
               // submit withdraw
               // @ts-ignore
               let code = document.getElementById("code-input").value;
-              let res = await handleWithdraw(isGet, tokensForWith, code);
+              let res = await handleWithdraw(
+                isGet,
+                tokensForWith,
+                code,
+                isMain
+              );
               if (res) {
                 setIsFPage(true);
                 navigate("/profile");

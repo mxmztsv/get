@@ -41,6 +41,8 @@ export const Stake = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!getItem("token")) window.location.href = "/login";
+
     if (!user) {
       let user = getItem("user");
       if (!user) {
@@ -116,7 +118,7 @@ export const Stake = () => {
       setUsdtBalBonus,
       setGetBalBonus
     );
-  }, [user, lockedDep, nonLockedDep]);
+  }, [user, lockedDep, nonLockedDep, isNeedUpdate]);
   // ------------------------------------
 
   // token price fetch

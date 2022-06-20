@@ -22,7 +22,15 @@ export const BackButtonWith = (props) => {
 export const WithFooterMob = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  let { isFPage, setIsFPage, tokensForWith, isGet, tokenPrice, isMain } = props;
+  let {
+    isFPage,
+    setIsFPage,
+    tokensForWith,
+    isGet,
+    tokenPrice,
+    isMain,
+    setIsNeedUpdate,
+  } = props;
 
   function getCondition(isG, tFW, tP) {
     if (isG) {
@@ -36,17 +44,18 @@ export const WithFooterMob = (props) => {
     <div className="stake-buttons-mob-wrapper">
       <div className="withdraw-btn-mob">
         <button
-          disabled={getCondition(isGet, tokensForWith, tokenPrice)}
+          // disabled={getCondition(isGet, tokensForWith, tokenPrice)}
           onClick={async () => {
             setIsLoading(true);
 
             if (isFPage) {
               // request code
               let res = await requestCode();
-              if (!res) {
-                setIsLoading(false);
-                return;
+              if (res) {
+                setIsFPage(false);
               }
+              setIsLoading(false);
+              setIsNeedUpdate(true);
             } else {
               // submit withdraw
               // @ts-ignore
@@ -59,12 +68,13 @@ export const WithFooterMob = (props) => {
               );
               if (res) {
                 setIsFPage(true);
-                navigate("/profile");
+                setIsNeedUpdate(true);
+                navigate("/profile"); // difference
               }
+              setIsFPage(true);
+              setIsNeedUpdate(true);
+              setIsLoading(false);
             }
-
-            setIsFPage(false);
-            setIsLoading(false);
           }}
         >
           {isLoading ? (

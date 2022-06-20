@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useWindowDimensions from "../../hooks/useWindow";
 import { BalanceSwitcher } from "../../pages/Stake/Elements";
+import { fetchBalancesE } from "../../utils/EffFetchers/fetchBalancesE";
 import { fetchTokenPriceE } from "../../utils/EffFetchers/fetchTokenPriceE";
 import { fN } from "../../utils/formatNumber";
 import { getItem } from "../../utils/localStorage";
@@ -33,6 +34,8 @@ export const WithdrawButton = (props) => {
   const [tokensForWith, setTokensForWith] = useState(0);
   const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
 
+  const [isNeedUpdate, setIsNeedUpdate] = useState(false);
+
   // balances
   const [usdtBalMain, setUsdtBalMain] = useState(getItem("pUsdtBal") || 0);
   const [getBalMain, setGetBalMain] = useState(getItem("pGetBal") || 0);
@@ -40,9 +43,10 @@ export const WithdrawButton = (props) => {
   const [usdtBalBonus, setUsdtBalBonus] = useState(getItem("pUsdtBal4") || 0);
   const [getBalBonus, setGetBalBonus] = useState(getItem("pGetBal4") || 0);
 
-  const [sDepNet, setSDepNet] = useState(0);
-
   let walletsArr = [getItem("ercWal"), getItem("bepWal"), getItem("trcWal")];
+  const [sDepNet, setSDepNet] = useState(
+    walletsArr[0] ? 0 : walletsArr[1] ? 1 : 2
+  );
 
   async function handleWithCalcChange(value) {
     if (value.target) {
@@ -68,6 +72,18 @@ export const WithdrawButton = (props) => {
     console.log("[WithdrawModal] fetching token price");
     fetchTokenPriceE(setTokenPrice);
   }, []);
+  // ------------------------------------
+
+  // balance fetch
+  useEffect(() => {
+    console.log("[WithdrawMobile] fetching balances");
+    fetchBalancesE(
+      setUsdtBalMain,
+      setGetBalMain,
+      setUsdtBalBonus,
+      setGetBalBonus
+    );
+  }, [user, isNeedUpdate]);
   // ------------------------------------
 
   return (
@@ -195,6 +211,7 @@ export const WithdrawButton = (props) => {
                     isGet={isGet}
                     setIsW={setIsW}
                     isMain={isMain}
+                    setIsNeedUpdate={setIsNeedUpdate}
                   />
                 </div>
               </div>

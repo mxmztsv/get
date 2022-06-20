@@ -28,6 +28,8 @@ export const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!getItem("token")) window.location.href = "/login";
+
     if (!user) {
       let user = getItem("user");
       if (!user) {
@@ -36,7 +38,7 @@ export const Profile = () => {
         setUser(user);
       }
     }
-  }, [user, width]);
+  }, [setUser, user, width]);
   // ---------------
 
   // vars

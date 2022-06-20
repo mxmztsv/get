@@ -38,6 +38,8 @@ export const Referral = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!getItem("token")) window.location.href = "/login";
+
     if (!user) {
       let user = getItem("user");
       if (!user) {
@@ -67,18 +69,19 @@ export const Referral = () => {
   const [monthRev, setMonthRev] = useState(getItem("pMonthRev") || 0);
   const [allRev, setAllRev] = useState(getItem("pAllRev") || 0);
 
-  const [depMis, setDepMis] = useState(getItem("pDepMis") || "");
+  const [depMis, setDepMis] = useState(getItem("pDepMis") || {});
+
   const [frontLDepMis, setFrontLDepMis] = useState(
-    getItem("pFrontLDepMis") !== undefined ? getItem("pFrontLDepMis") : ""
+    getItem("pFrontLDepMis") !== undefined ? getItem("pFrontLDepMis") : {}
   );
-  const [volMis, setVolMis] = useState(getItem("pVolMis") || "");
-  const [bonus, setBonus] = useState(getItem("pBonus") || "");
+  const [volMis, setVolMis] = useState(getItem("pVolMis") || {});
+  const [bonus, setBonus] = useState(getItem("pBonus") || {});
 
   const [teamVolume, setTeamVolume] = useState(
-    getItem("pTeamVolume") !== undefined ? getItem("pTeamVolume") : 0
+    getItem("pTeamVolume") !== undefined ? getItem("pTeamVolume") : {}
   );
   const [firstLVolume, setFirstLVolume] = useState(
-    getItem("pFirstLVolume") !== undefined ? getItem("pFirstLVolume") : 0
+    getItem("pFirstLVolume") !== undefined ? getItem("pFirstLVolume") : {}
   );
   // -----------------------------------------------------
 

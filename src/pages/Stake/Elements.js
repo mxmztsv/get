@@ -337,7 +337,7 @@ export const BalanceSwitcher = (props) => {
             >
               <p>MAIN</p>
               <p className="button-sub-text">
-                USD: {fN(usdtBalMain)} | GET: {fN(getBalMain)}
+                USD: {fN(usdtBalMain, 1)} | GET: {fN(getBalMain, 1)}
               </p>
             </button>
 
@@ -350,7 +350,7 @@ export const BalanceSwitcher = (props) => {
             >
               <p>BONUS</p>
               <p className="button-sub-text">
-                USD: {fN(usdtBalBonus)} | GET: {fN(getBalBonus)}
+                USD: {fN(usdtBalBonus, 1)} | GET: {fN(getBalBonus, 1)}
               </p>
             </button>
           </div>

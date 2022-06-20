@@ -93,7 +93,7 @@ const RefTreeRow = (props) => {
         <td className="ref-tree-col grey-text">{curLvlRef.name}</td>
         <td className="ref-tree-col ref-tree-num">{curLvlRef.network}</td>
         <td className="ref-tree-col ref-tree-num yellow-text">
-          {fN(curLvlRef.amount, 2)}
+          {fN(curLvlRef.amount, 0, true)}
         </td>
         {curLvlRef.refsNum !== "0" && width > 815 ? (
           <td className="ref-arrow-container">

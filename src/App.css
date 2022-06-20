@@ -4309,3 +4309,11 @@ input[type="number"] {
     );
   }
 }
+
+.ref-box-img {
+  margin-left: 3px;
+}
+
+.fl-header {
+  white-space: nowrap;
+}

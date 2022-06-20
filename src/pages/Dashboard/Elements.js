@@ -63,7 +63,7 @@ export const TokenBox = (props) => {
   let { tokenPrice, tokenPrevPrice } = props;
 
   function countDif(price, prevPrice) {
-    return fN(price - prevPrice, 3);
+    return fN(Math.abs(price - prevPrice), 3);
   }
 
   function countChange(price, prevPrice) {

@@ -54,7 +54,7 @@ export const NewPassword = () => {
       navigate("/dashboard");
 
       toastC("Successfully reseted password", 0);
-    } else {
+    } else if (res && res.response && res.response.data) {
       let mes = res.response.data.error_message;
       console.error("[NewPassword] error:", mes);
       if (typeof mes === "object") {
@@ -62,6 +62,8 @@ export const NewPassword = () => {
       } else {
         toastC(res.response.data.error_message, 1);
       }
+    } else {
+      toastC("Internal Error. Try again", 1);
     }
 
     setIsLoading(false);

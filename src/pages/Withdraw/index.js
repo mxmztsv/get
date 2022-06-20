@@ -10,6 +10,7 @@ import {
 } from "../../components/WithdrawButton/Elements";
 import { WithAmountSlider } from "../../components/WithdrawButton/WithSlider";
 import useWindowDimensions from "../../hooks/useWindow";
+import { fetchBalancesE } from "../../utils/EffFetchers/fetchBalancesE";
 import { fetchTokenPriceE } from "../../utils/EffFetchers/fetchTokenPriceE";
 import { fN } from "../../utils/formatNumber";
 import { getItem } from "../../utils/localStorage";
@@ -24,6 +25,8 @@ export const Withdraw = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!getItem("token")) window.location.href = "/login";
+
     if (width > 815) navigate("/dashboard"); // only mobile
 
     if (!user) {
@@ -41,6 +44,8 @@ export const Withdraw = () => {
   const [isMain, setIsMain] = useState(true); // is main balance selected
   const [isFPage, setIsFPage] = useState(true); // is first page
 
+  const [isNeedUpdate, setIsNeedUpdate] = useState(false);
+
   const [tokensForWith, setTokensForWith] = useState(0);
   const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
 
@@ -51,9 +56,10 @@ export const Withdraw = () => {
   const [usdtBalBonus, setUsdtBalBonus] = useState(getItem("pUsdtBal4") || 0);
   const [getBalBonus, setGetBalBonus] = useState(getItem("pGetBal4") || 0);
 
-  const [sDepNet, setSDepNet] = useState(0);
-
   let walletsArr = [getItem("ercWal"), getItem("bepWal"), getItem("trcWal")];
+  const [sDepNet, setSDepNet] = useState(
+    walletsArr[0] ? 0 : walletsArr[1] ? 1 : 2
+  );
 
   async function handleWithCalcChange(value) {
     if (value.target) {
@@ -79,6 +85,18 @@ export const Withdraw = () => {
     console.log("[WithdrawPage] fetching token price");
     fetchTokenPriceE(setTokenPrice);
   }, []);
+  // ------------------------------------
+
+  // balance fetch
+  useEffect(() => {
+    console.log("[WithdrawMobile] fetching balances");
+    fetchBalancesE(
+      setUsdtBalMain,
+      setGetBalMain,
+      setUsdtBalBonus,
+      setGetBalBonus
+    );
+  }, [user, isNeedUpdate]);
   // ------------------------------------
 
   return (
@@ -177,6 +195,7 @@ export const Withdraw = () => {
           tokenPrice={tokenPrice}
           isGet={isGet}
           isMain={isMain}
+          setIsNeedUpdate={setIsNeedUpdate}
         />
       </div>
     </>

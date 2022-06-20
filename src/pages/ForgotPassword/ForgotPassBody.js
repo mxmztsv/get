@@ -35,7 +35,7 @@ export const ForgotPassBody = (props) => {
     if (res.data && res.data.result === "success") {
       toastC("We have sent you a code to reset your password", 0);
       navigate("/new-password", { state: { data } });
-    } else {
+    } else if (res && res.response && res.response.data) {
       let mes = res.response.data.error_message;
       console.error("[ForgotPassword] error:", mes);
       if (typeof mes === "object") {
@@ -43,6 +43,8 @@ export const ForgotPassBody = (props) => {
       } else {
         toastC(res.response.data.error_message, 1);
       }
+    } else {
+      toastC("Internal Error. Try again", 1);
     }
 
     setIsLoading(false);

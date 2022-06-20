@@ -81,6 +81,7 @@ export const WithFooter = (props) => {
     tokenPrice,
     setIsW,
     isMain,
+    setIsNeedUpdate,
   } = props;
 
   function getCondition(isG, tFW, tP) {
@@ -121,23 +122,25 @@ export const WithFooter = (props) => {
           if (isFPage) {
             // request code
             let res = await requestCode();
-            if (!res) {
-              setIsLoading(false);
-              return;
+            if (res) {
+              setIsFPage(false);
             }
+            setIsLoading(false);
+            setIsNeedUpdate(true);
           } else {
             // submit withdraw
             // @ts-ignore
             let code = document.getElementById("code-input").value;
             let res = await handleWithdraw(isGet, tokensForWith, code, isMain);
             if (res) {
-              setIsW(false);
               setIsFPage(true);
+              setIsNeedUpdate(true);
+              setIsW(false); // difference
             }
+            setIsFPage(true);
+            setIsNeedUpdate(true);
+            setIsLoading(false);
           }
-
-          setIsFPage(false);
-          setIsLoading(false);
         }}
       >
         {isLoading ? (

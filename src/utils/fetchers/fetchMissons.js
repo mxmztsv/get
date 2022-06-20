@@ -38,11 +38,15 @@ export async function fetchMissions(
     setItem("pBonus", bonus);
 
     // other tasks
-    let tasks = curLvlMissions.task;
+    let tasks = res.data.data.career.currentTask;
 
-    let depMis = parseInt(tasks[0].text.en.replace(/\D+/g, ""));
-    let frontLMis = parseInt(tasks[1].text.en.replace(/\D+/g, ""));
-    let volMis = parseInt(tasks[2].text.en.replace(/\D+/g, ""));
+    // let depMis = parseInt(tasks[0].text.en.replace(/\D+/g, ""));
+    // let frontLMis = parseInt(tasks[1].text.en.replace(/\D+/g, ""));
+    // let volMis = parseInt(tasks[2].text.en.replace(/\D+/g, ""));
+
+    let depMis = tasks[0].metrics;
+    let frontLMis = tasks[1].metrics;
+    let volMis = tasks[2].metrics;
 
     console.log("[fetchMissions] career:", depMis, frontLMis, volMis);
 

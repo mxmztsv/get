@@ -18,6 +18,8 @@ export const Deposit = () => {
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
   useEffect(() => {
+    if (!getItem("token")) window.location.href = "/login";
+
     if (width > 815) navigate("/dashboard"); // only mobile
 
     if (!user) {

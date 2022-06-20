@@ -45,7 +45,7 @@ export const LoginBody = (props) => {
       setItem("token", res.data.data.token);
 
       navigate("/dashboard");
-    } else {
+    } else if (res && res.response && res.response.data) {
       let mes = res.response.data.error_message;
       let eCode = res.response.data.error_code;
       console.error("[Login] error mes code:", mes, eCode);
@@ -57,6 +57,8 @@ export const LoginBody = (props) => {
       } else {
         toastC(res.response.data.error_message, 1);
       }
+    } else {
+      toastC("Internal Error. Try again", 1);
     }
 
     setIsLoading(false);

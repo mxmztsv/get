@@ -1,3 +1,4 @@
+import refCheckIcon from "../../assets/img/ref-check.svg";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fN } from "../../utils/formatNumber";
 import { RefLinkBody } from "./RefLinkBody";
@@ -31,28 +32,45 @@ export const DepositNextL = (props) => {
   return (
     <>
       <div className="dash-box">
-        <div className="dash-box-header">Deposit</div>
-        <div className="dash-box-body">{depMiss ? depMiss : "-"} USD</div>
-        {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
+        <div className="dash-box-header">
+          Deposit
+          {depMiss && depMiss.hasDone ? (
+            <img src={refCheckIcon} alt="" className="ref-box-img" />
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="dash-box-body">
+          {depMiss && depMiss.done ? depMiss.done : "0"} USD
+        </div>
+        <div className="dash-box-footer dash-box-colored-footer">
+          {depMiss && depMiss.goal ? depMiss.goal : "-"} USD
+        </div>
       </div>
     </>
   );
 };
 
 export const FrontLineDepNextL = (props) => {
-  const { width } = useWindowDimensions();
   let { frontLDepMis } = props;
   return (
     <>
       <div className="dash-box">
-        <div className="dash-box-header">
-          Front-line {width > 815 ? "deposit" : "dep"}
+        <div className="dash-box-header fl-header">
+          Front-line dep{" "}
+          {frontLDepMis && frontLDepMis.hasDone ? (
+            <img src={refCheckIcon} alt="" className="ref-box-img" />
+          ) : (
+            <></>
+          )}
         </div>
 
         <div className="dash-box-body">
-          {frontLDepMis !== undefined ? frontLDepMis : "-"} USD
+          {frontLDepMis && frontLDepMis.done ? frontLDepMis.done : "0"} USD
         </div>
-        {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
+        <div className="dash-box-footer dash-box-colored-footer">
+          {frontLDepMis && frontLDepMis.goal ? frontLDepMis.goal : "0"} USD
+        </div>
       </div>
     </>
   );
@@ -63,9 +81,20 @@ export const VolumeNextL = (props) => {
   return (
     <>
       <div className="dash-box">
-        <div className="dash-box-header">Volume</div>
-        <div className="dash-box-body">{volMis ? volMis : "-"} USD</div>
-        {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
+        <div className="dash-box-header">
+          Volume{" "}
+          {volMis && volMis.hasDone ? (
+            <img src={refCheckIcon} alt="" className="ref-box-img" />
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="dash-box-body">
+          {volMis && volMis.done ? volMis.done : "0"} USD
+        </div>
+        <div className="dash-box-footer dash-box-colored-footer">
+          {volMis && volMis.goal ? volMis.goal : "-"} USD
+        </div>
       </div>
     </>
   );
@@ -77,7 +106,9 @@ export const BonusNextL = (props) => {
     <>
       <div className="dash-box">
         <div className="dash-box-header">Bonus</div>
-        <div className="dash-box-body">{bonus ? bonus.slice(0, -1) : "-"} </div>
+        <div className="dash-box-body">
+          {bonus && bonus.slice ? bonus.slice(0, -1) : "-"}{" "}
+        </div>
         {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
     </>
@@ -91,7 +122,7 @@ export const RevenueBox = (props) => {
     <>
       <div className="dash-box">
         <div className="dash-box-body">
-          {revVal !== undefined ? revVal : "-"} GET
+          {revVal !== undefined ? fN(revVal, 2, true) : "-"} GET
         </div>
         <div className="dash-box-footer dash-box-colored-footer">{time}</div>
       </div>

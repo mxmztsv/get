@@ -1645,9 +1645,8 @@ td {
 /* pop-up */
 
 .popup-bg {
-  height: 100vh;
-  /*width: 100vh;*/
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -1863,9 +1862,12 @@ td {
 
 .profit-calculator-investment {
   width: 60%;
-  background: radial-gradient(64.71% 86.67% at 100% 88.87%, rgba(254, 184, 93, 0.24) 1.81%, rgba(254, 184, 93, 0) 98.42%);
-  border-bottom-right-radius: 80px;
-  clip-path: polygon(90% 0, 100% 83%, 100% 100%, 0 100%, 0 0);
+  background-image: url("../src/assets/img/profit-calculator-investment-bg.svg");
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  /*background: radial-gradient(64.71% 86.67% at 100% 88.87%, rgba(254, 184, 93, 0.24) 1.81%, rgba(254, 184, 93, 0) 98.42%);*/
+  /*border-bottom-right-radius: 80px;*/
+  /*clip-path: polygon(90% 0, 100% 83%, 100% 100%, 0 100%, 0 0);*/
 }
 
 .profit-calculator-profit {

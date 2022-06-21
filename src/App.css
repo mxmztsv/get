@@ -1906,7 +1906,7 @@ td {
 
 .profit-calculator-investment {
   width: 55%;
-  background-image: url("../src/assets/img/profit-calculator-investment-bg.svg");
+  background-image: url("../src/assets/img/profit-calculator-investment-bg.png");
   background-repeat: no-repeat;
   background-position: 100% 100%;
   /*background: radial-gradient(64.71% 86.67% at 100% 88.87%, rgba(254, 184, 93, 0.24) 1.81%, rgba(254, 184, 93, 0) 98.42%);*/

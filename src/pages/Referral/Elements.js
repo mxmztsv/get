@@ -41,10 +41,10 @@ export const DepositNextL = (props) => {
           )}
         </div>
         <div className="dash-box-body">
-          {depMiss && depMiss.done ? depMiss.done : "0"} USD
+          {depMiss && depMiss.goal ? depMiss.goal : "0"} USD
         </div>
         <div className="dash-box-footer dash-box-colored-footer">
-          {depMiss && depMiss.goal ? depMiss.goal : "-"} USD
+          {depMiss && depMiss.done ? depMiss.done : "-"} USD
         </div>
       </div>
     </>
@@ -66,10 +66,10 @@ export const FrontLineDepNextL = (props) => {
         </div>
 
         <div className="dash-box-body">
-          {frontLDepMis && frontLDepMis.done ? frontLDepMis.done : "0"} USD
+          {frontLDepMis && frontLDepMis.goal ? frontLDepMis.goal : "0"} USD
         </div>
         <div className="dash-box-footer dash-box-colored-footer">
-          {frontLDepMis && frontLDepMis.goal ? frontLDepMis.goal : "0"} USD
+          {frontLDepMis && frontLDepMis.done ? frontLDepMis.done : "0"} USD
         </div>
       </div>
     </>
@@ -90,10 +90,10 @@ export const VolumeNextL = (props) => {
           )}
         </div>
         <div className="dash-box-body">
-          {volMis && volMis.done ? volMis.done : "0"} USD
+          {volMis && volMis.goal ? volMis.goal : "0"} USD
         </div>
         <div className="dash-box-footer dash-box-colored-footer">
-          {volMis && volMis.goal ? volMis.goal : "-"} USD
+          {volMis && volMis.done ? volMis.done : "0"} USD
         </div>
       </div>
     </>

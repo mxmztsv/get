@@ -1842,21 +1842,79 @@ td {
 }
 
 /* profit-calculator */
+
+.popup-profit-calculator {
+  background: rgba(45, 45, 45, 0.9);
+  backdrop-filter: blur(100px);
+  padding: 40px 40px 0 40px;
+  width: 100vw;
+  box-sizing: border-box;
+  /*width: 1200px;*/
+  max-width: 1200px;
+
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 52px;
+}
+
 .profit-calculator {
   display: flex;
   flex-direction: row;
 }
 
 .profit-calculator-investment {
-  /*width: 50%;*/
+  width: 60%;
+  background: radial-gradient(64.71% 86.67% at 100% 88.87%, rgba(254, 184, 93, 0.24) 1.81%, rgba(254, 184, 93, 0) 98.42%);
+  border-bottom-right-radius: 80px;
+  clip-path: polygon(90% 0, 100% 83%, 100% 100%, 0 100%, 0 0);
 }
 
 .profit-calculator-profit {
-  /*width: 50%;*/
+  width: 40%;
+  margin-left: 50px;
 }
 
 .period-slider {
-  background: #7f7fd5;
+  background: linear-gradient(82.06deg, rgba(84, 242, 242, 0.24) 6.12%, rgba(84, 242, 242, 0.096) 93.88%) !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.period-slider > .rangeslider__handle {
+  background: radial-gradient(182.18% 68.75% at 37.5% 28.13%, #54F2F2 0%, rgba(84, 242, 242, 0.4) 100%) !important;
+  box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(100px);
+
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 4px;
+}
+
+.profit-calculator-period-labels {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profit-calculator-item {
+  margin-bottom: 20px;
+}
+
+.profit-calculator-earnings-amount {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 39px;
+  color: #54F2F2;
+  margin: 20px 0;
+}
+
+.profit-calculator-earnings-usd {
+  color: rgba(84, 242, 242, 0.3);
+}
+
+.profit-calculator-btn-container {
+  margin: 30px 0;
 }
 
 /* dep-box */

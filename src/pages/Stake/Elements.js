@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import Slider from "react-rangeslider";
 import {TxTableBody} from "../../components/TxTable";
@@ -8,6 +8,7 @@ import {sendReq} from "../../utils/sendReq";
 import {UserContext} from "../../utils/UserContext";
 import question from "../../assets/img/question.svg";
 import closeIcon from "../../assets/img/close.svg";
+import {fetchTokenPrice} from "../../utils/fetchTokenPrice";
 
 export const TotalStakedBox = (props) => {
     let {totalStaked1, totalStaked2} = props;
@@ -47,12 +48,21 @@ export const TotalEarnedBox = (props) => {
 
 // STAKE ACT CONT
 export const StakeAmountContainer = (props) => {
-    let {handleCalcChange, isGet, usdtBal, getBal, tokensForStake} = props;
+    let {
+        handleCalcChange,
+        isGet,
+        usdtBal,
+        getBal,
+        tokensForStake,
+        title = 'YOUR INVESTEMENT',
+        showMinDep = true,
+        currency = null // using for profit calculator. The component will based on isGet if null
+        } = props;
     return (
         <>
             <div className="stake-amount-container">
                 <div className="stake-amount-inner">
-                    <div className="medium-white-header">YOUR INVESTEMENT</div>
+                    <div className="medium-white-header">{title}</div>
                     <div className="stake-amount-slider-container">
                         <div className="slider-header">
                             {/* <input
@@ -63,7 +73,7 @@ export const StakeAmountContainer = (props) => {
               /> */}
                             <p className="yellow-text numbers">
                                 {tokensForStake}
-                                {isGet ? " GET" : " USDT"}
+                                {currency ? currency : (isGet ? " GET" : " USDT")}
                             </p>
                         </div>
                         <div className="stake-slider">
@@ -78,7 +88,8 @@ export const StakeAmountContainer = (props) => {
                             />
                         </div>
                     </div>
-                    <div className="dep-opt-footer">
+                    { showMinDep &&
+                        <div className="dep-opt-footer">
                         {isGet ? (
                             <>
                                 <p>Minimum deposit: 230 GET</p>
@@ -88,7 +99,9 @@ export const StakeAmountContainer = (props) => {
                                 <p>Minimum deposit: 25 USDT</p>
                             </>
                         )}
-                    </div>
+                        </div>
+                    }
+
                 </div>
             </div>
         </>
@@ -146,10 +159,82 @@ export const DepositDetailPopUp = ({setIsPopUpOpen}) => {
 export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
 
     const [isL, setIsL] = useState(true);
+    const [periodInWeeks, setPeriodInWeeks] = useState(1);
+    const [amount, setAmount] = useState(0);
+    const [getPrice, setGetPrice] = useState(0);
+    const [profit, setProfit] = useState(0);
+    const [dailyEarningsGet, setDailyEarningsGet] = useState(0);
+    const [dailyEarningsUSD, setDailyEarningsUSD] = useState(0);
+    const [totalEarningsGet, setTotalEarningsGet] = useState(0);
+    const [totalEarningsUSD, setTotalEarningsUSD] = useState(0);
 
     const close = () => {
         setIsPopUpOpen(false);
     }
+
+    const periodSliderHandler = (value) => {
+        setPeriodInWeeks(value);
+    }
+
+    const setActualGetPrice = async () => {
+        const price = await fetchTokenPrice();
+        setGetPrice(price);
+    }
+
+    const calculateProfit = () => {
+        if (amount && getPrice) {
+            const amountUSD = amount * getPrice;
+            if (isL) {
+                if (amountUSD >= 25 && amountUSD < 5000) {
+                    setProfit(28);
+                } else if (amountUSD >= 5000 && amountUSD < 25000) {
+                    setProfit(30);
+                } else if (amountUSD >= 25000) {
+                    setProfit(37);
+                }
+            } else {
+                if (amountUSD >= 25 && amountUSD < 5000) {
+                    setProfit(14);
+                } else if (amountUSD >= 5000 && amountUSD < 25000) {
+                    setProfit(15);
+                } else if (amountUSD >= 25000) {
+                    setProfit(16);
+                }
+            }
+        } else setProfit(0);
+    }
+
+    const calculateEarnings = () => {
+        if (amount && profit) {
+            const annualEarning = amount * profit * 12;
+            const dailyEarning = annualEarning / 365;
+            const totalEarning = dailyEarning * 7 * periodInWeeks;
+            setDailyEarningsGet(dailyEarning.toFixed(2));
+            setDailyEarningsUSD((dailyEarning * getPrice).toFixed(2));
+            setTotalEarningsGet(totalEarning.toFixed(2));
+            setTotalEarningsUSD((totalEarning * getPrice).toFixed(2));
+        } else {
+            setDailyEarningsGet(0);
+            setDailyEarningsUSD(0);
+            setTotalEarningsGet(0);
+            setTotalEarningsUSD(0);
+        }
+    }
+
+    useEffect(() => {
+        setActualGetPrice();
+    }, [])
+
+    useEffect(() => {
+        calculateProfit();
+    }, [amount, getPrice, isL]);
+
+    useEffect(() => {
+        calculateEarnings();
+    }, [amount, getPrice, profit, periodInWeeks]);
+
+
+
 
     return (
         <>
@@ -161,18 +246,37 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                         </p>
                         <img src={closeIcon} alt="close popup" className="popup-close-btn" onClick={close}/>
                     </div>
-                    <div className="popup">
-                        <div className="popup-body">
+                    <div className="popup-profit-calculator">
+                        <div className="popup-profit-calculator-body">
                             <div className="profit-calculator">
                                 <div className="profit-calculator-investment">
                                     <p className="popup-title">
                                         Investment
                                     </p>
                                     <div className="profit-calculator-amount">
-                                        <p className="medium-white-header">
-                                            AMOUNT
-                                        </p>
+                                        {/*let {handleCalcChange, isGet, usdtBal, getBal, tokensForStake} = props;*/}
 
+                                        <StakeAmountContainer
+                                            title={'AMOUNT'}
+                                            handleCalcChange={setAmount}
+                                            isGet={true}
+                                            usdtBal={0}
+                                            getBal={200000}
+                                            tokensForStake={amount}
+                                            showMinDep={false}
+                                        />
+                                    </div>
+                                    <div className="profit-calculator-amount">
+                                        <StakeAmountContainer
+                                            title={'GET TOKEN PRICE'}
+                                            handleCalcChange={setGetPrice}
+                                            isGet={true}
+                                            currency={' USD'}
+                                            usdtBal={0}
+                                            getBal={10}
+                                            tokensForStake={getPrice}
+                                            showMinDep={false}
+                                        />
                                     </div>
                                     <div className="profit-calculator-deposit">
                                         <StakeTimeContainer
@@ -180,51 +284,72 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                             setIsL={setIsL}
                                         />
                                     </div>
+                                    <div className="profit-calculator-btn-container">
+                                        <button className="popup-btn" onClick={close}>BACK TO STAKING</button>
+                                    </div>
                                 </div>
                                 <div className="profit-calculator-profit">
                                     <p className="popup-title">
                                         Profit
                                     </p>
-                                    <div className="profit-calculator-period">
+                                    <div className="profit-calculator-item">
                                         <p className="medium-white-header">
                                             STAKE FOR
+                                        </p>
+                                        <p className="profit-calculator-period-value">
+                                            {periodInWeeks}
+                                            { periodInWeeks > 1 ? (' Weeks') : (' Week') }
                                         </p>
                                         <Slider
                                             className="period-slider"
                                             min={1}
                                             max={53}
                                             step={1}
-                                            value={0}
-                                            onChange={() => {}}
+                                            value={periodInWeeks}
+                                            onChange={periodSliderHandler}
                                             tooltip={false}
                                         />
+                                        <div className="profit-calculator-period-labels">
+                                            <p className="period-label">1 Week</p>
+                                            <p className="period-label">1 Year</p>
+                                        </div>
+                                    </div>
+                                    <div className="profit-calculator-item">
+                                        <p className="medium-white-header">
+                                            DAILY EARNINGS
+                                        </p>
+                                        <p className="profit-calculator-earnings-amount">
+                                            {dailyEarningsGet + ' GET'}
+                                            <span className="profit-calculator-earnings-usd">
+                                                {' | ' + dailyEarningsUSD + ' USD'}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div className="profit-calculator-item">
+                                        <p className="medium-white-header">
+                                            TOTAL EARNINGS
+                                        </p>
+                                        <p className="profit-calculator-earnings-amount">
+                                            {totalEarningsGet + ' GET'}
+                                            <span className="profit-calculator-earnings-usd">
+                                                {' | ' + totalEarningsUSD + ' USD'}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div className="profit-calculator-item">
+                                        <p className="medium-white-header">
+                                            Monthly %
+                                        </p>
+                                        <p className="profit-calculator-earnings-amount">
+                                            {profit + '%'}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-
-                            {/*<div className="deposit-details-point">*/}
-                            {/*    <p className="popup-title">*/}
-                            {/*        Non-locked deposit*/}
-                            {/*    </p>*/}
-                            {/*    <p className="popup-title-text">*/}
-                            {/*        A withdrawable deposit can be unstaked at any point, withdrawing any funds staked*/}
-                            {/*        safely and securely*/}
-                            {/*    </p>*/}
-                            {/*</div>*/}
-                            {/*<div className="separator"/>*/}
-                            {/*<div className="deposit-details-point">*/}
-                            {/*    <p className="popup-title">*/}
-                            {/*        Locked deposit*/}
-                            {/*    </p>*/}
-                            {/*    <p className="popup-title-text">*/}
-                            {/*        A locked up deposit grants higher profit percentage that can be withdrawn after your*/}
-                            {/*        lockup period is going to pass*/}
-                            {/*    </p>*/}
-                            {/*</div>*/}
                         </div>
-                        <div className="popup-actions">
-                            <button className="popup-btn" onClick={close}>BACK TO STAKING</button>
-                        </div>
+                        {/*<div className="popup-actions">*/}
+                        {/*    <button className="popup-btn" onClick={close}>BACK TO STAKING</button>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </div>

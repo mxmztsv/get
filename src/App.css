@@ -1849,7 +1849,7 @@ td {
   width: 100vw;
   box-sizing: border-box;
   /*width: 1200px;*/
-  max-width: 1200px;
+  max-width: 1300px;
 
   /* Note: backdrop-filter has minimal browser support */
   border-radius: 52px;
@@ -1901,11 +1901,15 @@ td {
   margin-bottom: 20px;
 }
 
+.profit-calculator-period-value {
+  margin: 15px 0;
+}
+
 .profit-calculator-earnings-amount {
   font-family: "Monsterrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 32px;
+  font-size: 28px;
   line-height: 39px;
   color: #54F2F2;
   margin: 20px 0;

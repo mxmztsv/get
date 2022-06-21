@@ -254,8 +254,6 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                         Investment
                                     </p>
                                     <div className="profit-calculator-amount">
-                                        {/*let {handleCalcChange, isGet, usdtBal, getBal, tokensForStake} = props;*/}
-
                                         <StakeAmountContainer
                                             title={'AMOUNT'}
                                             handleCalcChange={setAmount}

@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.4838776e.css",
+    "main.css": "/static/css/main.e8481523.css",
     "main.js": "/static/js/main.db1d3028.js",
     "static/media/Montserrat-BoldItalic.ttf": "/static/media/Montserrat-BoldItalic.6bfb0703bffc1e9c85ae.ttf",
     "static/media/Montserrat-SemiBold.ttf": "/static/media/Montserrat-SemiBold.04af9a9e62bb4c47bd55.ttf",
@@ -40,11 +40,11 @@
     "static/media/profit-calculator-investment-bg.svg": "/static/media/profit-calculator-investment-bg.c27ce0ca9c11cafd1c6d.svg",
     "static/media/down-arrow.svg": "/static/media/down-arrow.1a5a42da8448f980719c0229b359e32e.svg",
     "static/media/dot.svg": "/static/media/dot.74ff1d6e8229856c9fd73c2f99491364.svg",
-    "main.4838776e.css.map": "/static/css/main.4838776e.css.map",
+    "main.e8481523.css.map": "/static/css/main.e8481523.css.map",
     "main.db1d3028.js.map": "/static/js/main.db1d3028.js.map"
   },
   "entrypoints": [
-    "static/css/main.4838776e.css",
+    "static/css/main.e8481523.css",
     "static/js/main.db1d3028.js"
   ]
 }

@@ -1658,11 +1658,21 @@ td {
   backdrop-filter: blur(20px);
 }
 
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .popup-close {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
+  align-self: flex-end;
+  /*margin-right: 30px;*/
+  /*margin-bottom: 10px;*/
   padding: 10px 30px;
 }
 
@@ -1847,9 +1857,11 @@ td {
   backdrop-filter: blur(100px);
   padding: 40px 40px 0 40px;
   width: 100vw;
+  /*width: 100%;*/
   box-sizing: border-box;
   /*width: 1200px;*/
-  max-width: 1300px;
+  /*max-width: 1300px;*/
+  max-width: calc(100vw - 10%);
 
   /* Note: backdrop-filter has minimal browser support */
   border-radius: 52px;
@@ -1861,7 +1873,7 @@ td {
 }
 
 .profit-calculator-investment {
-  width: 60%;
+  width: 55%;
   background-image: url("../src/assets/img/profit-calculator-investment-bg.svg");
   background-repeat: no-repeat;
   background-position: 100% 100%;
@@ -1871,7 +1883,7 @@ td {
 }
 
 .profit-calculator-profit {
-  width: 40%;
+  width: 45%;
   margin-left: 50px;
 }
 
@@ -1913,6 +1925,12 @@ td {
   line-height: 39px;
   color: #54F2F2;
   margin: 20px 0;
+}
+
+@media (max-width: 1400px) {
+  .profit-calculator-earnings-amount {
+    font-size: 24px;
+  }
 }
 
 .profit-calculator-earnings-usd {

@@ -1362,6 +1362,7 @@ g {
   background: #1f2020;
   border-radius: 10px;
   width: 40%;
+  min-width: 165px;
   box-sizing: border-box;
   padding: 12px 15px;
 }
@@ -1382,9 +1383,40 @@ g {
   color: #FEB85D;
 }
 
+.dash-tx-filters-icon {
+  animation-name: switch;
+  animation-duration: .3s;
+}
+
+@keyframes switch {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
 .dash-tx-filters-body {
   border-top: 1px rgba(255, 255, 255, 0.08) solid;
   margin-top: 15px;
+  height: 135px;
+  animation-name: dropdown-open;
+  animation-duration: .3s;
+}
+
+@keyframes dropdown-open {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+    height: 135px;
+  }
 }
 
 .dash-tx-filters-item {

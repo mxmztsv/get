@@ -55,7 +55,11 @@ export const Filters = ({sourceTxArray, setFilteredTxArray}) => {
                     <p className="dash-tx-filters-title">
                         Filters
                     </p>
-                    <img src={isOpen ? closeIcon : openIcon} alt="Open/Close dropdown"/>
+                    {isOpen ?
+                        <img src={closeIcon} alt="Open/Close dropdown" className="dash-tx-filters-icon"/>
+                        :
+                        <><img src={openIcon} alt="Open/Close dropdown" className="dash-tx-filters-icon"/></>
+                    }
                 </div>
                 {isOpen &&
                     <div className="dash-tx-filters-body">

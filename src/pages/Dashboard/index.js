@@ -95,14 +95,14 @@ export const Dashboard = () => {
   // token chart fetch
   useEffect(() => {
     console.log("[Dashboard] fetching chart");
-    fetchChartE(setPriceArray, setTokenPrevPrice);
+    fetchChartE(setPriceArray, setTokenPrevPrice, setTokenPrice);
   }, [user, isNeedUpdate]);
   // ------------------------------------
 
   // token price fetch
   useEffect(() => {
     console.log("[Dashboard] fetching token price");
-    fetchTokenPriceE(setTokenPrice, setTokenPrevPrice);
+    fetchTokenPriceE(setTokenPrice);
   }, [user, isNeedUpdate]);
   // ------------------------------------
 

@@ -33,6 +33,7 @@ export const TotalEarnedBox = (props) => {
       <div className="big-numbers dark-span">
         {fN(sum, 2, true)} GET
         <span style={{ whiteSpace: "nowrap" }}>
+          {" "}
           | {fN(sum * tokenPrice, 2, true)} USD
         </span>
       </div>
@@ -159,7 +160,9 @@ export const UnstakeAmountContainer = (props) => {
           </div>
           <div className="stake-amount-slider-container">
             <div className="slider-header">
-              <p className="yellow-text dark-span numbers">{nlDepAmount} GET</p>
+              <p className="yellow-text dark-span numbers">
+                {fN(nlDepAmount, 2, true)} GET
+              </p>
             </div>
           </div>
         </div>

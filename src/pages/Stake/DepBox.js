@@ -23,7 +23,7 @@ export const DepositBox = (props) => {
       <div className="dep-box-body brd-btm">
         <div className="small-grey-header">On balance</div>
         <div className="dep-box-num numbers">
-          {dep.getAmount.toLocaleString("en-US")} GET
+          {fN(dep.getAmount, 2, true)} GET
         </div>
         {/* <div className="dash-box-footer dash-box-colored-footer">
           {fN(dep.usdAmount, 2, true)} USD

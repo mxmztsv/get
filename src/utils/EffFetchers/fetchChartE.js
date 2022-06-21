@@ -1,7 +1,11 @@
 import { fetchChartData } from "../fetchers/fetchChartData";
 import { getItem, setItem } from "../localStorage";
 
-export async function fetchChartE(setPriceArray, setTokenPrevPrice) {
+export async function fetchChartE(
+  setPriceArray,
+  setTokenPrevPrice,
+  setTokenPrice
+) {
   let res = await fetchChartData();
   if (res.data && res.data.result === "success" && res.data.data.rates.length) {
     let rates = res.data.data.rates;
@@ -23,6 +27,11 @@ export async function fetchChartE(setPriceArray, setTokenPrevPrice) {
       console.log("[fetchChartE] updated chart");
     } else {
       console.log("[fetchChartE] chart the same");
+    }
+
+    if (setTokenPrice) {
+      setTokenPrice(resArray.at(-1).price);
+      setItem("pTP", resArray.at(-1).price);
     }
 
     setTokenPrevPrice(resArray.at(-2).price);

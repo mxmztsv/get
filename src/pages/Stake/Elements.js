@@ -72,7 +72,7 @@ export const StakeAmountContainer = (props) => {
                 onChange={(value) => handleCalcChange(value)}
               /> */}
                             <p className="yellow-text numbers">
-                                {tokensForStake}
+                                {tokensForStake.toFixed(2)}
                                 {currency ? currency : (isGet ? " GET" : " USDT")}
                             </p>
                         </div>
@@ -162,7 +162,8 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
     const [periodInWeeks, setPeriodInWeeks] = useState(1);
     const [amount, setAmount] = useState(0);
     const [getPrice, setGetPrice] = useState(0);
-    const [profit, setProfit] = useState(0);
+    const [dailyProfitRatio, setDailyProfitRatio] = useState(0);
+    const [monthlyProfit, setMonthlyProfit] = useState(0);
     const [dailyEarningsGet, setDailyEarningsGet] = useState(0);
     const [dailyEarningsUSD, setDailyEarningsUSD] = useState(0);
     const [totalEarningsGet, setTotalEarningsGet] = useState(0);
@@ -183,32 +184,39 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
 
     const calculateProfit = () => {
         if (amount && getPrice) {
-            const amountUSD = amount * getPrice;
+            // const amountUSD = amount * getPrice;
             if (isL) {
-                if (amountUSD >= 25 && amountUSD < 5000) {
-                    setProfit(28);
-                } else if (amountUSD >= 5000 && amountUSD < 25000) {
-                    setProfit(30);
-                } else if (amountUSD >= 25000) {
-                    setProfit(37);
+                if (amount >= 25 && amount < 5000) {
+                    setDailyProfitRatio(0.0093);
+                    setMonthlyProfit(28);
+                } else if (amount >= 5000 && amount < 25000) {
+                    setDailyProfitRatio(0.01);
+                    setMonthlyProfit(30);
+                } else if (amount >= 25000) {
+                    setDailyProfitRatio(0.0123);
+                    setMonthlyProfit(37);
                 }
             } else {
-                if (amountUSD >= 25 && amountUSD < 5000) {
-                    setProfit(14);
-                } else if (amountUSD >= 5000 && amountUSD < 25000) {
-                    setProfit(15);
-                } else if (amountUSD >= 25000) {
-                    setProfit(16);
+                if (amount >= 25 && amount < 5000) {
+                    setDailyProfitRatio(0.0046);
+                    setMonthlyProfit(14);
+                } else if (amount >= 5000 && amount < 25000) {
+                    setDailyProfitRatio(0.005);
+                    setMonthlyProfit(15);
+                } else if (amount >= 25000) {
+                    setDailyProfitRatio(0.0053);
+                    setMonthlyProfit(16);
                 }
             }
-        } else setProfit(0);
+        } else setDailyProfitRatio(0);
     }
 
     const calculateEarnings = () => {
-        if (amount && profit) {
-            const annualEarning = amount * profit * 12;
-            const dailyEarning = annualEarning / 365;
-            const totalEarning = dailyEarning * 7 * periodInWeeks;
+        if (amount && dailyProfitRatio) {
+            const amountGet = amount / getPrice;
+            const dailyEarning = amountGet * dailyProfitRatio;
+            const totalEarning = dailyEarning * periodInWeeks * 7;
+
             setDailyEarningsGet(dailyEarning.toFixed(2));
             setDailyEarningsUSD((dailyEarning * getPrice).toFixed(2));
             setTotalEarningsGet(totalEarning.toFixed(2));
@@ -231,7 +239,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
 
     useEffect(() => {
         calculateEarnings();
-    }, [amount, getPrice, profit, periodInWeeks]);
+    }, [amount, getPrice, dailyProfitRatio, periodInWeeks]);
 
 
 
@@ -258,6 +266,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                             title={'AMOUNT'}
                                             handleCalcChange={setAmount}
                                             isGet={true}
+                                            currency={' USD'}
                                             usdtBal={0}
                                             getBal={200000}
                                             tokensForStake={amount}
@@ -339,7 +348,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                             Monthly %
                                         </p>
                                         <p className="profit-calculator-earnings-amount">
-                                            {profit + '%'}
+                                            {monthlyProfit + '%'}
                                         </p>
                                     </div>
                                 </div>

@@ -56,7 +56,8 @@ export const StakeAmountContainer = (props) => {
         tokensForStake,
         title = 'YOUR INVESTEMENT',
         showMinDep = true,
-        currency = null // using for profit calculator. The component will based on isGet if null
+        currency = null, // using for profit calculator. The component will based on isGet if null
+        minValue = null
         } = props;
     return (
         <>
@@ -79,7 +80,7 @@ export const StakeAmountContainer = (props) => {
                         <div className="stake-slider">
                             <Slider
                                 className="range-slider"
-                                min={0}
+                                min={minValue ? minValue : 0}
                                 max={isGet ? getBal : usdtBal}
                                 step={0.1}
                                 value={tokensForStake}
@@ -267,6 +268,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                             handleCalcChange={setAmount}
                                             isGet={true}
                                             currency={' USD'}
+                                            minValue={getPrice}
                                             usdtBal={0}
                                             getBal={200000}
                                             tokensForStake={amount}

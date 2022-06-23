@@ -3068,6 +3068,50 @@ input[type="number"] {
   margin-left: 0px;
 }
 
+.sign-up-names-container {
+  display: flex;
+}
+
+.sign-up-names-container > * {
+  width: 100%;
+  max-width: 237px;
+  min-width: auto;
+  margin-right: 10px;
+}
+
+.sign-up-names-container > *:last-child {
+  margin-right: 0;
+}
+
+.sign-up-tc {
+  margin-top: 95px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media only screen and (max-width: 815px) {
+  .sign-up-names-container {
+    width: 100%;
+  }
+
+  .sign-up-names-container > * {
+    width: 100% !important;
+    max-width: none;
+  }
+
+  .sign-up-tc {
+    font-size: 11px;
+  }
+}
+
+.sign-up-tc span {
+  color: var(--yellow-text);
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 4px;
+}
+
 .form-buttons {
   display: flex;
   justify-content: space-between;
@@ -4316,4 +4360,34 @@ input[type="number"] {
 
 .fl-header {
   white-space: nowrap;
+}
+
+/* ------------------------------ 
+   Terms
+   ------------------------------ */
+
+strong {
+  margin-top: 10px;
+}
+
+.terms-container {
+  margin: 30px;
+}
+
+@media only screen and (max-width: 815px) {
+  .terms-container {
+    margin-top: 13vh;
+  }
+}
+
+.terms-container .header-1 {
+  margin-left: 0;
+}
+
+.terms-text p {
+  margin-top: 15px;
+}
+
+.terms-text p span {
+  margin-top: 40px;
 }

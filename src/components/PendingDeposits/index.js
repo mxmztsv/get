@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SyncLoader } from "react-spinners";
 import useWindowDimensions from "../../hooks/useWindow";
+import { fN } from "../../utils/formatNumber";
 import { Image } from "../TxTable";
 import { handleDepCancel } from "./handleDepCancel";
 
@@ -44,7 +45,7 @@ const PendingDepRow = (props) => {
     return (
       <>
         <div className="numbers dark-span">
-          {amountGet} GET
+          {fN(amountGet, 2, true)} GET
           {/* <span>| {amountGet} </span> */}
           <div className="tx-text">Withdraw from non-locked deposit</div>
         </div>

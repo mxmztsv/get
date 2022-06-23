@@ -13,6 +13,7 @@ import { Profile } from "./pages/Profile";
 import { Referral } from "./pages/Referral";
 import { Signup } from "./pages/Signup";
 import { Stake } from "./pages/Stake";
+import { Terms } from "./pages/Terms";
 import { Withdraw } from "./pages/Withdraw";
 import { getItem } from "./utils/localStorage";
 import { PathContext } from "./utils/PathContext";
@@ -55,6 +56,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/deposit" element={<Deposit />} />
                 <Route path="/withdraw" element={<Withdraw />} />
+                <Route path="/terms" element={<Terms />} />
                 <Route path="*" element={<ErrorPage />} />
               </Routes>
             </BrowserRouter>

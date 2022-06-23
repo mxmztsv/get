@@ -111,7 +111,7 @@ export const Navbar = () => {
                 {/* LOGO */}
                 <div
                   className="nav-top-logo"
-                  onClick={() => navigate("/dashboard9")}
+                  onClick={() => navigate("/dashboard")}
                 >
                   <img src={logo} alt="logo" /> GET
                 </div>

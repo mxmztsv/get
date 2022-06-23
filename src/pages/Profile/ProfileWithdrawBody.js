@@ -37,7 +37,7 @@ export const ProfileWithdrawBody = (props) => {
               name="erc"
               errors={errors.erc}
               register={register}
-              readOnly={!isWE ? true : false}
+              readOnly={!isWE}
               defaultValue={ercWal}
               isWithCopy={!isWE}
               rules={{
@@ -51,7 +51,7 @@ export const ProfileWithdrawBody = (props) => {
               name="bep"
               errors={errors.bep}
               register={register}
-              readOnly={!isWE ? true : false}
+              readOnly={!isWE}
               defaultValue={bepWal}
               rules={{
                 pattern: /^(0x){1}[0-9a-fA-F]{40}$/i,
@@ -65,7 +65,7 @@ export const ProfileWithdrawBody = (props) => {
               name="trc"
               errors={errors.trc}
               register={register}
-              readOnly={!isWE ? true : false}
+              readOnly={!isWE}
               defaultValue={trcWal}
               isWithCopy={!isWE}
               rules={{

@@ -11,6 +11,7 @@ import { UserContext } from "../../utils/UserContext";
 // boxes
 export const TotalEarnedBox = (props) => {
   let { tb, setTb, totalEarned1, totalEarned2, tokenPrice } = props;
+  const { width } = useWindowDimensions();
 
   let sum = totalEarned1 + totalEarned2;
 
@@ -18,10 +19,22 @@ export const TotalEarnedBox = (props) => {
     <div>
       <div className="medium-yellow-header earned-header">Total earned</div>
       <div className="numbers dash-num dark-span">
-        {fN(sum, 2, true)} GET{" "}
-        <span style={{ whiteSpace: "nowrap" }}>
-          | {fN(sum * tokenPrice, 2, true)} USD
-        </span>
+        {fN(sum, 2, true)} GET
+        {width > 815 ? (
+          <>
+            <br />
+            <span style={{ whiteSpace: "nowrap", fontSize: "15px" }}>
+              {fN(sum * tokenPrice, 2, true)} USD
+            </span>
+          </>
+        ) : (
+          <>
+            <span style={{ whiteSpace: "nowrap" }}>
+              {" "}
+              | {fN(sum * tokenPrice, 2, true)} USD
+            </span>
+          </>
+        )}
       </div>
       <div className="earned-time-buttons-wrapper">
         <EarnedTimeButtons tb={tb} setTb={setTb} />

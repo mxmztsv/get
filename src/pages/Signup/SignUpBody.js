@@ -79,33 +79,31 @@ export const SignUpBody = (props) => {
   };
   // ------------------------------
 
-  function onChange(value) {
-    console.log("Captcha value:", value);
-  }
-
   return (
     <>
       <div className="sign-up-container" key="form">
         <div className="sign-up-body">
           <div className="sign-up-header header-1">Sign up</div>
           <form id="sign-up-form" onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              placeHolder="First Name"
-              name="first_name"
-              autoComplete="given-name"
-              errors={errors.first_name}
-              register={register}
-              rules={{ required: true }}
-            />
+            <div className="sign-up-names-container">
+              <Input
+                placeHolder="First Name"
+                name="first_name"
+                autoComplete="given-name"
+                errors={errors.first_name}
+                register={register}
+                rules={{ required: true }}
+              />
 
-            <Input
-              placeHolder="Last Name"
-              name="last_name"
-              autoComplete="family-name"
-              errors={errors.last_name}
-              register={register}
-              rules={{ required: true }}
-            />
+              <Input
+                placeHolder="Last Name"
+                name="last_name"
+                autoComplete="family-name"
+                errors={errors.last_name}
+                register={register}
+                rules={{ required: true }}
+              />
+            </div>
 
             <Input
               placeHolder="Email"
@@ -170,6 +168,17 @@ export const SignUpBody = (props) => {
               hl="en"
               theme="dark"
             />
+          </div>
+
+          <div className="sign-up-tc">
+            By signing up you agree to this{" "}
+            <span
+              className="yellow-text"
+              onClick={() => window.open("/terms", "_blank")}
+            >
+              {" "}
+              Terms & Conditions
+            </span>
           </div>
         </div>
       </div>

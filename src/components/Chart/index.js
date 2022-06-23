@@ -272,7 +272,7 @@ export const Chart = (props) => {
 
   return (
     <ResponsiveContainer height="90%" className="chart-container">
-      {priceArray.length ? (
+      {priceArray.length > 3 ? (
         <LineChart
           data={priceArray || []}
           margin={{
@@ -331,7 +331,9 @@ export const Chart = (props) => {
             }
             filter="url(#glow)"
             dot={false}
-            animationDuration={3500}
+            animationDuration={
+              priceArray.length ? (3500 * priceArray.length) / 20 : 4000
+            }
             // isAnimationActive={
             //   /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
             //     ? false

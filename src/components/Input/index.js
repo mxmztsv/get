@@ -21,6 +21,7 @@ export const Input = (props) => {
 
   function handleClick(name) {
     if (isWithCopy && readOnly) {
+      console.log(name, "copying text");
       copyText(name, 0, true);
       setIsC(true);
       setTimeout(function () {
@@ -31,6 +32,16 @@ export const Input = (props) => {
   }
 
   let regVal = rules ? { ...register(name, rules) } : { ...register(name) };
+
+  function getError(name, placeHold, rul) {
+    if (name === "first_name" || name === "last_name" || name === "refcode") {
+      return <p className="error-p">Required</p>;
+    } else if (placeHold === "Password" && rul.minLength) {
+      return <p className="error-p">Min. legth: 5</p>;
+    } else {
+      return <p className="error-p">Please enter valid {placeHold}</p>;
+    }
+  }
 
   return (
     <div
@@ -61,11 +72,7 @@ export const Input = (props) => {
             </div>
           </>
         ) : (
-          <>
-            {errors && (
-              <p className="error-p">Please enter valid {placeHolder}</p>
-            )}
-          </>
+          <>{errors && getError(name, placeHolder, rules)}</>
         )}
       </div>
     </div>

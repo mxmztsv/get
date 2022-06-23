@@ -115,7 +115,7 @@ export const WithFooter = (props) => {
         </>
       )}
       <button
-        // disabled={getCondition(isGet, tokensForWith, tokenPrice)}
+        disabled={getCondition(isGet, tokensForWith, tokenPrice)}
         onClick={async () => {
           setIsLoading(true);
 

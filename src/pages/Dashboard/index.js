@@ -61,7 +61,7 @@ export const Dashboard = () => {
   const [totalEarned1, setTotalEarned1] = useState(0);
   const [totalEarned2, setTotalEarned2] = useState(0);
 
-  const [isNeedUpdate, setIsNeedUpdate] = useState(false);
+  const [isNeedUpdate, setIsNeedUpdate] = useState(true);
 
   const [txArr, setTxArr] = useState(getItem("txArr") || []);
   // const [showingTxArr, setShowingTxArr] = useState(getItem("txArr") || []);
@@ -110,7 +110,6 @@ export const Dashboard = () => {
 
   // tx fetch
   useEffect(() => {
-    console.log("");
     fetchTxE(user, { setTxArr, setIsNeedUpdate });
   }, [user, isNeedUpdate]);
   // ------------------------------------

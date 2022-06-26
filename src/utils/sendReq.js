@@ -11,9 +11,7 @@ export async function sendReq(method, url, data) {
         data: JSON.stringify(data),
         headers: {
           "Content-Type": "text/plain",
-          // "Content-Type": "application/json",
           "x-auth": getItem("token"),
-          "Origin": "https://api.stakingco.com/"
         },
       };
     } else if (method === "get") {
@@ -22,7 +20,6 @@ export async function sendReq(method, url, data) {
         url: `${process.env.REACT_APP_BASE_URL}${url}`,
         headers: {
           "x-auth": getItem("token"),
-          "Origin": "https://api.stakingco.com/"
         },
       };
     } else {

@@ -23,7 +23,7 @@ export const RefTree = (props) => {
         <tbody>
           {curLvlRefs ? (
             curLvlRefs.map((elem) => {
-              console.log("reftreehead elem:", elem);
+              // console.log("reftreehead elem:", elem);
               return <RefTreeRow curLvlRef={elem} key={elem.id} lvl={1} />;
             })
           ) : (

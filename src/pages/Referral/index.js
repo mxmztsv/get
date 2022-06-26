@@ -11,13 +11,14 @@ import { PathContext, updateNavbar } from "../../utils/PathContext";
 import { sendReq } from "../../utils/sendReq";
 import { UserContext } from "../../utils/UserContext";
 import {
+  AffilationFilters,
   BonusNextL,
   CurLvlBox,
   DepositNextL,
   FirstLineSizeBox,
   FrontLineDepNextL,
   InvitedByBox,
-  NumberOfLinesBox,
+  NumberOfLinesBox, ReferralFilters,
   RefHeader,
   RevenueBox,
   RRSwitch,
@@ -206,6 +207,7 @@ export const Referral = () => {
   }, []);
   // -------------------------
 
+
   return (
     <>
       {width > 815 ? (
@@ -261,6 +263,8 @@ export const Referral = () => {
                   <NumberOfLinesBox numberOfLines={numberOfLines} />
                 </div>
               </div>
+
+              <ReferralFilters setFilteredData={setCurLvlRefs}/>
 
               {curLvlRefs.length ? (
                 <RefTree curLvlRefs={curLvlRefs} />

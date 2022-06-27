@@ -7,6 +7,7 @@ export async function fetchRefLink(setRefLink, setInvitedByName) {
     setRefLink(`${refUrlBase}${getItem("uRefCode")}`);
     setInvitedByName(getItem("byName"));
     console.log("[fetchRefLink] fetched id from localstorage");
+    return;
   }
   if (!getItem("token")) return;
 

@@ -94,13 +94,20 @@ export const WithdrawButton = (props) => {
       >
         <button
           onClick={() => {
-            if (
-              getItem("ercWal") === "" &&
-              getItem("bepWal") === "" &&
-              getItem("trcWal") === ""
-            ) {
+            let isNotWallets =
+              (!getItem("ercWal") || getItem("ercWal") === "") &&
+              (!getItem("bepWal") || getItem("bepWal") === "") &&
+              (!getItem("trcWal") || getItem("trcWal") === "");
+
+            if (isNotWallets && !getItem("isTgC")) {
+              toastC(
+                "Please connect telegram and add withdrawal wallet(-s) first",
+                1
+              );
+            } else if (isNotWallets) {
               toastC("Please add withdrawal wallet(-s) first", 1);
-              return;
+            } else if (!getItem("isTgC")) {
+              toastC("Please connect telegram first", 1);
             } else if (width > 815 && !user) {
               navigate("/login", { replace: true });
             } else if (width > 815 && user) {

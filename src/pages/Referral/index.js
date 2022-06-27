@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ChartRefs } from "../../components/ChartRefs";
 import { Container } from "../../components/Container/index";
 import { DepButton } from "../../components/DepButton";
@@ -35,7 +34,6 @@ export const Referral = () => {
   // auth
   const { user, setUser } = useContext(UserContext);
   const { width } = useWindowDimensions();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!getItem("token")) window.location.href = "/login";
@@ -85,6 +83,13 @@ export const Referral = () => {
   );
   // -----------------------------------------------------
 
+  // navbar update
+  const { setNavPath } = useContext(PathContext);
+  useEffect(() => {
+    updateNavbar("referral", setNavPath);
+  }, []);
+  // ------------------------------------
+
   // fetch ref link
   useEffect(() => {
     console.log("[Referral] fetching ref link");
@@ -105,13 +110,6 @@ export const Referral = () => {
     fetchBodyInfo(setTeamSize, setFrontLineSize, setNumberOfLines);
   }, []);
   // ------------------------------------------------------------
-
-  // navbar update
-  const { setNavPath } = useContext(PathContext);
-  useEffect(() => {
-    updateNavbar("referral", setNavPath);
-  }, []);
-  // ------------------------------------
 
   // fetch first lvl refs. ref tree
   useEffect(() => {
@@ -151,30 +149,32 @@ export const Referral = () => {
               invitedByName={invitedByName}
             />
 
-            {/* REF-NEXT-LVL */}
-            <div className="ref-next-lvl-container brd-btm">
-              <div className="medium-yellow-header">To get L{curLvl + 1}</div>
-              <div className="ref-boxes">
-                <DepositNextL depMiss={depMis} />
-                <FrontLineDepNextL frontLDepMis={frontLDepMis} />
-                <VolumeNextL volMis={volMis} />
-                <BonusNextL bonus={bonus} />
+            <>
+              {/* REF-NEXT-LVL */}
+              <div className="ref-next-lvl-container brd-btm">
+                <div className="medium-yellow-header">To get L{curLvl + 1}</div>
+                <div className="ref-boxes">
+                  <DepositNextL depMiss={depMis} />
+                  <FrontLineDepNextL frontLDepMis={frontLDepMis} />
+                  <VolumeNextL volMis={volMis} />
+                  <BonusNextL bonus={bonus} />
+                </div>
               </div>
-            </div>
 
-            {/* REF-CHART */}
-            <div className="ref-chart-container">
-              <div className="medium-yellow-header">Revenue</div>
-              <div className="ref-boxes">
-                <RevenueBox time="Today" revVal={dayRev} />
-                <RevenueBox time="Week" revVal={weekRev} />
-                <RevenueBox time="Month" revVal={monthRev} />
-                <RevenueBox time="All" revVal={allRev} />
+              {/* REF-CHART */}
+              <div className="ref-chart-container">
+                <div className="medium-yellow-header">Revenue</div>
+                <div className="ref-boxes">
+                  <RevenueBox time="Today" revVal={dayRev} />
+                  <RevenueBox time="Week" revVal={weekRev} />
+                  <RevenueBox time="Month" revVal={monthRev} />
+                  <RevenueBox time="All" revVal={allRev} />
+                </div>
+                <div className="ref-chart brd-btm">
+                  <ChartRefs />
+                </div>
               </div>
-              <div className="ref-chart brd-btm">
-                <ChartRefs />
-              </div>
-            </div>
+            </>
 
             {/* REF-TREE */}
             <div className="ref-tree-container">

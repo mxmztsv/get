@@ -27,6 +27,7 @@ import {
   TotalEarnedBox,
   TvlBox,
 } from "./Elements";
+import { processPriceArrays } from "./processPriceArrays";
 
 export const Dashboard = () => {
   // auth
@@ -52,7 +53,7 @@ export const Dashboard = () => {
   // general
   const [isA, setIsA] = useState(true); // is account tab selected
   const [tb, setTb] = useState([true, false, false, false]); // chart time buttons
-  const [eb, setEb] = useState([true, false, false, false]); // earned time buttons
+  const [eb, setEb] = useState([false, false, false, true]); // earned time buttons
 
   // bals
   const [usdtBal, setUsdtBal] = useState(getItem("pUsdtBal") || 0);
@@ -68,7 +69,7 @@ export const Dashboard = () => {
   );
 
   // chart
-  const [priceArray, setPriceArray] = useState(getItem("pPA") || []);
+  const [allPArrays, setAllPArrays] = useState(getItem("pAllPA") || []);
 
   // tx
   const [txArr, setTxArr] = useState(getItem("txArr") || []);
@@ -95,43 +96,47 @@ export const Dashboard = () => {
   // token chart fetch
   useEffect(() => {
     console.log("[Dashboard] fetching chart");
-    fetchChartE(setPriceArray, setTokenPrevPrice, setTokenPrice);
-  }, [user, isNeedUpdate]);
+    fetchChartE(null, setTokenPrevPrice, setTokenPrice).then(
+      (allPricesArray) => {
+        processPriceArrays(allPricesArray, setAllPArrays);
+      }
+    );
+  }, []);
   // ------------------------------------
 
   // token price fetch
   useEffect(() => {
     console.log("[Dashboard] fetching token price");
     fetchTokenPriceE(setTokenPrice);
-  }, [user, isNeedUpdate]);
+  }, []);
   // ------------------------------------
 
   // balance fetch
   useEffect(() => {
     console.log("[Dashboard] fetching balances");
     fetchBalancesE(setUsdtBal, setGetBal, setUsdtBal4, setGetBal4);
-  }, [user, isNeedUpdate]);
+  }, []);
   // ------------------------------------
 
   // profile fetch
   useEffect(() => {
     console.log("[Dashboard] fetching profile");
     fetchProfileE(user, setUser);
-  }, [user, isNeedUpdate]);
+  }, []);
   // -----------------------------------
 
   // deposits fetch
   useEffect(() => {
     console.log("[Dashboard] fetching deposits");
-    fetchDepositsE(setLockedDep, setNonLockedDep, setIsNeedUpdate);
-  }, [user, isNeedUpdate]);
+    fetchDepositsE(setLockedDep, setNonLockedDep);
+  }, []);
   // ------------------------------------
 
   // tx fetch
   useEffect(() => {
     console.log("[Dashboard] fetching transactions");
-    fetchTxE(setTxArr, setIsNeedUpdate);
-  }, [user, isNeedUpdate]);
+    fetchTxE(setTxArr);
+  }, []);
   // ------------------------------------
 
   return (
@@ -156,8 +161,8 @@ export const Dashboard = () => {
                       <TotalEarnedBox
                         totalEarned1={nonLockedDep.totalEarned}
                         totalEarned2={lockedDep.totalEarned}
-                        tb={tb}
-                        setTb={setTb}
+                        tb={eb}
+                        setTb={setEb}
                         tokenPrice={tokenPrice}
                       />
 
@@ -207,7 +212,12 @@ export const Dashboard = () => {
 
                     {/* RIGHT-FOOTER */}
                     <div className="right-footer">
-                      <DashBody tb={tb} setTb={setTb} priceArray={priceArray} />
+                      <DashBody
+                        width={width}
+                        tb={tb}
+                        setTb={setTb}
+                        allPricesArray={allPArrays}
+                      />
                     </div>
                   </div>
                 </div>
@@ -232,7 +242,12 @@ export const Dashboard = () => {
                     </div>
                   </div>
 
-                  <DashBody tb={tb} setTb={setTb} priceArray={priceArray} />
+                  <DashBody
+                    width={width}
+                    tb={tb}
+                    setTb={setTb}
+                    allPricesArray={allPArrays}
+                  />
 
                   <DashFooter txArray={txArr} />
                 </div>
@@ -296,7 +311,12 @@ export const Dashboard = () => {
                       <StakeRewardLocked />
                       <StakeRewardNonLocked />
                     </div>
-                    <DashBody tb={tb} setTb={setTb} priceArray={priceArray} />
+                    <DashBody
+                      width={width}
+                      tb={tb}
+                      setTb={setTb}
+                      allPricesArray={allPArrays}
+                    />
                   </>
                 )}
               </div>
@@ -314,7 +334,12 @@ export const Dashboard = () => {
                 <RoiBox />
               </div>
 
-              <DashBody tb={tb} setTb={setTb} priceArray={priceArray} />
+              <DashBody
+                width={width}
+                tb={tb}
+                setTb={setTb}
+                allPricesArray={allPArrays}
+              />
               <div className="brd-btm"></div>
               <DashFooter txArray={txArr} />
             </>

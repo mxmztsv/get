@@ -8,17 +8,23 @@ export async function fetchBodyInfo(
 ) {
   if (!getItem("token")) return;
 
-  async function fetchCount(url, name, setFunc) {
-    let res = await sendReq("get", url);
+  let res = await sendReq("post", "stat/complex", {
+    actions: [
+      "team-structure-size",
+      "team-first-line-size",
+      "team-count-lines",
+    ],
+  });
 
-    if (res && res.data && res.data.result === "success") {
-      setFunc(res.data.data.count);
-      setItem(name, res.data.data.count);
-      console.log(`[fetchCount]: fetched ${name}`);
-    }
+  if (res && res.data && res.data.data) {
+    let data = res.data.data;
+    processResponse("ts", data["team-structure-size"].count, setTeamSize);
+    processResponse("fS", data["team-first-line-size"].count, setFrontLineSize);
+    processResponse("lNum", data["team-count-lines"].count, setNumberOfLines);
   }
+}
 
-  fetchCount("stat/team-size", "ts", setTeamSize);
-  fetchCount("stat/first-line-size", "fS", setFrontLineSize);
-  fetchCount("stat/team-count-lines", "lNum", setNumberOfLines);
+function processResponse(name, value, setFunc) {
+  setFunc(value);
+  setItem(name, value);
 }

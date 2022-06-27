@@ -13,13 +13,11 @@ export const ChartTimeButton = (props) => {
     <>
       <button
         className={`chart-time-button ${tb[num] ? "s-time" : ""}`}
-        onClick={() => {
-          if (num === 0) handleClick(num);
-        }}
-        style={{
-          cursor: `${text !== "1D" ? "not-allowed" : "pointer"}`,
-          color: `${text !== "1D" ? "rgba(255, 255, 255, 0.6)" : "white"}`,
-        }}
+        onClick={() => handleClick(num)}
+        // style={{
+        //   cursor: `${text !== "1D" ? "not-allowed" : "pointer"}`,
+        //   color: `${text !== "1D" ? "rgba(255, 255, 255, 0.6)" : "white"}`,
+        // }}
       >
         {text}
       </button>

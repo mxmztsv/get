@@ -380,6 +380,11 @@ input:focus {
 .dash-container .right-side-wrapper {
   height: calc(100vh - 152px);
 }
+
+.stake-container .right-side-wrapper {
+  min-height: 830px;
+}
+
 .main-container {
   background: radial-gradient(
     149.76% 101.45% at 0% 100%,
@@ -978,12 +983,13 @@ input:focus {
 
 .labels-wrapper {
   display: flex;
-  width: calc(100% - 20px);
+  width: calc(100% - 90px);
   justify-content: space-between;
   color: var(--grey-text);
   font-size: 12px;
   flex-direction: row-reverse;
-  padding: 0 10px;
+  padding: 0 45px;
+  color: rgb(102, 102, 102);
 }
 
 .price-wrapper {
@@ -1225,6 +1231,8 @@ input:focus {
 /* body */
 .dash-chart {
   margin: 10px;
+  margin-left: 0;
+  margin-bottom: 0;
   height: 320px;
   width: calc(100%-50px);
 }
@@ -1306,6 +1314,12 @@ g {
   color: white;
   padding: 10px;
   z-index: 10;
+}
+
+@media only screen and (max-width: 815px) {
+  .chart-time-button {
+    font-size: 13px;
+  }
 }
 
 .s-time {
@@ -1811,11 +1825,10 @@ td {
   padding-right: 5px;
   padding-bottom: 10px;
   background: radial-gradient(
-      113.83% 122.56% at 0% 95.16%,
-      rgba(67, 67, 67, 0.5) 0%,
-      rgba(18, 18, 18, 0) 100%
-    )
-    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+    113.83% 122.56% at 0% 95.16%,
+    rgba(67, 67, 67, 0.5) 0%,
+    rgba(18, 18, 18, 0) 100%
+  );
   border-radius: 40px;
   margin-bottom: 15px;
 }
@@ -1865,13 +1878,12 @@ td {
 }
 
 .stake-amount-inner {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                    supported by Chrome, Edge, Opera and Firefox */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   max-width: 550px;
   margin-bottom: 20px;
@@ -2779,6 +2791,12 @@ td {
 .tg-box-wrapper p {
   max-width: 550px;
 }
+
+.tg-info-container {
+  display: flex;
+  align-items: center;
+}
+
 @media only screen and (max-width: 815px) {
   .prof-footer-container {
     margin-top: 25px;
@@ -4084,6 +4102,10 @@ input[type="number"] {
 
   .referral-header {
     margin-left: 20px;
+  }
+
+  .stake-container .right-side-wrapper {
+    min-height: 800px;
   }
 }
 

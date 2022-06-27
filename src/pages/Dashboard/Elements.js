@@ -1,7 +1,6 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Chart } from "../../components/Chart";
 import { ChartTimeButtons } from "../../components/ChartTimeButton";
-import { EarnedTimeButtons } from "../../components/EarnedTimeButtons";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fN } from "../../utils/formatNumber";
 import { getGreeting } from "../../utils/getGreeting";
@@ -36,9 +35,9 @@ export const TotalEarnedBox = (props) => {
           </>
         )}
       </div>
-      <div className="earned-time-buttons-wrapper">
+      {/* <div className="earned-time-buttons-wrapper">
         <EarnedTimeButtons tb={tb} setTb={setTb} />
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -199,8 +198,9 @@ export const DashGreet = () => {
   );
 };
 
-export const DashBody = (props) => {
-  let { tb, setTb, priceArray } = props;
+export const DashBody = React.memo((props) => {
+  let { tb, setTb, allPricesArray, width } = props;
+
   return (
     <>
       <div className="dash-body">
@@ -209,12 +209,12 @@ export const DashBody = (props) => {
             <ChartTimeButtons tb={tb} setTb={setTb} />
           </div>
           {/* <ChartDisabled /> */}
-          <Chart priceArray={priceArray} />
+          <Chart allPricesArray={allPricesArray} sTA={tb} width={width} />
         </div>
       </div>
     </>
   );
-};
+});
 
 export const DashSwitcherMob = (props) => {
   let { isA, setIsA } = props;

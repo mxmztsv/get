@@ -8,21 +8,17 @@ export async function fetchBalancesE(
   setGetBal4
 ) {
   if (getItem("token")) {
-    if (setUsdtBal) {
-      fetchBalances("0").then((bals) => {
-        setUsdtBal(bals.usdtBal);
-        setGetBal(bals.getBal);
-        setItem("pUsdtBal", bals.usdtBal);
-        setItem("pGetBal", bals.getBal);
-      });
-    }
+    if (setUsdtBal && setUsdtBal4) {
+      fetchBalances().then((bals) => {
+        setUsdtBal(bals[0].usdtBal);
+        setGetBal(bals[0].getBal);
+        setItem("pUsdtBal", bals[0].usdtBal);
+        setItem("pGetBal", bals[0].getBal);
 
-    if (setUsdtBal4) {
-      fetchBalances("4").then((bals) => {
-        setUsdtBal4(bals.usdtBal);
-        setGetBal4(bals.getBal);
-        setItem("pUsdtBal4", bals.usdtBal);
-        setItem("pGetBal4", bals.getBal);
+        setUsdtBal4(bals[1].usdtBal);
+        setGetBal4(bals[1].getBal);
+        setItem("pUsdtBal4", bals[1].usdtBal);
+        setItem("pGetBal4", bals[1].getBal);
       });
     }
   }

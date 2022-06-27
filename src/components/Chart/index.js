@@ -1,3 +1,4 @@
+import React from "react";
 import { SyncLoader } from "react-spinners";
 import {
   CartesianGrid,
@@ -9,6 +10,26 @@ import {
   YAxis,
 } from "recharts";
 import useWindowDimensions from "../../hooks/useWindow";
+import { getDates } from "./getDates";
+
+export const Ticks = ({ dates }) => {
+  return (
+    <>
+      <div className="labels-wrapper">
+        {dates.map((elem) => {
+          return (
+            <div
+              className="label"
+              key={`${elem}${Math.random() * 1231230123012}`}
+            >
+              {elem}
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+};
 
 const CustomToolTip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -171,85 +192,85 @@ const CustomDot = ({ cx, cy }) => {
       </circle>
 
       {/* <circle
-        cx={cx}
-        cy={cy}
-        r="0"
-        fillOpacity="0"
-        stroke="#FEB85D"
-        strokeWidth={waveWidth}
-        strokeOpacity="1"
-      >
-        <animate
-          attributeName="r"
-          from="0"
-          to={waveRadius}
-          dur={totalDur}
-          repeatCount="indefinite"
-          begin={begin3}
-        />
-        <animate
-          attributeName="strokeOpacity"
-          from="1"
-          to="0"
-          dur={totalDur}
-          repeatCount="indefinite"
-          begin={begin3}
-        ></animate>
-      </circle> */}
+          cx={cx}
+          cy={cy}
+          r="0"
+          fillOpacity="0"
+          stroke="#FEB85D"
+          strokeWidth={waveWidth}
+          strokeOpacity="1"
+        >
+          <animate
+            attributeName="r"
+            from="0"
+            to={waveRadius}
+            dur={totalDur}
+            repeatCount="indefinite"
+            begin={begin3}
+          />
+          <animate
+            attributeName="strokeOpacity"
+            from="1"
+            to="0"
+            dur={totalDur}
+            repeatCount="indefinite"
+            begin={begin3}
+          ></animate>
+        </circle> */}
 
       {/* <circle
-        cx={cx}
-        cy={cy}
-        r="0"
-        fillOpacity="0"
-        stroke="#FEB85D"
-        strokeWidth={waveWidth}
-        strokeOpacity="1"
-      >
-        <animate
-          attributeName="r"
-          from="0"
-          to={waveRadius}
-          dur={totalDur}
-          repeatCount="indefinite"
-          begin={begin4}
-        />
-        <animate
-          attributeName="strokeOpacity"
-          from="1"
-          to="0"
-          dur={totalDur}
-          repeatCount="indefinite"
-          begin={begin4}
-        ></animate>
-      </circle> */}
+          cx={cx}
+          cy={cy}
+          r="0"
+          fillOpacity="0"
+          stroke="#FEB85D"
+          strokeWidth={waveWidth}
+          strokeOpacity="1"
+        >
+          <animate
+            attributeName="r"
+            from="0"
+            to={waveRadius}
+            dur={totalDur}
+            repeatCount="indefinite"
+            begin={begin4}
+          />
+          <animate
+            attributeName="strokeOpacity"
+            from="1"
+            to="0"
+            dur={totalDur}
+            repeatCount="indefinite"
+            begin={begin4}
+          ></animate>
+        </circle> */}
 
       {/* <circle
-        cx={cx}
-        cy={cy}
-        r="0"
-        fillOpacity="0"
-        stroke="url(#gradient-waves)"
-        strokeWidth={waveWidth}
-        strokeOpacity="1"
-      >
-        <animate
-          attributeName="r"
-          from="0"
-          to={waveRadius}
-          dur={totalDur}
-          repeatCount="indefinite"
-          begin={begin5}
-        />
-        <animate
-          attributeName="strokeOpacity"
-          from="1"
-          to="0"
-          dur={totalDur}
-          repeatCount="indefinite"
-          begin={begin5}
-        ></animate>
-      </circle> */}
+          cx={cx}
+          cy={cy}
+          r="0"
+          fillOpacity="0"
+          stroke="url(#gradient-waves)"
+          strokeWidth={waveWidth}
+          strokeOpacity="1"
+        >
+          <animate
+            attributeName="r"
+            from="0"
+            to={waveRadius}
+            dur={totalDur}
+            repeatCount="indefinite"
+            begin={begin5}
+          />
+          <animate
+            attributeName="strokeOpacity"
+            from="1"
+            to="0"
+            dur={totalDur}
+            repeatCount="indefinite"
+            begin={begin5}
+          ></animate>
+        </circle> */}
 
       <circle
         cx={cx}
@@ -264,102 +285,104 @@ const CustomDot = ({ cx, cy }) => {
   );
 };
 
-export const Chart = (props) => {
-  const { width } = useWindowDimensions();
+export const Chart = React.memo((props) => {
+  let { allPricesArray, sTA, width } = props;
 
-  let { priceArray } = props;
-  if (!priceArray) return;
+  if (!allPricesArray || !allPricesArray.length) return;
 
   return (
-    <ResponsiveContainer height="90%" className="chart-container">
-      {priceArray.length > 3 ? (
-        <LineChart
-          data={priceArray || []}
-          margin={{
-            top: 5,
-            right: width > 815 ? 40 : 20,
-            left: 0,
-            bottom: width > 815 ? 15 : 0,
-          }}
-        >
-          <defs>
-            <linearGradient
-              x1="97.3756325%"
-              y1="100%"
-              x2="0%"
-              y2="100%"
-              id="gradient"
-            >
-              <stop offset="0%" stopColor="#F49FBC" />
-              <stop offset="50%" stopColor="#FEB85D" />
-              <stop offset="100%" stopColor="#54F2F2" />
-            </linearGradient>
-
-            <filter id="glow" filterUnits="userSpaceOnUse">
-              <feGaussianBlur stdDeviation="20" />
-              <feComponentTransfer>
-                <feFuncA type="linear" slope="1" />
-              </feComponentTransfer>
-              <feBlend in2="SourceGraphic" />
-            </filter>
-          </defs>
-
-          <CartesianGrid horizontal={false} />
-          <XAxis axisLine={false} dataKey="time" />
-          <YAxis
-            axisLine={false}
-            domain={["dataMin - 0.05", "dataMax + 0.05"]}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "rgba(134, 168, 231, 0.12)",
-              border: "none",
+    <>
+      <ResponsiveContainer
+        height="90%"
+        className="chart-container"
+        key={`${Math.random() * 10230123012}`}
+      >
+        {allPricesArray[sTA.indexOf(true)].length ? (
+          <LineChart
+            key={sTA.indexOf(true) + "12312312031203"}
+            data={allPricesArray[sTA.indexOf(true)] || []}
+            margin={{
+              top: 5,
+              right: width > 815 ? 40 : 20,
+              left: 0,
+              bottom: width > 815 ? 15 : 0,
             }}
-            // @ts-ignore
-            content={<CustomToolTip />}
-            isAnimationActive={width > 815 ? true : false}
-            animationDuration={200}
-            offset={width > 815 ? 10 : 30}
-          />
-          <Line
-            type="monotone"
-            dataKey="price"
-            stroke={
-              /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-                ? "#fdb861"
-                : "url(#gradient)"
-            }
-            filter="url(#glow)"
-            dot={false}
-            animationDuration={
-              priceArray.length ? (3500 * priceArray.length) / 20 : 4000
-            }
-            // isAnimationActive={
-            //   /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-            //     ? false
-            //     : true
-            // }
+          >
+            <defs>
+              <linearGradient
+                x1="97.3756325%"
+                y1="100%"
+                x2="0%"
+                y2="100%"
+                id="gradient"
+              >
+                <stop offset="0%" stopColor="#F49FBC" />
+                <stop offset="50%" stopColor="#FEB85D" />
+                <stop offset="100%" stopColor="#54F2F2" />
+              </linearGradient>
 
-            // activeDot={{
-            //   stroke: null,
-            //   r: 8,
-            //   fill: "#86A8E7",
-            // }}
+              <filter id="glow" filterUnits="userSpaceOnUse">
+                <feGaussianBlur stdDeviation="20" />
+                <feComponentTransfer>
+                  <feFuncA type="linear" slope="1" />
+                </feComponentTransfer>
+                <feBlend in2="SourceGraphic" />
+              </filter>
+            </defs>
 
-            // @ts-ignore
-            activeDot={<CustomDot />}
-            strokeWidth="3"
-            colorInterpolationFilters="sRGB"
-          />
-        </LineChart>
-      ) : (
-        <div className="chart-loader">
-          <SyncLoader color="#feb85d" size={10} speedMultiplier={0.5} />
-        </div>
-      )}
-    </ResponsiveContainer>
+            <CartesianGrid horizontal={true} vertical={false} />
+            <XAxis axisLine={false} hide={true} tickLine={false} />
+            <YAxis
+              axisLine={false}
+              tickCount={7}
+              domain={[
+                (dataMin) => dataMin - dataMin * 0.08,
+                (dataMax) => dataMax + dataMax * 0.08,
+              ]}
+              tickFormatter={(tick) =>
+                (Math.round(tick * 1000) / 1000).toString()
+              }
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "rgba(134, 168, 231, 0.12)",
+                border: "none",
+              }}
+              // @ts-ignore
+              content={<CustomToolTip />}
+              isAnimationActive={width > 815 ? true : false}
+              animationDuration={200}
+              offset={width > 815 ? 10 : 30}
+            />
+            <Line
+              type="monotone"
+              dataKey="price"
+              stroke={
+                /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+                  ? "#fdb861"
+                  : "url(#gradient)"
+              }
+              filter="url(#glow)"
+              dot={false}
+              animationDuration={3500}
+              id={`chart-line-${sTA.indexOf(true)}`}
+              key={`chart-line-${sTA.indexOf(true)}`}
+              // @ts-ignore
+              activeDot={<CustomDot />}
+              strokeWidth="3"
+              colorInterpolationFilters="sRGB"
+            />
+          </LineChart>
+        ) : (
+          <div className="chart-loader">
+            <SyncLoader color="#feb85d" size={10} speedMultiplier={0.5} />
+          </div>
+        )}
+      </ResponsiveContainer>
+      <Ticks dates={getDates(allPricesArray[sTA.indexOf(true)], sTA, width)} />
+    </>
   );
-};
+});
 
 export const ChartDisabled = () => {
   const { width } = useWindowDimensions();

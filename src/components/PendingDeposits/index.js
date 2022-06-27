@@ -78,7 +78,6 @@ const PendingDepRow = (props) => {
   }
 
   function getStatus(depId) {
-    // todo cancel button
     return (
       <button
         className="transparent-button yellow-trans-btn"
@@ -89,9 +88,8 @@ const PendingDepRow = (props) => {
         }}
         onClick={async () => {
           setIsLoading(true);
-          await handleDepCancel(depId);
+          await handleDepCancel(depId, setIsNeedUpdate);
           setIsLoading(false);
-          setIsNeedUpdate(true);
         }}
       >
         {isLoading ? (

@@ -118,7 +118,7 @@ export const Stake = () => {
       setUsdtBalBonus,
       setGetBalBonus
     );
-  }, [user, lockedDep, nonLockedDep, isNeedUpdate]);
+  }, [isNeedUpdate]);
   // ------------------------------------
 
   // token price fetch
@@ -131,27 +131,21 @@ export const Stake = () => {
   // deposits fetch
   useEffect(() => {
     console.log("[Stake] fetching deposits");
-    fetchDepositsE(setLockedDep, setNonLockedDep, setIsNeedUpdate, null, null);
-  }, [user, isNeedUpdate]);
-  // ------------------------------------
-
-  // pendgin deps fetch
-  useEffect(() => {
-    console.log("[Stake] fetching pending deps");
-    fetchDepositsE(null, null, setIsNeedUpdate, true, setPendingDeps);
-  }, [user, isNeedUpdate]);
-
-  // update view
-  useEffect(() => {
-    handleCalcChange(tokensForStake);
-  }, [isGet, roiVal, tokensForStake, tokenPrice, isL]);
+    fetchDepositsE(setLockedDep, setNonLockedDep, setPendingDeps);
+  }, [isNeedUpdate]);
   // ------------------------------------
 
   // tx fetch
   useEffect(() => {
     console.log("[Stake] fetching transactions");
-    fetchTxE(setTxArr, setIsNeedUpdate);
-  }, [user, isNeedUpdate]);
+    fetchTxE(setTxArr);
+  }, [isNeedUpdate]);
+  // ------------------------------------
+
+  // update view
+  useEffect(() => {
+    handleCalcChange(tokensForStake);
+  }, [isGet, roiVal, tokensForStake, tokenPrice, isL, isNeedUpdate]);
   // ------------------------------------
 
   function handleCalcChange(value) {

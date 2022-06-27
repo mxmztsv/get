@@ -41,10 +41,10 @@ export const DepositNextL = (props) => {
           )}
         </div>
         <div className="dash-box-body">
-          {depMiss && depMiss.goal ? depMiss.goal : "0"} USD
+          {depMiss && depMiss.goal !== undefined ? depMiss.goal : "..."} USD
         </div>
         <div className="dash-box-footer dash-box-colored-footer">
-          {depMiss && depMiss.done ? depMiss.done : "-"} USD
+          {depMiss && depMiss.done !== undefined ? depMiss.done : "..."} USD
         </div>
       </div>
     </>
@@ -66,10 +66,16 @@ export const FrontLineDepNextL = (props) => {
         </div>
 
         <div className="dash-box-body">
-          {frontLDepMis && frontLDepMis.goal ? frontLDepMis.goal : "0"} USD
+          {frontLDepMis && frontLDepMis.goal !== undefined
+            ? frontLDepMis.goal
+            : "..."}{" "}
+          USD
         </div>
         <div className="dash-box-footer dash-box-colored-footer">
-          {frontLDepMis && frontLDepMis.done ? frontLDepMis.done : "0"} USD
+          {frontLDepMis && frontLDepMis.done !== undefined
+            ? frontLDepMis.done
+            : "..."}{" "}
+          USD
         </div>
       </div>
     </>
@@ -90,10 +96,10 @@ export const VolumeNextL = (props) => {
           )}
         </div>
         <div className="dash-box-body">
-          {volMis && volMis.goal ? volMis.goal : "0"} USD
+          {volMis && volMis.goal !== undefined ? volMis.goal : "..."} USD
         </div>
         <div className="dash-box-footer dash-box-colored-footer">
-          {volMis && volMis.done ? volMis.done : "0"} USD
+          {volMis && volMis.done !== undefined ? volMis.done : "..."} USD
         </div>
       </div>
     </>
@@ -107,7 +113,7 @@ export const BonusNextL = (props) => {
       <div className="dash-box">
         <div className="dash-box-header">Bonus</div>
         <div className="dash-box-body">
-          {bonus && bonus.slice ? bonus.slice(0, -1) : "-"}{" "}
+          {bonus && bonus.slice ? bonus.slice(0, -1) : "..."}{" "}
         </div>
         {/* <div className="dash-box-footer dash-box-colored-footer">0 USD</div> */}
       </div>
@@ -122,7 +128,7 @@ export const RevenueBox = (props) => {
     <>
       <div className="dash-box">
         <div className="dash-box-body">
-          {revVal !== undefined ? fN(revVal, 2, true) : "-"} GET
+          {revVal !== undefined ? fN(revVal, 2, true) : "..."} GET
         </div>
         <div className="dash-box-footer dash-box-colored-footer">{time}</div>
       </div>
@@ -138,10 +144,11 @@ export const TeamVolumeBox = (props) => {
       <div className="dash-box s-box" style={{ marginLeft: "0" }}>
         <div className="small-grey-header">Team Volume</div>
         <div className="dash-box-body" style={{ paddingBottom: "0" }}>
-          {teamVolume !== undefined ? fN(teamVolume, 2, true) : "-"} USD
+          {teamVolume !== undefined ? fN(teamVolume, 2, true) : "..."} USD
         </div>
         <div className="dash-box-footer">
-          {fN(firstLineVolume, 2, true)} USD
+          {firstLineVolume !== undefined ? fN(firstLineVolume, 2, true) : "..."}{" "}
+          USD
         </div>
       </div>
     </>

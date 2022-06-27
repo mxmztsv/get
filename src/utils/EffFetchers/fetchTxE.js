@@ -1,7 +1,7 @@
 import { fetchTx } from "../fetchers/fetchTx";
 import { getItem, setItem } from "../localStorage";
 
-export async function fetchTxE(setTxArr, setIsNeedUpdate) {
+export async function fetchTxE(setTxArr) {
   if (getItem("token")) {
     fetchTx().then((txArray) => {
       console.log("[fetchTxE] tx arr:", txArray);
@@ -19,7 +19,5 @@ export async function fetchTxE(setTxArr, setIsNeedUpdate) {
         console.log("[fetchTxE] txs the same");
       }
     });
-
-    setIsNeedUpdate(false);
   }
 }

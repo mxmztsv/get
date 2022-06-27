@@ -55,17 +55,25 @@ export const TgBotBox = (props) => {
         personal deposits and affiliate program
       </p>
 
-      <button
-        className={`${isC ? "transparent-button " : ""}`}
-        style={{ cursor: `${isC ? "not-allowed" : "pointer"}` }}
-        onClick={() => {
-          if (!isC) {
-            handleConnectClick();
-          }
-        }}
-      >
-        {isC ? "CONNECTED" : "CONNECT"}
-      </button>
+      <div className="tg-info-container">
+        <button
+          className={`${isC ? "transparent-button " : ""}`}
+          style={{ cursor: `${isC ? "not-allowed" : "pointer"}` }}
+          onClick={() => {
+            if (!isC) {
+              handleConnectClick();
+            }
+          }}
+        >
+          {isC ? "CONNECTED" : "CONNECT"}
+        </button>
+
+        {isC && getItem("tgUsername") ? (
+          <div className="grey-text">@{getItem("tgUsername")}</div>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 };

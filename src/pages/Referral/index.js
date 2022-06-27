@@ -19,7 +19,7 @@ import {
   FirstLineSizeBox,
   FrontLineDepNextL,
   InvitedByBox,
-  NumberOfLinesBox,
+  NumberOfLinesBox, ReferralFilters,
   RefHeader,
   RevenueBox,
   RRSwitch,
@@ -191,6 +191,8 @@ export const Referral = () => {
                   <NumberOfLinesBox numberOfLines={numberOfLines} />
                 </div>
               </div>
+
+              <ReferralFilters setFilteredData={setCurLvlRefs}/>
 
               {curLvlRefs.length ? (
                 <RefTree curLvlRefs={curLvlRefs} />

@@ -31,3 +31,34 @@ export function objToArray(obj) {
 
   return resArr;
 }
+
+export async function fetchFilteredRefs(data) {
+  if (!getItem("token")) return;
+
+  let res = await sendReq("post", "team/search", {
+    query: data.query,
+    filter: {
+      deposit_self_from: data.deposit_self_from,
+      deposit_self_to: data.deposit_self_to,
+      folowers_from: data.followers_from,
+      folowers_to: data.followers_to,
+      reg_from: data.reg_from,
+      reg_to: data.reg_to,
+      deep_from: data.deep_from,
+      deep_to: data.deep_to
+    }
+  });
+
+  const resArr = objToArray(res.data.data.list);
+
+  console.log('RES ARR: ', resArr);
+
+  console.log('RES', res.data.data.list);
+  if (res.data.result === "success") {
+    // return res.data.data.list;
+    return resArr;
+  } else {
+    console.log("fetchRefs error:", res);
+    return [];
+  }
+}

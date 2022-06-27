@@ -2,6 +2,11 @@ import refCheckIcon from "../../assets/img/ref-check.svg";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fN } from "../../utils/formatNumber";
 import { RefLinkBody } from "./RefLinkBody";
+import {fetchFilteredRefs} from "./helpers";
+import {useForm, Controller} from "react-hook-form";
+import {useState} from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // elems
 export const CurLvlBox = (props) => {
@@ -234,3 +239,177 @@ export const NumberOfLinesBox = (props) => {
     </div>
   );
 };
+
+// Filters
+export const ReferralFilters = ({setFilteredData}) => {
+
+    // const [query, setQuery] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const {
+        handleSubmit,
+        reset,
+        register,
+        control
+    } = useForm();
+
+    // const queryHandler = (e) => {
+    //     setQuery(e.target.value);
+    // }
+
+    // const applyFilterHandler = () => {
+    //     handleSubmit(setFilteredResult);
+    // }
+
+    const setFilteredResult = async (data) => {
+        const res = await fetchFilteredRefs(data);
+        setFilteredData(res);
+    }
+
+    const applyFilterHandler = async (data) => {
+        console.log(data)
+        setIsLoading(true);
+        setFilteredResult(data).then(() => {
+            setIsLoading(false);
+        });
+    }
+
+    const clear = () => {
+        reset();
+    }
+
+    //
+    // useEffect(() => {
+    //     setFilteredResult();
+    // }, [query]);
+
+
+    return (
+        <>
+            {/*<div className="af-filters">*/}
+            <form onSubmit={handleSubmit(applyFilterHandler)} className="af-filters">
+                <div className="af-filters-col">
+                    <div className="af-filters-row">
+                        <div className="af-filter">
+                            <p className="af-filter-title">
+                                Date of registration
+                            </p>
+                            <div className="af-filter-inputs-container">
+                                <div className="af-filter-input-wrapper">
+                                    <label htmlFor="date-of-registration-from"
+                                           className="af-filter-input-label">From</label>
+                                    {/*<input type="date" id="date-of-registration-from" {...register("reg_from")}/>*/}
+                                    <Controller
+                                        control={control}
+                                        name="reg_from"
+                                        render={({ field }) => (
+                                            <DatePicker
+                                                placeholderText="Set date"
+                                                onChange={(date) => field.onChange(date)}
+                                                selected={field.value}
+                                                isClearable
+                                                calendarClassName="calendar"
+                                                popperClassName="calendar-popper"
+                                            />
+                                        )}
+                                    />
+                                </div>
+                                <div className="af-filter-input-wrapper">
+                                    <label htmlFor="date-of-registration-to"
+                                           className="af-filter-input-label">To</label>
+                                    {/*<input type="date" id="date-of-registration-to" {...register("reg_to")}/>*/}
+                                    <Controller
+                                        control={control}
+                                        name="reg_to"
+                                        render={({ field }) => (
+                                            <DatePicker
+                                                placeholderText="Set date"
+                                                onChange={(date) => field.onChange(date)}
+                                                selected={field.value}
+                                                isClearable
+                                                calendarClassName="calendar"
+                                                popperClassName="calendar-popper"
+                                            />
+                                        )}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="af-filter">
+                            <p className="af-filter-title">
+                                Number of partners
+                            </p>
+                            <div className="af-filter-inputs-container">
+                                <div className="af-filter-input-wrapper">
+                                    <label htmlFor="partners-from"
+                                           className="af-filter-input-label">From</label>
+                                    <input className="af-filter-input" type="text" id="partners-from" {...register("followers_from")}/>
+                                </div>
+                                <div className="af-filter-input-wrapper">
+                                    <label htmlFor="partners-to"
+                                           className="af-filter-input-label">To</label>
+                                    <input className="af-filter-input" type="text" id="partners-to" {...register("followers_to")}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="af-filter">
+                            <p className="af-filter-title">
+                                Size of staking
+                            </p>
+                            <div className="af-filter-inputs-container">
+                                <div className="af-filter-input-wrapper">
+                                    <label htmlFor="staking-from"
+                                           className="af-filter-input-label">From</label>
+                                    <input className="af-filter-input" type="text" id="staking-from" {...register("deposit_self_from")}/>
+                                </div>
+                                <div className="af-filter-input-wrapper">
+                                    <label htmlFor="staking-to"
+                                           className="af-filter-input-label">To</label>
+                                    <input className="af-filter-input" type="text" id="staking-to" {...register("deposit_self_to")}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="af-filters-row">
+                        <div className="af-filter">
+                            <p className="af-filter-title">
+                                Search
+                            </p>
+                            <div className="af-filter-input-wrapper">
+                                {/*<input className="af-filter-input" type="text" value={query} onChange={queryHandler}/>*/}
+                                <input className="af-filter-input" type="text" placeholder="Name / User ID" {...register("query")}/>
+                            </div>
+                        </div>
+                        <div className="af-filter">
+                            <p className="af-filter-title">
+                                Level
+                            </p>
+                            <div className="af-filter-inputs-container">
+                                <div className="af-filter-input-wrapper">
+                                    <label htmlFor="lvl-from"
+                                           className="af-filter-input-label">From</label>
+                                    <input className="af-filter-input" type="text" id="lvl-from" {...register("deep_from")}/>
+                                </div>
+                                <div className="af-filter-input-wrapper">
+                                    <label htmlFor="lvl-to"
+                                           className="af-filter-input-label">To</label>
+                                    <input className="af-filter-input" type="text" id="lvl-to" {...register("deep_to")}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="af-filters-col">
+                    <div className="af-filters-btn-container">
+                        <button type="submit">Apply</button>
+                    </div>
+                    <div className="af-filters-btn-container">
+                        <button className="popup-btn" onClick={clear}>Clear</button>
+                    </div>
+                </div>
+            </form>
+            {/*</div>*/}
+        </>
+    )
+}

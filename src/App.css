@@ -267,6 +267,9 @@ button:disabled {
 .small-grey-header {
   color: var(--grey-text);
   margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 /* trans-buttons */

@@ -186,12 +186,25 @@ export const UnstakeAmountContainer = (props) => {
 
 // STAKE ACT BOXES
 export const StakeActRoiBox = (props) => {
-  let { roiVal } = props;
+  let { roiVal, isL } = props;
+
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+
+  const openPopUp = () => {
+    setIsPopUpOpen(true);
+  }
+
   return (
-    <div className="stake-act-stats-box">
-      <div className="small-grey-header">Monthly</div>
-      <div className="big-numbers">{roiVal}%</div>
-    </div>
+      <>
+        {isPopUpOpen && <RoiDetailPopUp setIsPopUpOpen={setIsPopUpOpen} isLocked={isL}/>}
+        <div className="stake-act-stats-box">
+          <div className="small-grey-header">
+            Monthly
+            <img src={question} alt="details" className="question-btn" onClick={openPopUp}/>
+          </div>
+          <div className="big-numbers">{roiVal}%</div>
+        </div>
+      </>
   );
 };
 

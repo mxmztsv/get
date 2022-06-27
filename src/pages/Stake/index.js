@@ -321,7 +321,7 @@ export const Stake = () => {
                   {isS ? (
                     <>
                       <div className="stake-action-stats-container">
-                        <StakeActRoiBox roiVal={roiVal} />
+                        <StakeActRoiBox roiVal={roiVal} isL={isL}/>
                         <StakeActMontlyRBox monthlyReward={monthlyReward} />
                       </div>
                     </>
@@ -531,7 +531,7 @@ export const Stake = () => {
               ) : cW === 1 ? (
                 <>
                   {/* STAKE-PAGE */}
-                  <StakeActRoiBox roiVal={roiVal} />
+                  <StakeActRoiBox roiVal={roiVal} isL={isL}/>
                   <StakeActMontlyRBox monthlyReward={monthlyReward} />
                 </>
               ) : (

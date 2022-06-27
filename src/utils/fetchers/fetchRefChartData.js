@@ -1,3 +1,5 @@
+import {sendReq} from "../sendReq";
+
 export const refChartData = [
   {
     date: "00:00",
@@ -268,3 +270,70 @@ export const refChartDataMob = [
 //       refNum: 10,
 //     },
 //   ];
+
+
+
+export const fetchRefChartData = async () => {
+  let res = {}
+  res = await sendReq("get", "affiliate/stat");
+  // res.data = {
+  //     "result": "success",
+  //     "data": {
+  //         "stat": {
+  //             "2022-06-13": {
+  //                 "amount": "16.1889000",
+  //                 "dt": "13/06",
+  //                 "time": 1655078400,
+  //                 "sum": 16.1889,
+  //                 "color": "#0374E7",
+  //                 "colorsum": "#9a1ce8"
+  //             },
+  //             "2022-06-14": {
+  //                 "amount": "2605.7139000",
+  //                 "dt": "14/06",
+  //                 "time": 1655164800,
+  //                 "sum": 2621.9028,
+  //                 "color": "#0374E7",
+  //                 "colorsum": "#9a1ce8"
+  //             }
+  //         },
+  //         "metrics": {
+  //             "total_profit": 2621.9028,
+  //             "total_month": 2621.9028,
+  //             "total_week": 2621.9028,
+  //             "total_day": 0
+  //         }
+  //     }
+  // }
+
+
+  let chartData = []
+
+  if (res) {
+    if (res.data.result === "success") {
+      if (res.data.data) {
+        for (let date in res.data.data.stat) {
+          chartData.push({
+            date: res.data.data.stat[date].dt,
+            refNum: parseFloat(res.data.data.stat[date].amount)
+          })
+        }
+        if (chartData.length > 20) {
+          // if chartData has more than 20 days, it will take only last 20
+          chartData = chartData.slice(-20)
+        }
+      }
+    }
+  }
+  if (chartData.length < 20) {
+    // if chartData has less than 20 days, it will add some empty columns to make chart looks better
+    const countOfEmptyColumnsToAdd = 20 - chartData.length;
+    for (let i = 0; i < countOfEmptyColumnsToAdd; ++i) {
+      chartData.unshift({
+        date: '',
+        refNum: 0
+      })
+    }
+  }
+  return chartData
+}

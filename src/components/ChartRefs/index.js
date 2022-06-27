@@ -9,9 +9,11 @@ import {
 } from "recharts";
 import useWindowDimensions from "../../hooks/useWindow";
 import {
-  refChartData,
-  refChartDataMob,
+    fetchRefChartData,
+    refChartData,
+    refChartDataMob,
 } from "../../utils/fetchers/fetchRefChartData";
+import {useEffect, useState} from "react";
 
 const CustomToolTip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -30,7 +32,18 @@ const CustomToolTip = ({ active, payload, label }) => {
 };
 
 export const ChartRefs = () => {
-  const { width } = useWindowDimensions();
+    const [chartData, setChartData] = useState([]);
+
+    const { width } = useWindowDimensions();
+
+    const getChartData = async () => {
+        const data = await fetchRefChartData();
+        setChartData(data);
+    }
+
+    useEffect(() => {
+        getChartData();
+    }, []);
 
   const BarShape = (props) => {
     let { width, height, x, y, x1, y1, x2, y2 } = props;
@@ -89,7 +102,8 @@ export const ChartRefs = () => {
   return (
     <ResponsiveContainer height="100%" className="chart-container">
       <BarChart
-        data={width > 815 ? refChartData : refChartDataMob}
+        // data={width > 815 ? refChartData : refChartDataMob}
+        data={chartData}
         margin={{
           top: 5,
           right: width > 815 ? 40 : 0,

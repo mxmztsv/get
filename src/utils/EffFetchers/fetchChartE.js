@@ -25,8 +25,15 @@ export async function fetchChartE(
     }
 
     if (setTokenPrevPrice) {
-      setTokenPrevPrice(resArray.at(-2).price);
-      setItem("prevTP", resArray.at(-2).price);
+      let dayMill = 86400000;
+      let nowTime = Date.now();
+      let temparr = resArray.filter((point) => {
+        return nowTime - point.timestamp > dayMill;
+      });
+      let prevPrice = temparr.at(-1).price;
+
+      setTokenPrevPrice(prevPrice);
+      setItem("prevTP", prevPrice);
     }
 
     return resArray;

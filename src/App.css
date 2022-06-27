@@ -55,7 +55,7 @@
   margin-bottom: 3px !important;
 }
 
-/* 
+/*
 .global-wrapper {
   display: flex;
   justify-content: center;
@@ -70,8 +70,8 @@
   }
 }
 
-/* ------------------------------ 
-   Buttons 
+/* ------------------------------
+   Buttons
    ------------------------------ */
 
 button {
@@ -225,8 +225,13 @@ button:disabled {
   color: rgba(134, 168, 231, 0.8);
 }
 
-/* ------------------------------ 
-   Text 
+.question-btn {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+/* ------------------------------
+   Text
    ------------------------------ */
 
 /* headers */
@@ -254,6 +259,9 @@ button:disabled {
   font-weight: 800;
   margin-bottom: 5px;
   color: var(--yellow-text);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .small-grey-header {
@@ -329,8 +337,8 @@ a:visited {
   text-decoration: none;
 }
 
-/* ------------------------------ 
-   Input 
+/* ------------------------------
+   Input
    ------------------------------ */
 
 input[type="submit"] {
@@ -358,8 +366,8 @@ input:focus {
   color: var(--red-text);
 }
 
-/* ------------------------------ 
-   Divs 
+/* ------------------------------
+   Divs
    ------------------------------ */
 
 /* v2 */
@@ -463,8 +471,8 @@ input:focus {
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* ------------------------------ 
-   Other 
+/* ------------------------------
+   Other
    ------------------------------ */
 .centered {
   justify-content: center;
@@ -491,7 +499,7 @@ input:focus {
   border-top: solid 1px var(--border-color);
 }
 
-/* ------------------------------ 
+/* ------------------------------
    Navbar
    ------------------------------ */
 
@@ -898,8 +906,8 @@ input:focus {
   background-color: transparent;
 }
 
-/* ------------------------------ 
-   Dashboard 
+/* ------------------------------
+   Dashboard
    ------------------------------ */
 
 /* v3 */
@@ -1624,8 +1632,8 @@ td {
   color: black;
 }
 
-/* ------------------------------ 
-   Stake 
+/* ------------------------------
+   Stake
    ------------------------------ */
 
 /* v3 */
@@ -2202,8 +2210,8 @@ td {
   margin-top: 30px;
 }
 
-/* ------------------------------ 
-   Unstake 
+/* ------------------------------
+   Unstake
    ------------------------------ */
 
 .unstake-pending-mob {
@@ -2284,8 +2292,8 @@ td {
   font-family: "Monsterrat";
 }
 
-/* ------------------------------ 
-   Referral 
+/* ------------------------------
+   Referral
    ------------------------------ */
 
 /* v2 */
@@ -2776,8 +2784,8 @@ td {
   padding: 10px;
 }
 
-/* ------------------------------ 
-   Profile 
+/* ------------------------------
+   Profile
    ------------------------------ */
 
 /* v2 */
@@ -3049,8 +3057,8 @@ input[type="number"] {
   }
 }
 
-/* ------------------------------ 
-   Sign up 
+/* ------------------------------
+   Sign up
    ------------------------------ */
 
 .sign-up-logo {
@@ -3149,7 +3157,7 @@ input[type="number"] {
   cursor: pointer;
 }
 
-/* ------------------------------ 
+/* ------------------------------
    Deposit Modal
    ------------------------------ */
 
@@ -3489,7 +3497,306 @@ input[type="number"] {
   width: 100%;
 }
 
-/* ------------------------------ 
+
+/* pop-up */
+
+.popup-bg {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+}
+
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-close {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: flex-end;
+  /*margin-right: 30px;*/
+  /*margin-bottom: 10px;*/
+  padding: 10px 30px;
+}
+
+.popup-close-text {
+  margin-right: 10px;
+  letter-spacing: 1px;
+}
+
+.popup-close-btn {
+  cursor: pointer;
+}
+
+.popup {
+  /*background: linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), radial-gradient(113.83% 128.79% at 0% 100%, rgba(67, 67, 67, 0.5) 0%, rgba(18, 18, 18, 0) 100%) !* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected *!;*/
+  /*background: rgba(121, 121, 121, 0.2);*/
+  background: rgba(45, 45, 45, 0.9);
+  backdrop-filter: blur(100px);
+  padding: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 700px;
+  border-radius: 52px;
+}
+
+.popup-body {
+  margin-bottom: 50px;
+}
+
+.popup-title {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 41px;
+  letter-spacing: 0.02em;
+  margin-bottom: 20px;
+
+  color: #FFFFFF;
+}
+
+.popup-title-text {
+  font-family: "Monsterrat", sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 20px;
+  line-height: 28px;
+
+  /* or 140% */
+  letter-spacing: 0.02em;
+
+  color: rgba(255, 255, 255, 0.5);
+
+
+}
+
+.popup-title-sm {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+
+  margin-bottom: 20px;
+
+  /* identical to box height */
+  letter-spacing: 0.02em;
+
+  color: #FFFFFF;
+}
+
+.popup-profit-card {
+  background: radial-gradient(515.51% 799.91% at 0% 100%, rgba(254, 184, 93, 0.12) 0%, rgba(254, 184, 93, 0.02) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.profit-card2 {
+  width: 68%;
+}
+
+.profit-card3 {
+  width: 50%;
+}
+
+.popup-profit-card-body {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 120px;
+}
+
+.popup-profit-card-title {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+
+  /* identical to box height */
+  letter-spacing: 0.02em;
+  /*margin-bottom: 40px;*/
+
+  color: #FEB85D
+}
+
+.popup-profit-card-percentage {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 41px;
+  letter-spacing: 0.02em;
+
+  color: #FFFFFF;
+}
+
+.popup-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 600px) {
+  .popup-actions {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    height: 110px;
+    justify-content: space-between;
+  }
+}
+
+.popup-action-title {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 1px;
+  margin-right: 12px;
+
+  color: #FFFFFF;
+}
+
+.learn-more {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.popup-btn {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  background: rgba(254, 184, 93, 0.12);
+  border-radius: 12px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*letter-spacing: 1px;*/
+
+  color: #FEB85D;
+}
+
+.separator {
+  height: 2px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 25px 0;
+}
+
+/* profit-calculator */
+
+.popup-profit-calculator {
+  background: rgba(45, 45, 45, 0.9);
+  backdrop-filter: blur(100px);
+  padding: 40px 40px 0 40px;
+  width: 100vw;
+  /*width: 100%;*/
+  box-sizing: border-box;
+  /*width: 1200px;*/
+  /*max-width: 1300px;*/
+  max-width: calc(100vw - 10%);
+
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 52px;
+}
+
+.profit-calculator {
+  display: flex;
+  flex-direction: row;
+}
+
+.profit-calculator-investment {
+  width: 55%;
+  background-image: url("../src/assets/img/profit-calculator-investment-bg.png");
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  /*background: radial-gradient(64.71% 86.67% at 100% 88.87%, rgba(254, 184, 93, 0.24) 1.81%, rgba(254, 184, 93, 0) 98.42%);*/
+  /*border-bottom-right-radius: 80px;*/
+  /*clip-path: polygon(90% 0, 100% 83%, 100% 100%, 0 100%, 0 0);*/
+}
+
+.profit-calculator-profit {
+  width: 45%;
+  margin-left: 50px;
+}
+
+.period-slider {
+  background: linear-gradient(82.06deg, rgba(84, 242, 242, 0.24) 6.12%, rgba(84, 242, 242, 0.096) 93.88%) !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.period-slider > .rangeslider__handle {
+  background: radial-gradient(182.18% 68.75% at 37.5% 28.13%, #54F2F2 0%, rgba(84, 242, 242, 0.4) 100%) !important;
+  box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(100px);
+
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 4px;
+}
+
+.profit-calculator-period-labels {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profit-calculator-item {
+  margin-bottom: 20px;
+}
+
+.profit-calculator-period-value {
+  margin: 15px 0;
+}
+
+.profit-calculator-earnings-amount {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 39px;
+  color: #54F2F2;
+  margin: 20px 0;
+}
+
+@media (max-width: 1400px) {
+  .profit-calculator-earnings-amount {
+    font-size: 24px;
+  }
+}
+
+.profit-calculator-earnings-usd {
+  color: rgba(84, 242, 242, 0.3);
+}
+
+.profit-calculator-btn-container {
+  margin: 30px 0;
+}
+
+/* ------------------------------
    Withdraw Modal
    ------------------------------ */
 
@@ -3798,7 +4105,7 @@ input[type="number"] {
   }
 }
 
-/* ------------------------------ 
+/* ------------------------------
    Withdraw Mobile
    ------------------------------ */
 
@@ -3992,7 +4299,7 @@ input[type="number"] {
   margin-bottom: 10vh;
 }
 
-/* ------------------------------ 
+/* ------------------------------
    Small desktop
    ------------------------------ */
 @media only screen and (max-width: 1400px) {
@@ -4384,7 +4691,7 @@ input[type="number"] {
   white-space: nowrap;
 }
 
-/* ------------------------------ 
+/* ------------------------------
    Terms
    ------------------------------ */
 

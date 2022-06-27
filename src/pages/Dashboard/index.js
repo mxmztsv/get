@@ -28,6 +28,7 @@ import {
   TvlBox,
 } from "./Elements";
 import { processPriceArrays } from "./processPriceArrays";
+import {Filters} from "./Filters";
 
 export const Dashboard = () => {
   // auth
@@ -73,6 +74,7 @@ export const Dashboard = () => {
 
   // tx
   const [txArr, setTxArr] = useState(getItem("txArr") || []);
+  const [showingTxArr, setShowingTxArr] = useState([]);
 
   // deposits
   const [lockedDep, setLockedDep] = useState(getItem("lDep") || tempDep);
@@ -187,10 +189,13 @@ export const Dashboard = () => {
                     </div>
                     {/* LEFT-FOOTER */}
                     <div className="left-footer">
-                      <div className="dash-tx-header header-2">
-                        Transactions
+                      <div className="dash-tx-header">
+                        <div className="header-2">
+                          Transactions
+                        </div>
+                        <Filters sourceTxArray={txArr} setFilteredTxArray={setShowingTxArr}/>
                       </div>
-                      <TxTableBodyMemo txArray={txArr} />
+                      <TxTableBodyMemo txArray={showingTxArr} />
                     </div>
                   </div>
 

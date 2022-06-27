@@ -55,6 +55,10 @@ export const StakeAmountContainer = (props) => {
     usdtBalBonus,
     getBalBonus,
     tokensForStake,
+    title = 'YOUR INVESTEMENT',
+    showMinDep = true,
+    maxValue = null,
+    minValue = null
   } = props;
 
   function getMax(isM, isG, uBM, gBM, uBB, gBB) {
@@ -66,7 +70,7 @@ export const StakeAmountContainer = (props) => {
     <>
       <div className="stake-amount-container">
         <div className="stake-amount-inner">
-          <div className="medium-yellow-header">YOUR INVESTEMENT</div>
+          <div className="medium-yellow-header">{title}</div>
           <div className="stake-amount-slider-container">
             <div className="slider-header">
               {/* <input
@@ -76,7 +80,7 @@ export const StakeAmountContainer = (props) => {
                 onChange={(value) => handleCalcChange(value)}
               /> */}
               <p className="yellow-text numbers">
-                {tokensForStake}
+                {tokensForStake.toFixed(2)}
                 {isGet ? " GET" : " USD"}
               </p>
             </div>
@@ -84,7 +88,7 @@ export const StakeAmountContainer = (props) => {
               <Slider
                 className="range-slider"
                 min={0}
-                max={getMax(
+                max={maxValue ? maxValue : getMax(
                   isMain,
                   isGet,
                   usdtBalMain,
@@ -99,17 +103,19 @@ export const StakeAmountContainer = (props) => {
               />
             </div>
           </div>
-          <div className="dep-opt-footer">
-            {isGet ? (
-              <>
-                <p>Minimum deposit: 230 GET</p>
-              </>
-            ) : (
-              <>
-                <p>Minimum deposit: 25 USD</p>
-              </>
-            )}
-          </div>
+          { showMinDep &&
+              <div className="dep-opt-footer">
+                {isGet ? (
+                    <>
+                      <p>Minimum deposit: 230 GET</p>
+                    </>
+                ) : (
+                    <>
+                      <p>Minimum deposit: 25 USDT</p>
+                    </>
+                )}
+              </div>
+          }
         </div>
       </div>
     </>
@@ -459,7 +465,8 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
   }
 
   const setActualGetPrice = async () => {
-    const price = await fetchTokenPrice();
+    // const price = await fetchTokenPrice();
+    const price = 0.11;
     setGetPrice(price);
   }
 
@@ -546,11 +553,9 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                       <StakeAmountContainer
                           title={'AMOUNT'}
                           handleCalcChange={setAmount}
-                          isGet={true}
-                          currency={' USD'}
+                          isGet={false}
                           minValue={getPrice}
-                          usdtBal={0}
-                          getBal={200000}
+                          maxValue={200000}
                           tokensForStake={amount}
                           showMinDep={false}
                       />
@@ -560,9 +565,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                           title={'GET TOKEN PRICE'}
                           handleCalcChange={setGetPrice}
                           isGet={true}
-                          currency={' USD'}
-                          usdtBal={0}
-                          getBal={10}
+                          maxValue={10}
                           tokensForStake={getPrice}
                           showMinDep={false}
                       />

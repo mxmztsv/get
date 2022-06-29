@@ -4,9 +4,10 @@ import { fN } from "../../utils/formatNumber";
 import { RefLinkBody } from "./RefLinkBody";
 import {fetchFilteredRefs} from "./helpers";
 import {useForm, Controller} from "react-hook-form";
-import {useState} from "react";
+import React, {useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import closeIcon from "../../assets/img/close.svg";
 
 // elems
 export const CurLvlBox = (props) => {
@@ -410,6 +411,316 @@ export const ReferralFilters = ({setFilteredData}) => {
                 </div>
             </form>
             {/*</div>*/}
+        </>
+    )
+}
+
+export const CareerBonusPopUp = ({setIsPopUpOpen}) => {
+
+    const close = () => {
+        setIsPopUpOpen(false);
+    }
+
+    return (
+        <>
+            <div className="popup-bg">
+                <div className="popup-container">
+                    <div className="popup-header">
+                        <p className="popup-title">
+                            Career bonus
+                        </p>
+                        <div className="popup-close">
+                            <p className="popup-close-text">
+                                Close
+                            </p>
+                            <img src={closeIcon} alt="close popup" className="popup-close-btn" onClick={close}/>
+                        </div>
+                    </div>
+
+                    <div className="career-bonus-popup">
+                        <div className="career-bonus-popup-card">
+                            <div className="career-bonus-popup-card-content">
+                                <p className="career-bonus-popup-card-title">
+                                    Level
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L1
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L2
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L3
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L4
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L5
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L6
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L7
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L8
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                    L9
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                                    L10
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                                    L11
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                                    L12
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                                    L13
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                                    L14
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                                    L15
+                                </p>
+                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                                    L16
+                                </p>
+                            </div>
+
+                            <div className="career-bonus-popup-card">
+                                <div className="career-bonus-popup-card-content">
+                                    <p className="career-bonus-popup-card-title">
+                                        Deposit in USD
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $100
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $500
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $1,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $2,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $3,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $5,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $7,500
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $10,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                        $15,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                                        $20,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                                        $30,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                                        $40,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                                        $60,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                                        $80,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                                        $100,000
+                                    </p>
+                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                                        $150,000
+                                    </p>
+                                </div>
+
+                                <div className="career-bonus-popup-card">
+                                    <div className="career-bonus-popup-card-content">
+                                        <p className="career-bonus-popup-card-title">
+                                            Front-line deposit
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            -
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            $500
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            $1,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            $2,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            $3,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            $6,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            $12,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            $25,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                            $50,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                                            $100,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                                            $200,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                                            $300,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                                            $500,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                                            $1,000,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                                            $2,000,000
+                                        </p>
+                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                                            $3,000,000
+                                        </p>
+                                    </div>
+
+                                    <div className="career-bonus-popup-card">
+                                        <div className="career-bonus-popup-card-content">
+                                            <p className="career-bonus-popup-card-title">
+                                                Total Volume
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $5000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $25,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $50,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $75,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $100,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $175,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $250,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $500,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                $1,250,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                                                $2,500,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                                                $4,000,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                                                $7,500,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                                                $15,000,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                                                $25,000,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                                                $40,000,000
+                                            </p>
+                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                                                $50,000,000
+                                            </p>
+                                        </div>
+
+                                        <div className="career-bonus-popup-card">
+                                            <div className="career-bonus-popup-card-content">
+                                                <p className="career-bonus-popup-card-title">
+                                                    Bonus
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    -
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    $200
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    $300
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    $500
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    $900
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    $1200
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    $1,500
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    $3,000
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                                                    $7,000
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                                                    $12,000
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                                                    $30,000
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                                                    $50,000
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                                                    $120,000
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                                                    $250,000
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                                                    $500,000
+                                                </p>
+                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                                                    $1,000,000
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

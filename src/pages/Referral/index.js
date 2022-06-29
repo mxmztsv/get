@@ -13,7 +13,7 @@ import { getItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
 import { UserContext } from "../../utils/UserContext";
 import {
-  BonusNextL,
+  BonusNextL, CareerBonusPopUp,
   CurLvlBox,
   DepositNextL,
   FirstLineSizeBox,
@@ -48,6 +48,9 @@ export const Referral = () => {
     }
   }, [user, width]);
   // ---------------
+
+  // career bonus pupup state
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
   // stats
   const [curLvl, setCurLvl] = useState(getItem("pLvl") || 0);
@@ -133,6 +136,7 @@ export const Referral = () => {
 
   return (
     <>
+      { isPopUpOpen && <CareerBonusPopUp setIsPopUpOpen={setIsPopUpOpen}/> }
       {width > 815 ? (
         <Container>
           <DepButton />
@@ -158,6 +162,10 @@ export const Referral = () => {
                   <FrontLineDepNextL frontLDepMis={frontLDepMis} />
                   <VolumeNextL volMis={volMis} />
                   <BonusNextL bonus={bonus} />
+                </div>
+                <div className="ref-btn-link" onClick={() => {setIsPopUpOpen(prevState => !prevState)}}>
+                  MORE ABOUT LEVELS
+                  <img src={require('../../assets/img/arrow-left.svg').default} alt="more about levels" className="ref-btn-link-icon"/>
                 </div>
               </div>
 

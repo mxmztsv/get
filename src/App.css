@@ -2430,6 +2430,30 @@ td {
   margin-right: 15px;
 }
 
+.ref-btn-link {
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  text-align: right;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: flex-end;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+
+  color: #FEB85D;
+}
+
+.ref-btn-link-icon {
+  margin-left: 5px;
+}
+
 /* datepicker */
 
 /*input[type="date"] {*/
@@ -3807,7 +3831,7 @@ input[type="number"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(20px);
 }
 
@@ -3816,6 +3840,16 @@ input[type="number"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.popup-header {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 25px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .popup-close {
@@ -4000,6 +4034,77 @@ input[type="number"] {
   width: 100%;
   background: rgba(255, 255, 255, 0.05);
   margin: 25px 0;
+}
+
+/* career bonus popup */
+
+.career-bonus-popup {
+  width: 100%;
+}
+
+.career-bonus-popup-card {
+  /*background: radial-gradient(100% 141.73% at 0% 100%, rgba(254, 184, 93, 0.1) 0%, rgba(254, 184, 93, 0.0125) 100%) !* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected *!;*/
+  /*background: radial-gradient(515.51% 799.91% at 0% 100%, rgba(254, 184, 93, 0.12) 0%, rgba(254, 184, 93, 0.02) 100%) !* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected *!;*/
+  background: radial-gradient(515.51% 799.91% at 0% 100%, rgba(254, 184, 93, 0.12) 0%, rgba(254, 184, 93, 0.02) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+
+  border-radius: 30px;
+  /*padding: 30px;*/
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  /*width: 100%;*/
+}
+
+.career-bonus-popup-card-content {
+  padding: 30px;
+  /*margin-right: 120px;*/
+  /*margin-right: 5%;*/
+  width: 180px;
+}
+
+.career-bonus-popup-card-title {
+  margin-bottom: 20px;
+  font-size: 17.476px;
+}
+
+.career-bonus-popup-card-amount {
+  margin: 10px 0;
+  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-weight: 400;
+}
+
+.career-bonus-popup-card-amount-l1 {
+  font-size: 11.6507px;
+}
+
+.career-bonus-popup-card-amount-l10 {
+  font-size: 12.3788px;
+}
+
+.career-bonus-popup-card-amount-l11 {
+  font-size: 13.107px;
+}
+
+.career-bonus-popup-card-amount-l12 {
+  font-size: 13.8352px;
+}
+
+.career-bonus-popup-card-amount-l13 {
+  font-size: 14.5633px;
+}
+
+.career-bonus-popup-card-amount-l14 {
+  font-size: 15.2915px;
+}
+
+.career-bonus-popup-card-amount-l15 {
+  font-size: 16.0197px;
+}
+
+.career-bonus-popup-card-amount-l16 {
+  font-size: 16.7479px;
+  font-weight: 600;
 }
 
 /* profit-calculator */

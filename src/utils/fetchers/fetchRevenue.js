@@ -14,7 +14,7 @@ export async function fetchRevenue(
     res.data.result === "success" &&
     res.data.data.metrics
   ) {
-    let metrics = res.data.data.metrics;
+    let metrics = res.data.data.metrics.GET;
     let dayRev = metrics.total_day;
     let weekRev = metrics.total_week;
     let monthRev = metrics.total_month;

@@ -1,23 +1,3 @@
-@font-face {
-  font-family: "Monsterrat";
-  src: url("./assets/fonts/Montserrat.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Monsterrat-SemiBold";
-  src: url("./assets/fonts/Montserrat-SemiBold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Monsterrat-Light";
-  src: url("./assets/fonts/Montserrat-Light.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Monsterrat-BoldItalic";
-  src: url("./assets/fonts/Montserrat-BoldItalic.ttf") format("truetype");
-}
-
 :root {
   --light-blue-text: #86a8e7;
   --grey-text: rgba(255, 255, 255, 0.6);
@@ -1412,6 +1392,7 @@ g {
 }
 
 .dash-tx-filters {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   background: #1f2020;
@@ -1435,12 +1416,12 @@ g {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: 0.5px;
-  color: #FEB85D;
+  color: #feb85d;
 }
 
 .dash-tx-filters-icon {
   animation-name: switch;
-  animation-duration: .3s;
+  animation-duration: 0.3s;
 }
 
 @keyframes switch {
@@ -1457,7 +1438,7 @@ g {
   margin-top: 15px;
   height: 135px;
   animation-name: dropdown-open;
-  animation-duration: .3s;
+  animation-duration: 0.3s;
 }
 
 @keyframes dropdown-open {
@@ -1488,7 +1469,7 @@ g {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: 0.5px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .dash-tx-filter-checkbox {
@@ -1507,7 +1488,7 @@ g {
   /*content: '\2714';*/
   content: url("../src/assets/img/check-mark.svg");
   /*font-size: 14px;*/
-  color: #FEB85D;
+  color: #feb85d;
 }
 
 table {
@@ -2447,7 +2428,7 @@ td {
   letter-spacing: 0.02em;
   cursor: pointer;
 
-  color: #FEB85D;
+  color: #feb85d;
 }
 
 .ref-btn-link-icon {
@@ -2480,7 +2461,7 @@ td {
 }
 
 .react-datepicker__close-icon {
-  background: #FEB85D;
+  background: #feb85d;
   padding: 0;
 }
 
@@ -2493,14 +2474,14 @@ td {
   font-weight: 600;
   letter-spacing: 1px;
   /*color: #FEB85D;*/
-  color: #FFF;
+  color: #fff;
 }
 
 .calendar .react-datepicker__day {
   font-family: "Monsterrat-SemiBold", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
-  color: #FFF;
+  color: #fff;
   background-color: transparent;
 }
 
@@ -2508,14 +2489,14 @@ td {
   font-family: "Monsterrat-SemiBold", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
-  color: #FFF;
+  color: #fff;
   background-color: rgba(254, 184, 93, 0.4);
 }
 
-.calendar .react-datepicker__day--today{
+.calendar .react-datepicker__day--today {
   background-color: transparent;
   color: #fff;
-  border: 1px #FEB85D solid;
+  border: 1px #feb85d solid;
   border-radius: 5px;
 }
 
@@ -2524,7 +2505,7 @@ td {
 /*}*/
 
 .calendar .react-datepicker__day--selected {
-  background-color: #FEB85D;
+  background-color: #feb85d;
   color: #222221;
 }
 
@@ -2544,7 +2525,7 @@ td {
   font-family: "Monsterrat-SemiBold", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
-  color: #FEB85D;
+  color: #feb85d;
 }
 
 .calendar .react-datepicker__day-names {
@@ -2600,7 +2581,7 @@ td {
   /* identical to box height */
   letter-spacing: 0.02em;
 
-  color: #FEB85D;
+  color: #feb85d;
 }
 
 .af-filter-input-wrapper {
@@ -2625,11 +2606,11 @@ td {
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 
   /* identical to box height */
 
-  color: #FEB85D;
+  color: #feb85d;
 }
 
 .af-filter-inputs-container {
@@ -3818,7 +3799,6 @@ input[type="number"] {
   width: 100%;
 }
 
-
 /* pop-up */
 
 .popup-bg {
@@ -3897,7 +3877,7 @@ input[type="number"] {
   letter-spacing: 0.02em;
   margin-bottom: 20px;
 
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .popup-title-text {
@@ -3911,8 +3891,6 @@ input[type="number"] {
   letter-spacing: 0.02em;
 
   color: rgba(255, 255, 255, 0.5);
-
-
 }
 
 .popup-title-sm {
@@ -3927,11 +3905,16 @@ input[type="number"] {
   /* identical to box height */
   letter-spacing: 0.02em;
 
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .popup-profit-card {
-  background: radial-gradient(515.51% 799.91% at 0% 100%, rgba(254, 184, 93, 0.12) 0%, rgba(254, 184, 93, 0.02) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  background: radial-gradient(
+      515.51% 799.91% at 0% 100%,
+      rgba(254, 184, 93, 0.12) 0%,
+      rgba(254, 184, 93, 0.02) 100%
+    )
+    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   border-radius: 24px;
   display: flex;
   flex-direction: row;
@@ -3965,7 +3948,7 @@ input[type="number"] {
   letter-spacing: 0.02em;
   /*margin-bottom: 40px;*/
 
-  color: #FEB85D
+  color: #feb85d;
 }
 
 .popup-profit-card-percentage {
@@ -3976,7 +3959,7 @@ input[type="number"] {
   line-height: 41px;
   letter-spacing: 0.02em;
 
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .popup-actions {
@@ -4004,7 +3987,7 @@ input[type="number"] {
   letter-spacing: 1px;
   margin-right: 12px;
 
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .learn-more {
@@ -4026,7 +4009,7 @@ input[type="number"] {
   justify-content: center;
   /*letter-spacing: 1px;*/
 
-  color: #FEB85D;
+  color: #feb85d;
 }
 
 .separator {
@@ -4045,7 +4028,12 @@ input[type="number"] {
 .career-bonus-popup-card {
   /*background: radial-gradient(100% 141.73% at 0% 100%, rgba(254, 184, 93, 0.1) 0%, rgba(254, 184, 93, 0.0125) 100%) !* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected *!;*/
   /*background: radial-gradient(515.51% 799.91% at 0% 100%, rgba(254, 184, 93, 0.12) 0%, rgba(254, 184, 93, 0.02) 100%) !* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected *!;*/
-  background: radial-gradient(515.51% 799.91% at 0% 100%, rgba(254, 184, 93, 0.12) 0%, rgba(254, 184, 93, 0.02) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  background: radial-gradient(
+      515.51% 799.91% at 0% 100%,
+      rgba(254, 184, 93, 0.12) 0%,
+      rgba(254, 184, 93, 0.02) 100%
+    )
+    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
 
   border-radius: 30px;
   /*padding: 30px;*/
@@ -4145,13 +4133,21 @@ input[type="number"] {
 }
 
 .period-slider {
-  background: linear-gradient(82.06deg, rgba(84, 242, 242, 0.24) 6.12%, rgba(84, 242, 242, 0.096) 93.88%) !important;
+  background: linear-gradient(
+    82.06deg,
+    rgba(84, 242, 242, 0.24) 6.12%,
+    rgba(84, 242, 242, 0.096) 93.88%
+  ) !important;
   width: 100%;
   box-sizing: border-box;
 }
 
 .period-slider > .rangeslider__handle {
-  background: radial-gradient(182.18% 68.75% at 37.5% 28.13%, #54F2F2 0%, rgba(84, 242, 242, 0.4) 100%) !important;
+  background: radial-gradient(
+    182.18% 68.75% at 37.5% 28.13%,
+    #54f2f2 0%,
+    rgba(84, 242, 242, 0.4) 100%
+  ) !important;
   box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(100px);
 
@@ -4180,7 +4176,7 @@ input[type="number"] {
   font-weight: 400;
   font-size: 28px;
   line-height: 39px;
-  color: #54F2F2;
+  color: #54f2f2;
   margin: 20px 0;
 }
 

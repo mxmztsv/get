@@ -1,13 +1,14 @@
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Controller, useForm } from "react-hook-form";
+import ReactTooltip from "react-tooltip";
+import closeIcon from "../../assets/img/close.svg";
 import refCheckIcon from "../../assets/img/ref-check.svg";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fN } from "../../utils/formatNumber";
+import { fetchFilteredRefs } from "./helpers";
 import { RefLinkBody } from "./RefLinkBody";
-import {fetchFilteredRefs} from "./helpers";
-import {useForm, Controller} from "react-hook-form";
-import React, {useState} from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import closeIcon from "../../assets/img/close.svg";
 
 // elems
 export const CurLvlBox = (props) => {
@@ -152,10 +153,16 @@ export const TeamVolumeBox = (props) => {
         <div className="dash-box-body" style={{ paddingBottom: "0" }}>
           {teamVolume !== undefined ? fN(teamVolume, 2, true) : "..."} USD
         </div>
-        <div className="dash-box-footer">
+        <div
+          className="dash-box-footer"
+          data-tip
+          data-for="tooltip-text"
+          style={{ cursor: "pointer" }}
+        >
           {firstLineVolume !== undefined ? fN(firstLineVolume, 2, true) : "..."}{" "}
           USD
         </div>
+        <ReactTooltip id="tooltip-text">Front-line Volume</ReactTooltip>
       </div>
     </>
   );
@@ -242,485 +249,523 @@ export const NumberOfLinesBox = (props) => {
 };
 
 // Filters
-export const ReferralFilters = ({setFilteredData}) => {
+export const ReferralFilters = ({ setFilteredData }) => {
+  // const [query, setQuery] = useState("");
 
-    // const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-    const [isLoading, setIsLoading] = useState(false);
+  const { handleSubmit, reset, register, control } = useForm();
 
-    const {
-        handleSubmit,
-        reset,
-        register,
-        control
-    } = useForm();
+  // const queryHandler = (e) => {
+  //     setQuery(e.target.value);
+  // }
 
-    // const queryHandler = (e) => {
-    //     setQuery(e.target.value);
-    // }
+  // const applyFilterHandler = () => {
+  //     handleSubmit(setFilteredResult);
+  // }
 
-    // const applyFilterHandler = () => {
-    //     handleSubmit(setFilteredResult);
-    // }
+  const setFilteredResult = async (data) => {
+    const res = await fetchFilteredRefs(data);
+    setFilteredData(res);
+  };
 
-    const setFilteredResult = async (data) => {
-        const res = await fetchFilteredRefs(data);
-        setFilteredData(res);
-    }
+  const applyFilterHandler = async (data) => {
+    console.log(data);
+    setIsLoading(true);
+    setFilteredResult(data).then(() => {
+      setIsLoading(false);
+    });
+  };
 
-    const applyFilterHandler = async (data) => {
-        console.log(data)
-        setIsLoading(true);
-        setFilteredResult(data).then(() => {
-            setIsLoading(false);
-        });
-    }
+  const clear = () => {
+    reset();
+  };
 
-    const clear = () => {
-        reset();
-    }
+  //
+  // useEffect(() => {
+  //     setFilteredResult();
+  // }, [query]);
 
-    //
-    // useEffect(() => {
-    //     setFilteredResult();
-    // }, [query]);
-
-
-    return (
-        <>
-            {/*<div className="af-filters">*/}
-            <form onSubmit={handleSubmit(applyFilterHandler)} className="af-filters">
-                <div className="af-filters-col">
-                    <div className="af-filters-row">
-                        <div className="af-filter">
-                            <p className="af-filter-title">
-                                Date of registration
-                            </p>
-                            <div className="af-filter-inputs-container">
-                                <div className="af-filter-input-wrapper">
-                                    <label htmlFor="date-of-registration-from"
-                                           className="af-filter-input-label">From</label>
-                                    {/*<input type="date" id="date-of-registration-from" {...register("reg_from")}/>*/}
-                                    <Controller
-                                        control={control}
-                                        name="reg_from"
-                                        render={({ field }) => (
-                                            <DatePicker
-                                                placeholderText="Set date"
-                                                onChange={(date) => field.onChange(date)}
-                                                selected={field.value}
-                                                isClearable
-                                                calendarClassName="calendar"
-                                                popperClassName="calendar-popper"
-                                            />
-                                        )}
-                                    />
-                                </div>
-                                <div className="af-filter-input-wrapper">
-                                    <label htmlFor="date-of-registration-to"
-                                           className="af-filter-input-label">To</label>
-                                    {/*<input type="date" id="date-of-registration-to" {...register("reg_to")}/>*/}
-                                    <Controller
-                                        control={control}
-                                        name="reg_to"
-                                        render={({ field }) => (
-                                            <DatePicker
-                                                placeholderText="Set date"
-                                                onChange={(date) => field.onChange(date)}
-                                                selected={field.value}
-                                                isClearable
-                                                calendarClassName="calendar"
-                                                popperClassName="calendar-popper"
-                                            />
-                                        )}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="af-filter">
-                            <p className="af-filter-title">
-                                Number of partners
-                            </p>
-                            <div className="af-filter-inputs-container">
-                                <div className="af-filter-input-wrapper">
-                                    <label htmlFor="partners-from"
-                                           className="af-filter-input-label">From</label>
-                                    <input className="af-filter-input" type="text" id="partners-from" {...register("followers_from")}/>
-                                </div>
-                                <div className="af-filter-input-wrapper">
-                                    <label htmlFor="partners-to"
-                                           className="af-filter-input-label">To</label>
-                                    <input className="af-filter-input" type="text" id="partners-to" {...register("followers_to")}/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="af-filter">
-                            <p className="af-filter-title">
-                                Size of staking
-                            </p>
-                            <div className="af-filter-inputs-container">
-                                <div className="af-filter-input-wrapper">
-                                    <label htmlFor="staking-from"
-                                           className="af-filter-input-label">From</label>
-                                    <input className="af-filter-input" type="text" id="staking-from" {...register("deposit_self_from")}/>
-                                </div>
-                                <div className="af-filter-input-wrapper">
-                                    <label htmlFor="staking-to"
-                                           className="af-filter-input-label">To</label>
-                                    <input className="af-filter-input" type="text" id="staking-to" {...register("deposit_self_to")}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="af-filters-row">
-                        <div className="af-filter">
-                            <p className="af-filter-title">
-                                Search
-                            </p>
-                            <div className="af-filter-input-wrapper">
-                                {/*<input className="af-filter-input" type="text" value={query} onChange={queryHandler}/>*/}
-                                <input className="af-filter-input" type="text" placeholder="Name / User ID" {...register("query")}/>
-                            </div>
-                        </div>
-                        <div className="af-filter">
-                            <p className="af-filter-title">
-                                Level
-                            </p>
-                            <div className="af-filter-inputs-container">
-                                <div className="af-filter-input-wrapper">
-                                    <label htmlFor="lvl-from"
-                                           className="af-filter-input-label">From</label>
-                                    <input className="af-filter-input" type="text" id="lvl-from" {...register("deep_from")}/>
-                                </div>
-                                <div className="af-filter-input-wrapper">
-                                    <label htmlFor="lvl-to"
-                                           className="af-filter-input-label">To</label>
-                                    <input className="af-filter-input" type="text" id="lvl-to" {...register("deep_to")}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <>
+      {/*<div className="af-filters">*/}
+      <form onSubmit={handleSubmit(applyFilterHandler)} className="af-filters">
+        <div className="af-filters-col">
+          <div className="af-filters-row">
+            <div className="af-filter">
+              <p className="af-filter-title">Date of registration</p>
+              <div className="af-filter-inputs-container">
+                <div className="af-filter-input-wrapper">
+                  <label
+                    htmlFor="date-of-registration-from"
+                    className="af-filter-input-label"
+                  >
+                    From
+                  </label>
+                  {/*<input type="date" id="date-of-registration-from" {...register("reg_from")}/>*/}
+                  <Controller
+                    control={control}
+                    name="reg_from"
+                    render={({ field }) => (
+                      <DatePicker
+                        placeholderText="Set date"
+                        onChange={(date) => field.onChange(date)}
+                        selected={field.value}
+                        isClearable
+                        calendarClassName="calendar"
+                        popperClassName="calendar-popper"
+                      />
+                    )}
+                  />
                 </div>
-                <div className="af-filters-col">
-                    <div className="af-filters-btn-container">
-                        <button type="submit">Apply</button>
-                    </div>
-                    <div className="af-filters-btn-container">
-                        <button className="popup-btn" onClick={clear}>Clear</button>
-                    </div>
+                <div className="af-filter-input-wrapper">
+                  <label
+                    htmlFor="date-of-registration-to"
+                    className="af-filter-input-label"
+                  >
+                    To
+                  </label>
+                  {/*<input type="date" id="date-of-registration-to" {...register("reg_to")}/>*/}
+                  <Controller
+                    control={control}
+                    name="reg_to"
+                    render={({ field }) => (
+                      <DatePicker
+                        placeholderText="Set date"
+                        onChange={(date) => field.onChange(date)}
+                        selected={field.value}
+                        isClearable
+                        calendarClassName="calendar"
+                        popperClassName="calendar-popper"
+                      />
+                    )}
+                  />
                 </div>
-            </form>
-            {/*</div>*/}
-        </>
-    )
-}
-
-export const CareerBonusPopUp = ({setIsPopUpOpen}) => {
-
-    const close = () => {
-        setIsPopUpOpen(false);
-    }
-
-    return (
-        <>
-            <div className="popup-bg">
-                <div className="popup-container">
-                    <div className="popup-header">
-                        <p className="popup-title">
-                            Career bonus
-                        </p>
-                        <div className="popup-close">
-                            <p className="popup-close-text">
-                                Close
-                            </p>
-                            <img src={closeIcon} alt="close popup" className="popup-close-btn" onClick={close}/>
-                        </div>
-                    </div>
-
-                    <div className="career-bonus-popup">
-                        <div className="career-bonus-popup-card">
-                            <div className="career-bonus-popup-card-content">
-                                <p className="career-bonus-popup-card-title">
-                                    Level
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L1
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L2
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L3
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L4
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L5
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L6
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L7
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L8
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                    L9
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
-                                    L10
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
-                                    L11
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
-                                    L12
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
-                                    L13
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
-                                    L14
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
-                                    L15
-                                </p>
-                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
-                                    L16
-                                </p>
-                            </div>
-
-                            <div className="career-bonus-popup-card">
-                                <div className="career-bonus-popup-card-content">
-                                    <p className="career-bonus-popup-card-title">
-                                        Deposit in USD
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $100
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $500
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $1,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $2,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $3,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $5,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $7,500
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $10,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                        $15,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
-                                        $20,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
-                                        $30,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
-                                        $40,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
-                                        $60,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
-                                        $80,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
-                                        $100,000
-                                    </p>
-                                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
-                                        $150,000
-                                    </p>
-                                </div>
-
-                                <div className="career-bonus-popup-card">
-                                    <div className="career-bonus-popup-card-content">
-                                        <p className="career-bonus-popup-card-title">
-                                            Front-line deposit
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            -
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            $500
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            $1,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            $2,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            $3,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            $6,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            $12,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            $25,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                            $50,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
-                                            $100,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
-                                            $200,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
-                                            $300,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
-                                            $500,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
-                                            $1,000,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
-                                            $2,000,000
-                                        </p>
-                                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
-                                            $3,000,000
-                                        </p>
-                                    </div>
-
-                                    <div className="career-bonus-popup-card">
-                                        <div className="career-bonus-popup-card-content">
-                                            <p className="career-bonus-popup-card-title">
-                                                Total Volume
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $5000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $25,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $50,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $75,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $100,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $175,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $250,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $500,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                $1,250,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
-                                                $2,500,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
-                                                $4,000,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
-                                                $7,500,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
-                                                $15,000,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
-                                                $25,000,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
-                                                $40,000,000
-                                            </p>
-                                            <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
-                                                $50,000,000
-                                            </p>
-                                        </div>
-
-                                        <div className="career-bonus-popup-card">
-                                            <div className="career-bonus-popup-card-content">
-                                                <p className="career-bonus-popup-card-title">
-                                                    Bonus
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    -
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    $200
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    $300
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    $500
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    $900
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    $1200
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    $1,500
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    $3,000
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
-                                                    $7,000
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
-                                                    $12,000
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
-                                                    $30,000
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
-                                                    $50,000
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
-                                                    $120,000
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
-                                                    $250,000
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
-                                                    $500,000
-                                                </p>
-                                                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
-                                                    $1,000,000
-                                                </p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </>
-    )
-}
+            <div className="af-filter">
+              <p className="af-filter-title">Number of referrals</p>
+              <div className="af-filter-inputs-container">
+                <div className="af-filter-input-wrapper">
+                  <label
+                    htmlFor="partners-from"
+                    className="af-filter-input-label"
+                  >
+                    From
+                  </label>
+                  <input
+                    className="af-filter-input"
+                    type="text"
+                    id="partners-from"
+                    {...register("followers_from")}
+                  />
+                </div>
+                <div className="af-filter-input-wrapper">
+                  <label
+                    htmlFor="partners-to"
+                    className="af-filter-input-label"
+                  >
+                    To
+                  </label>
+                  <input
+                    className="af-filter-input"
+                    type="text"
+                    id="partners-to"
+                    {...register("followers_to")}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="af-filter">
+              <p className="af-filter-title">Size of staking (USD)</p>
+              <div className="af-filter-inputs-container">
+                <div className="af-filter-input-wrapper">
+                  <label
+                    htmlFor="staking-from"
+                    className="af-filter-input-label"
+                  >
+                    From
+                  </label>
+                  <input
+                    className="af-filter-input"
+                    type="text"
+                    id="staking-from"
+                    {...register("deposit_self_from")}
+                  />
+                </div>
+                <div className="af-filter-input-wrapper">
+                  <label htmlFor="staking-to" className="af-filter-input-label">
+                    To
+                  </label>
+                  <input
+                    className="af-filter-input"
+                    type="text"
+                    id="staking-to"
+                    {...register("deposit_self_to")}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="af-filters-row">
+            <div className="af-filter">
+              <p className="af-filter-title">Search</p>
+              <div className="af-filter-input-wrapper">
+                {/*<input className="af-filter-input" type="text" value={query} onChange={queryHandler}/>*/}
+                <input
+                  className="af-filter-input"
+                  type="text"
+                  placeholder="Name / User ID"
+                  {...register("query")}
+                />
+              </div>
+            </div>
+            <div className="af-filter">
+              <p className="af-filter-title">Level</p>
+              <div className="af-filter-inputs-container">
+                <div className="af-filter-input-wrapper">
+                  <label htmlFor="lvl-from" className="af-filter-input-label">
+                    From
+                  </label>
+                  <input
+                    className="af-filter-input"
+                    type="text"
+                    id="lvl-from"
+                    {...register("deep_from")}
+                  />
+                </div>
+                <div className="af-filter-input-wrapper">
+                  <label htmlFor="lvl-to" className="af-filter-input-label">
+                    To
+                  </label>
+                  <input
+                    className="af-filter-input"
+                    type="text"
+                    id="lvl-to"
+                    {...register("deep_to")}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="af-filters-col">
+          <div className="af-filters-btn-container">
+            <button type="submit">Apply</button>
+          </div>
+          <div className="af-filters-btn-container">
+            <button className="popup-btn" onClick={clear}>
+              Clear
+            </button>
+          </div>
+        </div>
+      </form>
+      {/*</div>*/}
+    </>
+  );
+};
+
+export const CareerBonusPopUp = ({ setIsPopUpOpen }) => {
+  const close = () => {
+    setIsPopUpOpen(false);
+  };
+
+  return (
+    <>
+      <div className="popup-bg">
+        <div className="popup-container">
+          <div className="popup-header">
+            <p className="popup-title">Career bonus</p>
+            <div className="popup-close">
+              <p className="popup-close-text">Close</p>
+              <img
+                src={closeIcon}
+                alt="close popup"
+                className="popup-close-btn"
+                onClick={close}
+              />
+            </div>
+          </div>
+
+          <div className="career-bonus-popup">
+            <div className="career-bonus-popup-card">
+              <div className="career-bonus-popup-card-content">
+                <p className="career-bonus-popup-card-title">Level</p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L1
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L2
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L3
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L4
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L5
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L6
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L7
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L8
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                  L9
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                  L10
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                  L11
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                  L12
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                  L13
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                  L14
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                  L15
+                </p>
+                <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                  L16
+                </p>
+              </div>
+
+              <div className="career-bonus-popup-card">
+                <div className="career-bonus-popup-card-content">
+                  <p className="career-bonus-popup-card-title">
+                    Deposit in USD
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $100
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $500
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $1,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $2,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $3,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $5,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $7,500
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $10,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                    $15,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                    $20,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                    $30,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                    $40,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                    $60,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                    $80,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                    $100,000
+                  </p>
+                  <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                    $150,000
+                  </p>
+                </div>
+
+                <div className="career-bonus-popup-card">
+                  <div className="career-bonus-popup-card-content">
+                    <p className="career-bonus-popup-card-title">
+                      Front-line deposit
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      -
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      $500
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      $1,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      $2,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      $3,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      $6,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      $12,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      $25,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                      $50,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                      $100,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                      $200,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                      $300,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                      $500,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                      $1,000,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                      $2,000,000
+                    </p>
+                    <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                      $3,000,000
+                    </p>
+                  </div>
+
+                  <div className="career-bonus-popup-card">
+                    <div className="career-bonus-popup-card-content">
+                      <p className="career-bonus-popup-card-title">
+                        Total Volume
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $5000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $25,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $50,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $75,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $100,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $175,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $250,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $500,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                        $1,250,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                        $2,500,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                        $4,000,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                        $7,500,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                        $15,000,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                        $25,000,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                        $40,000,000
+                      </p>
+                      <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                        $50,000,000
+                      </p>
+                    </div>
+
+                    <div className="career-bonus-popup-card">
+                      <div className="career-bonus-popup-card-content">
+                        <p className="career-bonus-popup-card-title">Bonus</p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          -
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          $200
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          $300
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          $500
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          $900
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          $1200
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          $1,500
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          $3,000
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l1">
+                          $7,000
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l10">
+                          $12,000
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l11">
+                          $30,000
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l12">
+                          $50,000
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l13">
+                          $120,000
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l14">
+                          $250,000
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l15">
+                          $500,000
+                        </p>
+                        <p className="career-bonus-popup-card-amount career-bonus-popup-card-amount-l16">
+                          $1,000,000
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};

@@ -307,7 +307,7 @@ function App() {
                                 className="image-2"
                               />
                               <div className="div-block-9">
-                                <div className="h4 yellow">Up to 70% ROI</div>
+                                <div className="h4 yellow">Up to 440% APY</div>
                                 <p className="p3">
                                   Guarantee yourself financial freedom by
                                   maximising your investment potential with GET.
@@ -393,7 +393,7 @@ function App() {
                     className="image-2"
                   />
                   <div className="div-block-9">
-                    <div className="h4 yellow">Up to 70% ROI</div>
+                    <div className="h4 yellow">Up to 440% APY</div>
                     <p className="p3">
                       Guarantee yourself financial freedom by maximising your
                       investment potential with GET.

@@ -25,10 +25,9 @@ import {
   StakeRewardNonLocked,
   TokenBox,
   TotalEarnedBox,
-  TvlBox,
 } from "./Elements";
+import { Filters } from "./Filters";
 import { processPriceArrays } from "./processPriceArrays";
-import {Filters} from "./Filters";
 
 export const Dashboard = () => {
   // auth
@@ -190,10 +189,11 @@ export const Dashboard = () => {
                     {/* LEFT-FOOTER */}
                     <div className="left-footer">
                       <div className="dash-tx-header">
-                        <div className="header-2">
-                          Transactions
-                        </div>
-                        <Filters sourceTxArray={txArr} setFilteredTxArray={setShowingTxArr}/>
+                        <div className="header-2">Transactions</div>
+                        <Filters
+                          sourceTxArray={txArr}
+                          setFilteredTxArray={setShowingTxArr}
+                        />
                       </div>
                       <TxTableBodyMemo txArray={showingTxArr} />
                     </div>
@@ -242,7 +242,7 @@ export const Dashboard = () => {
                         tokenPrice={tokenPrice}
                         tokenPrevPrice={tokenPrevPrice}
                       />
-                      <TvlBox />
+                      {/* <TvlBox /> */}
                       <RoiBox />
                     </div>
                   </div>
@@ -335,7 +335,7 @@ export const Dashboard = () => {
                 tokenPrevPrice={tokenPrevPrice}
               />
               <div className="dash-top-row-mob">
-                <TvlBox />
+                {/* <TvlBox /> */}
                 <RoiBox />
               </div>
 

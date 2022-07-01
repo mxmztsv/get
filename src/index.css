@@ -1,17 +1,41 @@
+@font-face {
+  font-family: "Monsterrat";
+  src: local("Monsterrat-Regular"),
+    url("./assets/fonts/Montserrat.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Monsterrat-SemiBold";
+  src: local("Monsterrat-SemiBold"),
+    url("./assets/fonts/Montserrat-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Monsterrat-Light";
+  src: local("Monsterrat-Light"),
+    url("./assets/fonts/Montserrat-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Monsterrat-BoldItalic";
+  src: local("Monsterrat-BoldItalic"),
+    url("./assets/fonts/Montserrat-BoldItalic.ttf") format("truetype");
+}
+
 body {
   background-color: black;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Monsterrat", Arial, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: "Monsterrat", Arial, source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
 }
 
 html {

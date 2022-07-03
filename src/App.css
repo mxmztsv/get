@@ -10,7 +10,7 @@
 
 .App {
   display: flex;
-  font-family: "Monsterrat";
+  font-family: "Montserrat";
   font-weight: 650;
   font-style: normal;
 }
@@ -29,7 +29,7 @@
   width: 20px !important;
   height: 20px !important;
   margin-left: 15px;
-  font-family: "Monsterrat-SemiBold" !important;
+  font-family: "Montserrat-SemiBold" !important;
   margin-right: 0 !important;
   border-radius: 5px !important;
   margin-bottom: 3px !important;
@@ -59,7 +59,7 @@ button {
   background: linear-gradient(85.69deg, #feb85d 0%, #f49fbc 100.81%);
 
   border-radius: 11px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   padding: 0.35em 1.2em;
   height: 38px;
   border: none;
@@ -216,7 +216,7 @@ button:disabled {
 
 /* headers */
 .header-1 {
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-weight: 700;
   font-size: 28px;
   margin: 20px;
@@ -224,18 +224,18 @@ button:disabled {
 
 .header-2 {
   font-size: 24px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
 }
 
 .header-3 {
   font-size: 13px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-weight: 700;
 }
 
 .medium-yellow-header {
   font-size: 14px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-weight: 800;
   margin-bottom: 5px;
   color: var(--yellow-text);
@@ -291,20 +291,20 @@ button:disabled {
 }
 
 .medium-number {
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-size: 22px;
 }
 
 /* other */
 .numbers {
   font-size: 23px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-weight: 600;
 }
 
 .big-numbers {
   font-size: 26px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-weight: 600;
 }
 
@@ -393,6 +393,10 @@ input:focus {
 
   min-height: calc(100vh - 10px);
   animation: fadeIn 0.7s;
+}
+
+.footer-container {
+  margin-left: 225px;
 }
 
 @keyframes fadeIn {
@@ -516,7 +520,7 @@ input:focus {
   display: flex;
   align-items: center;
   font-size: 22px;
-  font-family: "Monsterrat-BoldItalic";
+  font-family: "Montserrat-BoldItalic";
 }
 .logo img {
   margin-right: 5px;
@@ -529,7 +533,7 @@ input:focus {
   display: flex;
   align-items: center;
   font-size: 20px;
-  font-family: "Monsterrat-BoldItalic";
+  font-family: "Montserrat-BoldItalic";
 }
 .nav-top-logo img {
   margin-right: 5px;
@@ -669,6 +673,7 @@ input:focus {
 }
 
 .nav-top-mob {
+  margin-top: -1px;
   display: flex;
   justify-content: space-between;
   padding: 15px;
@@ -936,7 +941,7 @@ input:focus {
 }
 
 .bal-box-body {
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-size: 18px;
   padding-top: 5px;
   white-space: nowrap;
@@ -1230,7 +1235,7 @@ input:focus {
 
 /* chart */
 .dash-box-body {
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-size: 22px;
   padding-bottom: 5px;
 }
@@ -1352,7 +1357,7 @@ g {
 
 .login-elem-header {
   margin-top: 15px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
 }
 
 .login-buttons {
@@ -1601,7 +1606,7 @@ td {
   color: var(--grey-text);
   font-size: 14px;
   font-weight: 600;
-  font-family: "Monsterrat";
+  font-family: "Montserrat";
 }
 
 /* mobile */
@@ -1795,7 +1800,7 @@ td {
 .back-button {
   background: none;
   color: var(--grey-text);
-  font-family: "Monsterrat";
+  font-family: "Montserrat";
   padding-left: 10px;
 }
 
@@ -1869,13 +1874,13 @@ td {
 .time-val-mob {
   margin-left: 10px;
   font-size: 24px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
 }
 
 .max-button {
   margin-right: 10px;
   color: var(--yellow-text);
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-weight: 700;
   font-size: 15px;
 }
@@ -1995,6 +2000,7 @@ td {
 }
 
 /* slider */
+
 .range-slider {
   max-width: 500px;
 }
@@ -2008,6 +2014,7 @@ td {
 }
 
 .slider-header {
+  cursor: pointer;
   display: flex;
 
   padding: 15px;
@@ -2019,6 +2026,10 @@ td {
   border-radius: 12px;
 
   width: calc(40vw - 50px);
+}
+
+.unstake-container .slider-header {
+  cursor: auto;
 }
 
 .stake-container-mob .mob-container > * {
@@ -2376,7 +2387,7 @@ td {
 
 .withdraw-disclaimer-body {
   width: 70%;
-  font-family: "Monsterrat";
+  font-family: "Montserrat";
 }
 
 /* ------------------------------
@@ -2412,7 +2423,7 @@ td {
 }
 
 .ref-btn-link {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -2470,7 +2481,7 @@ td {
 }
 
 .calendar .react-datepicker__current-month {
-  font-family: "Monsterrat-Light", sans-serif;
+  font-family: "Montserrat-Light", sans-serif;
   font-weight: 600;
   letter-spacing: 1px;
   /*color: #FEB85D;*/
@@ -2478,7 +2489,7 @@ td {
 }
 
 .calendar .react-datepicker__day {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
   color: #fff;
@@ -2486,7 +2497,7 @@ td {
 }
 
 .calendar .react-datepicker__day:hover {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
   color: #fff;
@@ -2522,7 +2533,7 @@ td {
 }
 
 .calendar .react-datepicker__day-name {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
   color: #feb85d;
@@ -2571,7 +2582,7 @@ td {
 }
 
 .af-filter-title {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -2601,7 +2612,7 @@ td {
 }
 
 .af-filter-input-label {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -2884,7 +2895,7 @@ td {
 }
 
 .ref-tree-row-container .grey-text {
-  font-family: "Monsterrat";
+  font-family: "Montserrat";
   font-size: 16px;
 }
 
@@ -3051,7 +3062,7 @@ td {
 }
 
 .ref-lvl-box-body {
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-size: 22px;
   margin-bottom: 5px;
 }
@@ -3244,7 +3255,7 @@ td {
 }
 
 input {
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   font-style: 14px;
 }
 
@@ -3724,7 +3735,7 @@ input[type="number"] {
 }
 
 .description {
-  font-family: "Monsterrat";
+  font-family: "Montserrat";
   font-size: 15px;
   margin-left: 5px;
   margin-right: 5px;
@@ -3869,7 +3880,7 @@ input[type="number"] {
 }
 
 .popup-title {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -3881,7 +3892,7 @@ input[type="number"] {
 }
 
 .popup-title-text {
-  font-family: "Monsterrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 20px;
@@ -3894,7 +3905,7 @@ input[type="number"] {
 }
 
 .popup-title-sm {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -3938,7 +3949,7 @@ input[type="number"] {
 }
 
 .popup-profit-card-title {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -3952,7 +3963,7 @@ input[type="number"] {
 }
 
 .popup-profit-card-percentage {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -3979,7 +3990,7 @@ input[type="number"] {
 }
 
 .popup-action-title {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 10px;
@@ -3997,7 +4008,7 @@ input[type="number"] {
 }
 
 .popup-btn {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   background: rgba(254, 184, 93, 0.12);
   border-radius: 12px;
   font-style: normal;
@@ -4058,7 +4069,7 @@ input[type="number"] {
 
 .career-bonus-popup-card-amount {
   margin: 10px 0;
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-weight: 400;
 }
 
@@ -4171,7 +4182,8 @@ input[type="number"] {
 }
 
 .profit-calculator-earnings-amount {
-  font-family: "Monsterrat-SemiBold", sans-serif;
+  white-space: nowrap;
+  font-family: "Montserrat-SemiBold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 28px;
@@ -4211,7 +4223,7 @@ input[type="number"] {
 
   background: linear-gradient(85.69deg, #feb85d 0%, #f49fbc 100.81%), #d9d9d9;
   color: black;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   white-space: nowrap;
 
   width: fit-content;
@@ -4347,6 +4359,12 @@ input[type="number"] {
   padding-bottom: 0;
 }
 
+@media only screen and (min-width: 1400px) {
+  .with-slider-wrapper {
+    height: 130px;
+  }
+}
+
 /* profile withdraw wallets */
 .with-header-btn-container {
   display: flex;
@@ -4374,7 +4392,7 @@ input[type="number"] {
   display: flex;
 
   color: var(--yellow-text);
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Montserrat-SemiBold";
   align-items: center;
 }
 
@@ -4705,7 +4723,8 @@ input[type="number"] {
     font-size: 14px;
   }
 
-  .main-container {
+  .main-container,
+  .footer-container {
     min-width: 700px;
     margin-left: 180px;
   }
@@ -5117,4 +5136,47 @@ strong {
 
 .terms-text p span {
   margin-top: 40px;
+}
+
+/* ------------------------------
+   Footer
+   ------------------------------ */
+.container-with-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.footer-container {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--grey-text);
+  max-width: 1205px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  width: calc(100% - 190px);
+}
+
+.footer-elem {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.footer-link {
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 815px) {
+  .footer-container {
+    margin-left: 0;
+    min-width: auto;
+    width: 100%;
+  }
 }

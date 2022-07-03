@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Container } from "../../components/Container/index";
+import { Footer } from "../../components/Footer";
 import { WithdrawButton } from "../../components/WithdrawButton";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchProfileE } from "../../utils/EffFetchers/fetchProfileE";
@@ -137,97 +138,97 @@ export const Profile = () => {
 
   return (
     <>
-      {width > 815 ? (
-        <Container>
-          <div className="profile-page-container">
-            <div>
-              {/* <DepButton /> */}
-              <div className="with-header-btn-container">
-                <WithdrawButton />
+      <div className="container-with-footer">
+        {width > 815 ? (
+          <Container>
+            <div className="profile-page-container">
+              <div>
+                {/* <DepButton /> */}
+                <div className="with-header-btn-container">
+                  <WithdrawButton />
+                </div>
+                <div className="profile-page-body">
+                  {!isE ? (
+                    <>
+                      {/* DEFAULT-PAGE  */}
+                      <div className="profile-body-wrapper">
+                        <ProfHeader />
+                        <TgBotBox isC={isC} />
+
+                        <ProfileWithdrawBody
+                          functions={{
+                            getValues,
+                            onSubmitWallets,
+                            handleSubmit,
+                            handleEditComplete,
+                            register,
+                            errors,
+                            ercWal,
+                            bepWal,
+                            trcWal,
+                            isWE,
+                            setIsWE,
+                            isCodePage,
+                            isLoading,
+                            setIsLoading,
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="edit-container-wrapper">
+                      {/* EDITING */}
+                      <div className="edit-page-header header-1">
+                        Edit Profile
+                      </div>
+
+                      <EditBody
+                        handleSubmit={handleSubmit}
+                        register={register}
+                        errors={errors}
+                        onSubmit={onSubmit}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="profile-page-body">
+
+              {/* FOOTER */}
+              <div className="profile-page-footer">
                 {!isE ? (
                   <>
-                    {/* DEFAULT-PAGE  */}
-                    <div className="profile-body-wrapper">
-                      <ProfHeader />
-                      <TgBotBox isC={isC} />
-
-                      <ProfileWithdrawBody
-                        functions={{
-                          getValues,
-                          onSubmitWallets,
-                          handleSubmit,
-                          handleEditComplete,
-                          register,
-                          errors,
-                          ercWal,
-                          bepWal,
-                          trcWal,
-                          isWE,
-                          setIsWE,
-                          isCodePage,
-                          isLoading,
-                          setIsLoading,
+                    {/* MAIN-PROFILE-FOOTER */}
+                    <div>
+                      <button
+                        className="transparent-button"
+                        style={{ fontSize: "14px" }}
+                        onClick={() => {
+                          // setIsE(true);
+                          toastC("Coming Soon");
                         }}
-                      />
+                      >
+                        Edit profile
+                      </button>
+                    </div>
+                    <div className="profile-page-buttons-container">
+                      <button
+                        onClick={() => handleLogout()}
+                        className="transparent-button red-trans-button"
+                      >
+                        Log out
+                      </button>
                     </div>
                   </>
                 ) : (
-                  <div className="edit-container-wrapper">
+                  <div className="edit-buttons-container">
                     {/* EDITING */}
-                    <div className="edit-page-header header-1">
-                      Edit Profile
-                    </div>
-
-                    <EditBody
-                      handleSubmit={handleSubmit}
-                      register={register}
-                      errors={errors}
-                      onSubmit={onSubmit}
-                    />
+                    <EditStateFooter setIsE={setIsE} />
                   </div>
                 )}
               </div>
             </div>
-
-            {/* FOOTER */}
-            <div className="profile-page-footer">
-              {!isE ? (
-                <>
-                  {/* MAIN-PROFILE-FOOTER */}
-                  <div>
-                    <button
-                      className="transparent-button"
-                      style={{ fontSize: "14px" }}
-                      onClick={() => {
-                        // setIsE(true);
-                        toastC("Coming Soon");
-                      }}
-                    >
-                      Edit profile
-                    </button>
-                  </div>
-                  <div className="profile-page-buttons-container">
-                    <button
-                      onClick={() => handleLogout()}
-                      className="transparent-button red-trans-button"
-                    >
-                      Log out
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div className="edit-buttons-container">
-                  {/* EDITING */}
-                  <EditStateFooter setIsE={setIsE} />
-                </div>
-              )}
-            </div>
-          </div>
-        </Container>
-      ) : (
-        <>
+          </Container>
+        ) : (
           <div className="profile-container-mob">
             <div className="prof-body-container-mob">
               {!isE ? (
@@ -302,8 +303,9 @@ export const Profile = () => {
               )}
             </div>
           </div>
-        </>
-      )}
+        )}
+        <Footer />
+      </div>
     </>
   );
 };

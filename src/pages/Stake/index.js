@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { Container } from "../../components/Container/index";
 import { DepButton } from "../../components/DepButton";
+import { Footer } from "../../components/Footer";
 import { PendingDepositsMemo } from "../../components/PendingDeposits";
 import { TxTableBodyMemo } from "../../components/TxTable";
 import useWindowDimensions from "../../hooks/useWindow";
@@ -14,14 +15,14 @@ import { fN } from "../../utils/formatNumber";
 import { getItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
 import { tempDep } from "../../utils/tempDep";
-import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
 import { DepositBox } from "./DepBox";
 import { UnstakeDisclaimer } from "./Disclaimer";
 import {
   BackButton,
   BalanceSwitcher,
-  CurrencySwitcher, ProfitCalculatorPopUp,
+  CurrencySwitcher,
+  ProfitCalculatorPopUp,
   StakeActMontlyRBox,
   StakeActRoiBox,
   StakeAmountContainer,
@@ -197,262 +198,37 @@ export const Stake = () => {
 
   return (
     <>
-      { isProfitCalculatorOpen && <ProfitCalculatorPopUp setIsPopUpOpen={setIsProfitCalculatorOpen}/> }
-      {width > 815 ? (
-        <Container>
-          <div className="stake-container">
-            <DepButton />
-            <div className="desktop-body-wrapper">
-              {/* LEFT */}
-              <div className="left-side-wrapper">
-                {/* LEFT-TOP */}
-                <div className="left-top">
-                  <div className="stake-header-wrapper">
-                    <TotalStakedBox
-                      totalStaked1={lockedDep.getAmount}
-                      totalStaked2={nonLockedDep.getAmount}
-                    />
-                    <TotalEarnedBox
-                      totalEarned1={lockedDep.totalEarned}
-                      totalEarned2={nonLockedDep.totalEarned}
-                      tokenPrice={tokenPrice}
-                    />
-                  </div>
-                </div>
-
-                {/* LEFT-BODY */}
-                <div
-                  className="left-body brd-btm"
-                  style={{ paddingBottom: "25px", marginBottom: "25px" }}
-                >
-                  <DepositBox
-                    dep={lockedDep}
-                    isLocked={true}
-                    isR={isR1}
-                    setIsR={setIsR1}
-                    tokenPrice={tokenPrice}
-                  />
-
-                  <DepositBox
-                    dep={nonLockedDep}
-                    isLocked={false}
-                    isR={isR2}
-                    setIsR={setIsR2}
-                    tokenPrice={tokenPrice}
-                  />
-                </div>
-
-                {/* LEFT-FOOTER */}
-                <div className="left-footer">
-                  <div className="dash-tx-header header-2">Transactions</div>
-                  <TxTableBodyMemo txArray={txArr} />
-                </div>
-              </div>
-
-              {/* RIGHT */}
-              <div
-                className={`right-side-wrapper ${
-                  pendingDeps.length ? "right-side-update-height" : ""
-                }`}
-              >
-                {/* STAKE-HEADER */}
-                <div className="stake-header-container">
-                  {/* HEADER-TEXT */}
-                  <div className="stake-header-text header-2"> I want to</div>
-
-                  {/* HEADER-BODY */}
-                  <div className="stake-header-body">
-                    <SuSButtons setIsS={setIsS} isS={isS} />
-
-                    {isS ? (
-                      <>
-                        {/* HEADER-DEPOSIT-OPTION */}
-                        <div className="header-deposit-options">
-                          <BalanceSwitcher
-                            isGet={isGet}
-                            isMain={isMain}
-                            setIsMain={setIsMain}
-                            usdtBalMain={usdtBalMain}
-                            getBalMain={getBalMain}
-                            usdtBalBonus={usdtBalBonus}
-                            getBalBonus={getBalBonus}
-                            setTokens={setTokensForStake}
-                          />
-                          <CurrencySwitcher
-                            isGet={isGet}
-                            isMain={isMain}
-                            setIsGet={setIsGet}
-                            usdtBalMain={usdtBalMain}
-                            getBalMain={getBalMain}
-                            usdtBalBonus={usdtBalBonus}
-                            getBalBonus={getBalBonus}
-                            setTokensForStake={setTokensForStake}
-                          />
-                          <StakeAmountContainer
-                            handleCalcChange={handleCalcChange}
-                            isGet={isGet}
-                            isMain={isMain}
-                            tokensForStake={tokensForStake}
-                            usdtBalMain={usdtBalMain}
-                            getBalMain={getBalMain}
-                            usdtBalBonus={usdtBalBonus}
-                            getBalBonus={getBalBonus}
-                          />
-                          <StakeTimeContainer
-                            isL={isL}
-                            setIsL={setIsL}
-                            handleCalcChange={handleCalcChange}
-                            tokensForStake={tokensForStake}
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {/* UNSTAKE-CONTAINER */}
-                        <div className="unstake-container">
-                          <UnstakeAmountContainer
-                            nlDepAmount={nonLockedDep.getAmount}
-                          />
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-                {/* STAKE-BODY */}
-                <div className="stake-body-container">
-                  {isS ? (
-                    <>
-                      <div className="stake-action-stats-container">
-                        <StakeActRoiBox roiVal={roiVal} isL={isL}/>
-                        <StakeActMontlyRBox monthlyReward={monthlyReward} />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <UnstakeDisclaimer />
-                    </>
-                  )}
-                </div>
-
-                {/* STAKE-FOOTER */}
-                <div className="stake-footer">
-                  <div className="stake-upper-footer">
-                    {isS ? (
-                      <button
-                        className="stake-footer-btn yellow-trans-btn"
-                        // onClick={() => toastC("Coming Soon")}
-                        onClick={() => {setIsProfitCalculatorOpen(prevState => !prevState)}}
-                      >
-                        PROFIT CALCULATOR
-                      </button>
-                    ) : (
-                      <></>
-                    )}
-
-                    <button
-                      disabled={!user}
-                      style={{ margin: "20px", marginRight: "0" }}
-                      onClick={async () => {
-                        setIsLoading(true);
-
-                        try {
-                          if (isS) {
-                            await handleStake(
-                              tokensForStake,
-                              isL,
-                              isGet,
-                              setIsNeedUpdate,
-                              tokenPrice,
-                              isMain
-                            );
-                          } else {
-                            await handleUnstake(
-                              nonLockedDep.depId,
-                              nonLockedDep.getAmount,
-                              setIsNeedUpdate
-                            );
-                          }
-                        } catch (e) {
-                          console.log("[Stake] stake:", e);
-                        }
-
-                        setIsLoading(false);
-                      }}
-                    >
-                      {isLoading ? (
-                        <div>
-                          <SyncLoader
-                            color="black"
-                            size={10}
-                            speedMultiplier={0.5}
-                          />
-                        </div>
-                      ) : (
-                        "COMPLETE"
-                      )}
-                    </button>
+      {isProfitCalculatorOpen && (
+        <ProfitCalculatorPopUp setIsPopUpOpen={setIsProfitCalculatorOpen} />
+      )}
+      <div className="container-with-footer">
+        {width > 815 ? (
+          <Container>
+            <div className="stake-container">
+              <DepButton />
+              <div className="desktop-body-wrapper">
+                {/* LEFT */}
+                <div className="left-side-wrapper">
+                  {/* LEFT-TOP */}
+                  <div className="left-top">
+                    <div className="stake-header-wrapper">
+                      <TotalStakedBox
+                        totalStaked1={lockedDep.getAmount}
+                        totalStaked2={nonLockedDep.getAmount}
+                      />
+                      <TotalEarnedBox
+                        totalEarned1={lockedDep.totalEarned}
+                        totalEarned2={nonLockedDep.totalEarned}
+                        tokenPrice={tokenPrice}
+                      />
+                    </div>
                   </div>
 
-                  {!isS ? (
-                    <PendingDepositsMemo
-                      depsArr={pendingDeps}
-                      setIsNeedUpdate={setIsNeedUpdate}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </Container>
-      ) : (
-        <>
-          <SuSButtonsMob
-            cW={cW}
-            setCW={setCW}
-            handleStake={handleStake}
-            handleStakeHelpers={{
-              tokensForStake,
-              isL,
-              isGet,
-              setIsNeedUpdate,
-            }}
-            tokenPrice={tokenPrice}
-            isMain={isMain}
-            handleUnstake={handleUnstake}
-            nonLockedDep={nonLockedDep}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-          />
-          <div
-            className="stake-container-mob"
-            style={{ marginTop: `${cW === 1 || cW === 2 ? "9vh" : "13vh"}` }}
-          >
-            {/* HEADER */}
-            <BackButton cW={cW} setCW={setCW} />
-            <div className="stake-page-header header-1">
-              {cW === 0 ? "Staking" : cW === 1 ? "Stake" : "Unstake"}
-            </div>
-
-            {/* BODY  */}
-            <div className="mob-container">
-              {cW === 0 ? (
-                <>
-                  {/* MAIN-PAGE */}
-                  <div className="brd-btm">
-                    <TotalStakedBox
-                      totalStaked1={lockedDep.getAmount}
-                      totalStaked2={nonLockedDep.getAmount}
-                    />
-                    <TotalEarnedBox
-                      totalEarned1={lockedDep.totalEarned}
-                      totalEarned2={nonLockedDep.totalEarned}
-                      tokenPrice={tokenPrice}
-                    />
-                  </div>
-
-                  <div className="stake-mob-body-wrapper">
+                  {/* LEFT-BODY */}
+                  <div
+                    className="left-body brd-btm"
+                    style={{ paddingBottom: "25px", marginBottom: "25px" }}
+                  >
                     <DepositBox
                       dep={lockedDep}
                       isLocked={true}
@@ -469,88 +245,322 @@ export const Stake = () => {
                       tokenPrice={tokenPrice}
                     />
                   </div>
-                </>
-              ) : (
-                <>
-                  {cW === 1 ? (
-                    <>
-                      {/* STAKE-PAGE */}
-                      <BalanceSwitcher
-                        isGet={isGet}
-                        isMain={isMain}
-                        setIsMain={setIsMain}
-                        usdtBalMain={usdtBalMain}
-                        getBalMain={getBalMain}
-                        usdtBalBonus={usdtBalBonus}
-                        getBalBonus={getBalBonus}
-                        setTokens={setTokensForStake}
-                      />
-                      <CurrencySwitcher
-                        isGet={isGet}
-                        isMain={isMain}
-                        setIsGet={setIsGet}
-                        usdtBalMain={usdtBalMain}
-                        getBalMain={getBalMain}
-                        usdtBalBonus={usdtBalBonus}
-                        getBalBonus={getBalBonus}
-                        setTokensForStake={setTokensForStake}
-                      />
-                      <StakeAmountContainer
-                        handleCalcChange={handleCalcChange}
-                        isGet={isGet}
-                        isMain={isMain}
-                        tokensForStake={tokensForStake}
-                        usdtBalMain={usdtBalMain}
-                        getBalMain={getBalMain}
-                        usdtBalBonus={usdtBalBonus}
-                        getBalBonus={getBalBonus}
-                      />
-                      <StakeTimeContainer
-                        isL={isL}
-                        setIsL={setIsL}
-                        handleCalcChange={handleCalcChange}
-                        tokensForStake={tokensForStake}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      {/* UNSTAKE-PAGE  */}
-                      <UnstakeAmountContainer
-                        nlDepAmount={nonLockedDep.getAmount}
-                      />
-                    </>
-                  )}
-                </>
-              )}
-            </div>
 
-            {/* FOOTER */}
-            <div className="stake-footer-mob">
-              {cW === 0 ? (
-                <>
-                  {/* MAIN-PAGE */}
-                  <TxTableBodyMemo txArray={txArr} />
-                </>
-              ) : cW === 1 ? (
-                <>
-                  {/* STAKE-PAGE */}
-                  <StakeActRoiBox roiVal={roiVal} isL={isL}/>
-                  <StakeActMontlyRBox monthlyReward={monthlyReward} />
-                </>
-              ) : (
-                <>
-                  {/* UNSTAKE-PAGE  */}
-                  <UnstakeDisclaimer />
-                  <PendingDepositsMemo
-                    depsArr={pendingDeps}
-                    setIsNeedUpdate={setIsNeedUpdate}
-                  />
-                </>
-              )}
+                  {/* LEFT-FOOTER */}
+                  <div className="left-footer">
+                    <div className="dash-tx-header header-2">Transactions</div>
+                    <TxTableBodyMemo txArray={txArr} />
+                  </div>
+                </div>
+
+                {/* RIGHT */}
+                <div
+                  className={`right-side-wrapper ${
+                    pendingDeps.length ? "right-side-update-height" : ""
+                  }`}
+                >
+                  {/* STAKE-HEADER */}
+                  <div className="stake-header-container">
+                    {/* HEADER-TEXT */}
+                    <div className="stake-header-text header-2"> I want to</div>
+
+                    {/* HEADER-BODY */}
+                    <div className="stake-header-body">
+                      <SuSButtons setIsS={setIsS} isS={isS} />
+
+                      {isS ? (
+                        <>
+                          {/* HEADER-DEPOSIT-OPTION */}
+                          <div className="header-deposit-options">
+                            <BalanceSwitcher
+                              isGet={isGet}
+                              isMain={isMain}
+                              setIsMain={setIsMain}
+                              usdtBalMain={usdtBalMain}
+                              getBalMain={getBalMain}
+                              usdtBalBonus={usdtBalBonus}
+                              getBalBonus={getBalBonus}
+                              setTokens={setTokensForStake}
+                            />
+                            <CurrencySwitcher
+                              isGet={isGet}
+                              isMain={isMain}
+                              setIsGet={setIsGet}
+                              usdtBalMain={usdtBalMain}
+                              getBalMain={getBalMain}
+                              usdtBalBonus={usdtBalBonus}
+                              getBalBonus={getBalBonus}
+                              setTokensForStake={setTokensForStake}
+                            />
+                            <StakeAmountContainer
+                              handleCalcChange={handleCalcChange}
+                              isGet={isGet}
+                              isMain={isMain}
+                              tokensForStake={tokensForStake}
+                              usdtBalMain={usdtBalMain}
+                              getBalMain={getBalMain}
+                              usdtBalBonus={usdtBalBonus}
+                              getBalBonus={getBalBonus}
+                            />
+                            <StakeTimeContainer
+                              isL={isL}
+                              setIsL={setIsL}
+                              handleCalcChange={handleCalcChange}
+                              tokensForStake={tokensForStake}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {/* UNSTAKE-CONTAINER */}
+                          <div className="unstake-container">
+                            <UnstakeAmountContainer
+                              nlDepAmount={nonLockedDep.getAmount}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  {/* STAKE-BODY */}
+                  <div className="stake-body-container">
+                    {isS ? (
+                      <>
+                        <div className="stake-action-stats-container">
+                          <StakeActRoiBox roiVal={roiVal} isL={isL} />
+                          <StakeActMontlyRBox monthlyReward={monthlyReward} />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <UnstakeDisclaimer />
+                      </>
+                    )}
+                  </div>
+
+                  {/* STAKE-FOOTER */}
+                  <div className="stake-footer">
+                    <div className="stake-upper-footer">
+                      {isS ? (
+                        <button
+                          className="stake-footer-btn yellow-trans-btn"
+                          // onClick={() => toastC("Coming Soon")}
+                          onClick={() => {
+                            setIsProfitCalculatorOpen(
+                              (prevState) => !prevState
+                            );
+                          }}
+                        >
+                          PROFIT CALCULATOR
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+
+                      <button
+                        disabled={!user}
+                        style={{ margin: "20px", marginRight: "0" }}
+                        onClick={async () => {
+                          setIsLoading(true);
+
+                          try {
+                            if (isS) {
+                              await handleStake(
+                                tokensForStake,
+                                isL,
+                                isGet,
+                                setIsNeedUpdate,
+                                tokenPrice,
+                                isMain
+                              );
+                            } else {
+                              await handleUnstake(
+                                nonLockedDep.depId,
+                                nonLockedDep.getAmount,
+                                setIsNeedUpdate
+                              );
+                            }
+                          } catch (e) {
+                            console.log("[Stake] stake:", e);
+                          }
+
+                          setIsLoading(false);
+                        }}
+                      >
+                        {isLoading ? (
+                          <div>
+                            <SyncLoader
+                              color="black"
+                              size={10}
+                              speedMultiplier={0.5}
+                            />
+                          </div>
+                        ) : (
+                          "COMPLETE"
+                        )}
+                      </button>
+                    </div>
+
+                    {!isS ? (
+                      <PendingDepositsMemo
+                        depsArr={pendingDeps}
+                        setIsNeedUpdate={setIsNeedUpdate}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </>
-      )}
+          </Container>
+        ) : (
+          <>
+            <SuSButtonsMob
+              cW={cW}
+              setCW={setCW}
+              handleStake={handleStake}
+              handleStakeHelpers={{
+                tokensForStake,
+                isL,
+                isGet,
+                setIsNeedUpdate,
+              }}
+              tokenPrice={tokenPrice}
+              isMain={isMain}
+              handleUnstake={handleUnstake}
+              nonLockedDep={nonLockedDep}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+            />
+            <div
+              className="stake-container-mob"
+              style={{ marginTop: `${cW === 1 || cW === 2 ? "9vh" : "13vh"}` }}
+            >
+              {/* HEADER */}
+              <BackButton cW={cW} setCW={setCW} />
+              <div className="stake-page-header header-1">
+                {cW === 0 ? "Staking" : cW === 1 ? "Stake" : "Unstake"}
+              </div>
+
+              {/* BODY  */}
+              <div className="mob-container">
+                {cW === 0 ? (
+                  <>
+                    {/* MAIN-PAGE */}
+                    <div className="brd-btm">
+                      <TotalStakedBox
+                        totalStaked1={lockedDep.getAmount}
+                        totalStaked2={nonLockedDep.getAmount}
+                      />
+                      <TotalEarnedBox
+                        totalEarned1={lockedDep.totalEarned}
+                        totalEarned2={nonLockedDep.totalEarned}
+                        tokenPrice={tokenPrice}
+                      />
+                    </div>
+
+                    <div className="stake-mob-body-wrapper">
+                      <DepositBox
+                        dep={lockedDep}
+                        isLocked={true}
+                        isR={isR1}
+                        setIsR={setIsR1}
+                        tokenPrice={tokenPrice}
+                      />
+
+                      <DepositBox
+                        dep={nonLockedDep}
+                        isLocked={false}
+                        isR={isR2}
+                        setIsR={setIsR2}
+                        tokenPrice={tokenPrice}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {cW === 1 ? (
+                      <>
+                        {/* STAKE-PAGE */}
+                        <BalanceSwitcher
+                          isGet={isGet}
+                          isMain={isMain}
+                          setIsMain={setIsMain}
+                          usdtBalMain={usdtBalMain}
+                          getBalMain={getBalMain}
+                          usdtBalBonus={usdtBalBonus}
+                          getBalBonus={getBalBonus}
+                          setTokens={setTokensForStake}
+                        />
+                        <CurrencySwitcher
+                          isGet={isGet}
+                          isMain={isMain}
+                          setIsGet={setIsGet}
+                          usdtBalMain={usdtBalMain}
+                          getBalMain={getBalMain}
+                          usdtBalBonus={usdtBalBonus}
+                          getBalBonus={getBalBonus}
+                          setTokensForStake={setTokensForStake}
+                        />
+                        <StakeAmountContainer
+                          handleCalcChange={handleCalcChange}
+                          isGet={isGet}
+                          isMain={isMain}
+                          tokensForStake={tokensForStake}
+                          usdtBalMain={usdtBalMain}
+                          getBalMain={getBalMain}
+                          usdtBalBonus={usdtBalBonus}
+                          getBalBonus={getBalBonus}
+                        />
+                        <StakeTimeContainer
+                          isL={isL}
+                          setIsL={setIsL}
+                          handleCalcChange={handleCalcChange}
+                          tokensForStake={tokensForStake}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        {/* UNSTAKE-PAGE  */}
+                        <UnstakeAmountContainer
+                          nlDepAmount={nonLockedDep.getAmount}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+
+              {/* FOOTER */}
+              <div className="stake-footer-mob">
+                {cW === 0 ? (
+                  <>
+                    {/* MAIN-PAGE */}
+                    <TxTableBodyMemo txArray={txArr} />
+                  </>
+                ) : cW === 1 ? (
+                  <>
+                    {/* STAKE-PAGE */}
+                    <StakeActRoiBox roiVal={roiVal} isL={isL} />
+                    <StakeActMontlyRBox monthlyReward={monthlyReward} />
+                  </>
+                ) : (
+                  <>
+                    {/* UNSTAKE-PAGE  */}
+                    <UnstakeDisclaimer />
+                    <PendingDepositsMemo
+                      depsArr={pendingDeps}
+                      setIsNeedUpdate={setIsNeedUpdate}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+        <Footer />
+      </div>
     </>
   );
 };

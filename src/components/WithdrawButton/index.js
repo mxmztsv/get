@@ -27,11 +27,11 @@ export const WithdrawButton = (props) => {
   const navigate = useNavigate();
 
   const [isW, setIsW] = useState(false); // is withdraw modal visiblej
-  const [isGet, setIsGet] = useState(true); // is usdt withdraw selected
+  const [isGet, setIsGet] = useState(false); // is usdt withdraw selected
   const [isMain, setIsMain] = useState(true); // is main balance selected
   const [isFPage, setIsFPage] = useState(true); // is first page
 
-  const [tokensForWith, setTokensForWith] = useState(0);
+  const [tokensForWith, setTokensForWith] = useState(getItem("pUsdtBal") || 0);
   const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
 
   const [isNeedUpdate, setIsNeedUpdate] = useState(false);

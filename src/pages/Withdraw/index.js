@@ -40,13 +40,13 @@ export const Withdraw = () => {
   }, [user, width]);
   //  ---------------
 
-  const [isGet, setIsGet] = useState(true); // is usdt withdraw selected
+  const [isGet, setIsGet] = useState(false); // is usdt withdraw selected
   const [isMain, setIsMain] = useState(true); // is main balance selected
   const [isFPage, setIsFPage] = useState(true); // is first page
 
   const [isNeedUpdate, setIsNeedUpdate] = useState(false);
 
-  const [tokensForWith, setTokensForWith] = useState(0);
+  const [tokensForWith, setTokensForWith] = useState(getItem("pUsdtBal") || 0);
   const [tokenPrice, setTokenPrice] = useState(getItem("pTP") || 0.11);
 
   // balances

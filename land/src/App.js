@@ -41,6 +41,7 @@ function App() {
     if (index === 3) setOpened4(!opened4);
   }
 
+  // data for animations
   function getCard1() {
     let card1 = document.getElementById("card1");
     if (card1 && !gotCard1) {
@@ -77,12 +78,15 @@ function App() {
       getRefCard1();
     }
   });
+  // -------
 
+  // scroll animations
   function scrollHandler() {
     scrollHandler4(card1Bot, refCard1Bot, width);
   }
 
   window.addEventListener("scroll", scrollHandler);
+  // -------
 
   return (
     <div className="App">
@@ -119,9 +123,8 @@ function App() {
             </a>
           </div>
         </header>
-
         <div className="div-block-12"></div>
-
+        {/* FIRST */}
         <div className="hero wf-section">
           <div className="hero-wrapper">
             <div className="hero-content">
@@ -158,14 +161,15 @@ function App() {
                 <img
                   className="slide1-img"
                   src={require(`./assets/img/${
-                    width < 815 ? "mobile-" : ""
-                  }bg.png`)}
+                    width < 815 ? "mobile-bg.webp" : "bg.png"
+                  }`)}
                   alt=""
                 />
               </div>
             </div>
           </div>
         </div>
+        {/* SECOND */}
         <div className="one-click-teaser vertical-200 wf-section">
           <div className="w-container">
             <div className="columns w-row">
@@ -194,9 +198,6 @@ function App() {
                     <div className="roi-content">
                       <div className="w-layout-grid grid">
                         <div className="roi-selector selected">
-                          <div>4H</div>
-                        </div>
-                        <div className="roi-selector">
                           <div>1D</div>
                         </div>
                         <div className="roi-selector">
@@ -205,13 +206,16 @@ function App() {
                         <div className="roi-selector">
                           <div>30D</div>
                         </div>
+                        <div className="roi-selector">
+                          <div>ALL</div>
+                        </div>
                       </div>
                       <div className="roi-value">
                         <div className="roi-title green bold">84%</div>
-                        <div
+                        {/* <div
                           className="separator"
                           style={{ backgroundColor: "#648560" }}
-                        ></div>
+                        ></div> */}
                         <div
                           className="roi-title dim"
                           style={{ color: "#648560" }}
@@ -235,7 +239,7 @@ function App() {
                           <div className="text-block">Current</div>
                           <div className="roi-value">
                             <div className="roi-title bold">10%</div>
-                            <div className="separator"></div>
+                            {/* <div className="separator"></div> */}
                             <div
                               className="roi-title dim"
                               style={{ color: "rgba(0, 0, 0, 0.4)" }}
@@ -253,10 +257,10 @@ function App() {
                             >
                               12%
                             </div>
-                            <div
+                            {/* <div
                               className="separator"
                               style={{ color: "rgba(0, 0, 0, 0.4)" }}
-                            ></div>
+                            ></div> */}
                             <div
                               className="roi-title dim"
                               style={{ color: "rgba(0, 0, 0, 0.4)" }}
@@ -286,157 +290,174 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="feature-wheel wf-section">
-          <div className="track">
-            <div className="camera">
-              <div className="frame">
-                <div className="feature-wheel-wrapper">
-                  <div className="feature-wheel-holder">
-                    <div className="wheel-content roi">
-                      <div className="columns-3 w-row">
-                        <div className="column-3 w-col w-col-6">
-                          <div className="div-block-6"></div>
+
+        {/* YOU HEARD THAT RIGHT */}
+        {width > 815 ? (
+          <>
+            {/* ANIMATION 1 */}
+            <div className="feature-wheel wf-section">
+              <div className="track">
+                <div className="camera">
+                  <div className="frame">
+                    <div className="feature-wheel-wrapper">
+                      <div className="feature-wheel-holder">
+                        <div className="wheel-content roi">
+                          <div className="columns-3 w-row">
+                            <div className="column-3 w-col w-col-6">
+                              <div className="div-block-6"></div>
+                            </div>
+                            <div className="column-4 w-col w-col-6">
+                              <div id="card1" className="card firsr">
+                                <div className="div-block-8">
+                                  <img
+                                    src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/627017e25e890f7d3a0ef7f1_Subtract.svg"
+                                    loading="lazy"
+                                    alt=""
+                                    className="image-2"
+                                  />
+                                  <div className="div-block-9">
+                                    <div className="h4 yellow">
+                                      Up to 440% APY
+                                    </div>
+                                    <p className="p3">
+                                      Guarantee yourself financial freedom by
+                                      maximising your investment potential with
+                                      GET.
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="column-4 w-col w-col-6">
-                          <div id="card1" className="card firsr">
-                            <div className="div-block-8">
-                              <img
-                                src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/627017e25e890f7d3a0ef7f1_Subtract.svg"
-                                loading="lazy"
-                                alt=""
-                                className="image-2"
-                              />
-                              <div className="div-block-9">
-                                <div className="h4 yellow">Up to 440% APY</div>
-                                <p className="p3">
-                                  Guarantee yourself financial freedom by
-                                  maximising your investment potential with GET.
-                                </p>
+                        <div className="wheel-content bonuses">
+                          <div className="columns-3 w-row">
+                            <div className="column-3 w-col w-col-6">
+                              <div className="div-block-6"></div>
+                            </div>
+                            <div className="column-4 w-col w-col-6">
+                              <div id="card2" className="card second">
+                                <div className="div-block-8">
+                                  <img
+                                    src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/62701950059a6c8079eaeca5_Subtract.svg"
+                                    loading="lazy"
+                                    alt=""
+                                    className="image-2"
+                                  />
+                                  <div className="div-block-9">
+                                    <div className="h4">Daily bonuses</div>
+                                    <p className="p3 green gree">
+                                      Get rewarded for interacting with the
+                                      platform
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="wheel-content withdraw">
+                          <div className="columns-3 w-row">
+                            <div className="column-3 w-col w-col-6">
+                              <div className="div-block-6"></div>
+                            </div>
+                            <div className="column-4 w-col w-col-6">
+                              <div id="card3" className="card">
+                                <div className="div-block-8">
+                                  <img
+                                    src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/627019eebeea7311a64565a8_Subtract.svg"
+                                    loading="lazy"
+                                    alt=""
+                                    className="image-2"
+                                  />
+                                  <div className="div-block-9">
+                                    <div className="h4 blue">Refer2earn</div>
+                                    <p className="p3 blue">
+                                      Help your friends help you, while you all
+                                      grow your investments
+                                    </p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="wheel-content bonuses">
-                      <div className="columns-3 w-row">
-                        <div className="column-3 w-col w-col-6">
-                          <div className="div-block-6"></div>
-                        </div>
-                        <div className="column-4 w-col w-col-6">
-                          <div id="card2" className="card second">
-                            <div className="div-block-8">
-                              <img
-                                src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/62701950059a6c8079eaeca5_Subtract.svg"
-                                loading="lazy"
-                                alt=""
-                                className="image-2"
-                              />
-                              <div className="div-block-9">
-                                <div className="h4">Daily bonuses</div>
-                                <p className="p3 green gree">
-                                  Get rewarded for interacting with the platform
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <div className="wheel-title">
+                        <h1 className="h2">You heard that right</h1>
                       </div>
                     </div>
-                    <div className="wheel-content withdraw">
-                      <div className="columns-3 w-row">
-                        <div className="column-3 w-col w-col-6">
-                          <div className="div-block-6"></div>
-                        </div>
-                        <div className="column-4 w-col w-col-6">
-                          <div id="card3" className="card">
-                            <div className="div-block-8">
-                              <img
-                                src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/627019eebeea7311a64565a8_Subtract.svg"
-                                loading="lazy"
-                                alt=""
-                                className="image-2"
-                              />
-                              <div className="div-block-9">
-                                <div className="h4 blue">Refer2earn</div>
-                                <p className="p3 blue">
-                                  Help your friends help you, while you all grow
-                                  your investments
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="wheel-title">
-                    <h1 className="h2">You heard that right</h1>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="steps vertical-200 features wf-section">
-          <div className="div-block-17">
-            <h1 className="h2">You heard it right</h1>
-          </div>
-          <div className="steps-wrapper">
-            <div className="w-layout-grid grid-2">
-              <div className="card firsr">
-                <div className="div-block-8">
-                  <img
-                    src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/627017e25e890f7d3a0ef7f1_Subtract.svg"
-                    loading="lazy"
-                    alt=""
-                    className="image-2"
-                  />
-                  <div className="div-block-9">
-                    <div className="h4 yellow">Up to 440% APY</div>
-                    <p className="p3">
-                      Guarantee yourself financial freedom by maximising your
-                      investment potential with GET.
-                    </p>
-                  </div>
-                </div>
+          </>
+        ) : (
+          <>
+            {/* MOBILE */}
+            <div className="steps vertical-200 features wf-section">
+              <div className="div-block-17">
+                <h1 className="h2">You heard it right</h1>
               </div>
-              <div className="card second">
-                <div className="div-block-8">
-                  <img
-                    src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/62701950059a6c8079eaeca5_Subtract.svg"
-                    loading="lazy"
-                    alt=""
-                    className="image-2"
-                  />
-                  <div className="div-block-9">
-                    <div className="h4">Daily bonuses</div>
-                    <p className="p3 green gree">
-                      Get rewarded for interacting with the platform
-                    </p>
+              <div className="steps-wrapper">
+                <div className="w-layout-grid grid-2">
+                  <div className="card firsr">
+                    <div className="div-block-8">
+                      <img
+                        src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/627017e25e890f7d3a0ef7f1_Subtract.svg"
+                        loading="lazy"
+                        alt=""
+                        className="image-2"
+                      />
+                      <div className="div-block-9">
+                        <div className="h4 yellow">Up to 440% APY</div>
+                        <p className="p3">
+                          Guarantee yourself financial freedom by maximising
+                          your investment potential with GET.
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="card">
-                <div className="div-block-8">
-                  <img
-                    src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/627019eebeea7311a64565a8_Subtract.svg"
-                    loading="lazy"
-                    alt=""
-                    className="image-2"
-                  />
-                  <div className="div-block-9">
-                    <div className="h4 blue">Refer2earn</div>
-                    <p className="p3 blue">
-                      Help your friends help you, while you all grow your
-                      investments
-                    </p>
+                  <div className="card second">
+                    <div className="div-block-8">
+                      <img
+                        src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/62701950059a6c8079eaeca5_Subtract.svg"
+                        loading="lazy"
+                        alt=""
+                        className="image-2"
+                      />
+                      <div className="div-block-9">
+                        <div className="h4">Daily bonuses</div>
+                        <p className="p3 green gree">
+                          Get rewarded for interacting with the platform
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card">
+                    <div className="div-block-8">
+                      <img
+                        src="https://uploads-ssl.webflow.com/626fe8200bf49790764a3f7f/627019eebeea7311a64565a8_Subtract.svg"
+                        loading="lazy"
+                        alt=""
+                        className="image-2"
+                      />
+                      <div className="div-block-9">
+                        <div className="h4 blue">Refer2earn</div>
+                        <p className="p3 blue">
+                          Help your friends help you, while you all grow your
+                          investments
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
+
+        {/* THREE-SIMPLE-STEPS */}
         <div
           style={{ paddingTop: "15vh" }}
           className="steps vertical-200 wf-section"
@@ -517,6 +538,8 @@ function App() {
             </h1>
           </div>
         </div>
+
+        {/* GREEN CARDS. REFERRAL PROGRAM. ANIMATION 2 */}
         <div className="referral vertical-200 wf-section">
           <div className="track referral">
             <div className="camera">
@@ -638,6 +661,7 @@ function App() {
           </div>
         </div>
 
+        {/* CALCULATOR */}
         <div ref={calcRef} className="calculator-wrapper">
           <div className="calc-header">
             <div className="calc-left-header h1">Let's count your profits</div>
@@ -660,6 +684,7 @@ function App() {
           </div>
         </div>
 
+        {/* HOW DOES IT WORK */}
         <div ref={howRef} className="how-container">
           <div className="how-header h2">How does it work?</div>
           <div className="points-container">
@@ -724,6 +749,7 @@ function App() {
           </div>
         </div>
 
+        {/* ROADMAP */}
         <div className="roadmap vertical-200 timeline wf-section">
           <div className="div-block-16">
             <h1 className="h2">Our roadmap</h1>
@@ -904,6 +930,7 @@ function App() {
           </div>
         </div>
 
+        {/* SIGNUP AFTER ROADMAP */}
         <div className="roadmap vertical-200 start-earning wf-section">
           <div className="div-block-10">
             <div className="referral-title start">
@@ -925,6 +952,7 @@ function App() {
           </div>
         </div>
 
+        {/* FAQ */}
         <div className="faq-container">
           <div className="faq-header h2">FAQ</div>
           <div className="questions-container">
@@ -1038,6 +1066,7 @@ function App() {
           </div>
         </div>
 
+        {/* FOOTER */}
         <div className="sm wf-section">
           <div className="w-container footer-cont">
             <div className="div-block-13">

@@ -1,31 +1,31 @@
 @font-face {
-  font-family: "Monsterrat";
-  src: local("Monsterrat-Regular"),
+  font-family: "Montserrat";
+  src: local("Montserrat-Regular"),
     url("./assets/fonts/Montserrat.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Monsterrat-SemiBold";
-  src: local("Monsterrat-SemiBold"),
+  font-family: "Montserrat-SemiBold";
+  src: local("Montserrat-SemiBold"),
     url("./assets/fonts/Montserrat-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Monsterrat-Light";
-  src: local("Monsterrat-Light"),
+  font-family: "Montserrat-Light";
+  src: local("Montserrat-Light"),
     url("./assets/fonts/Montserrat-Light.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Monsterrat-BoldItalic";
-  src: local("Monsterrat-BoldItalic"),
+  font-family: "Montserrat-BoldItalic";
+  src: local("Montserrat-BoldItalic"),
     url("./assets/fonts/Montserrat-BoldItalic.ttf") format("truetype");
 }
 
 body {
   background-color: black;
   margin: 0;
-  font-family: "Monsterrat", Arial, -apple-system, BlinkMacSystemFont,
+  font-family: "Montserrat", Arial, -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -34,7 +34,7 @@ body {
 }
 
 code {
-  font-family: "Monsterrat", Arial, source-code-pro, Menlo, Monaco, Consolas,
+  font-family: "Montserrat", Arial, source-code-pro, Menlo, Monaco, Consolas,
     "Courier New", monospace;
 }
 

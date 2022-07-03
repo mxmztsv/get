@@ -12,10 +12,15 @@ export function processPriceArrays(allPricesArray, setAllPArrays) {
 
   let arrs = [dayArr, weekArr, monthArr, allArr];
 
-  if (!getItem("pAllPA") || getItem("pAllPA")[0].length !== arrs[0].length) {
-    console.log("reseted price array");
+  if (
+    !getItem("pAllPA") ||
+    getItem("pAllPA").at(-1).length !== arrs.at(-1).length
+  ) {
+    console.log("[processPricesArrs] reseted price array");
     setAllPArrays(arrs);
     setItem("pAllPA", arrs);
+  } else {
+    console.log("[processPricesArrs] prices the same");
   }
 }
 

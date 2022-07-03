@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../../components/Container/index";
 import { DepButton } from "../../components/DepButton";
+import { Footer } from "../../components/Footer";
 import { TxTableBodyMemo } from "../../components/TxTable";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchBalancesE } from "../../utils/EffFetchers/fetchBalancesE";
@@ -142,215 +143,218 @@ export const Dashboard = () => {
 
   return (
     <>
-      {width > 815 ? (
-        <>
-          {/* DESKTOP */}
-          {user ? (
-            <Container>
-              <div className="dash-container">
-                <DepButton />
-
-                <div className="dash-header">
-                  <DashGreet />
-                </div>
-
-                <div className="desktop-body-wrapper">
-                  {/* LEFT */}
-                  <div className="left-side-wrapper">
-                    {/* LEFT-TOP */}
-                    <div className="left-top">
-                      <TotalEarnedBox
-                        totalEarned1={nonLockedDep.totalEarned}
-                        totalEarned2={lockedDep.totalEarned}
-                        tb={eb}
-                        setTb={setEb}
-                        tokenPrice={tokenPrice}
-                      />
-
-                      <StakedBox
-                        totalStaked1={nonLockedDep.getAmount}
-                        totalStaked2={lockedDep.getAmount}
-                      />
-                    </div>
-                    {/* LEFT-BODY */}
-                    <div className="left-body">
-                      <BalanceBox
-                        usdtBal={usdtBal}
-                        getBal={getBal}
-                        tokenPrice={tokenPrice}
-                      />
-                      <BalanceBox
-                        bonus
-                        usdtBal={usdtBal4}
-                        getBal={getBal4}
-                        tokenPrice={tokenPrice}
-                      />
-                    </div>
-                    {/* LEFT-FOOTER */}
-                    <div className="left-footer">
-                      <div className="dash-tx-header">
-                        <div className="header-2">Transactions</div>
-                        <Filters
-                          sourceTxArray={txArr}
-                          setFilteredTxArray={setShowingTxArr}
-                        />
-                      </div>
-                      <TxTableBodyMemo txArray={showingTxArr} />
-                    </div>
-                  </div>
-
-                  {/* RIGHT-DASH */}
-                  <div className="right-side-wrapper">
-                    {/* RIGHT-TOP */}
-                    <div className="right-top">
-                      <TokenBox
-                        tokenPrice={tokenPrice}
-                        tokenPrevPrice={tokenPrevPrice}
-                      />
-                    </div>
-
-                    {/* RIGHT-BODY */}
-                    <div className="right-body">
-                      <StakeRewardLocked />
-                      <StakeRewardNonLocked />
-                    </div>
-
-                    {/* RIGHT-FOOTER */}
-                    <div className="right-footer">
-                      <DashBody
-                        width={width}
-                        tb={tb}
-                        setTb={setTb}
-                        allPricesArray={allPArrays}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Container>
-          ) : (
-            <>
+      <div className="container-with-footer">
+        {width > 815 ? (
+          <>
+            {/* DESKTOP */}
+            {user ? (
               <Container>
                 <div className="dash-container">
                   <DepButton />
 
                   <div className="dash-header">
                     <DashGreet />
-
-                    <div className="dash-header-boxes">
-                      <TokenBox
-                        tokenPrice={tokenPrice}
-                        tokenPrevPrice={tokenPrevPrice}
-                      />
-                      {/* <TvlBox /> */}
-                      <RoiBox />
-                    </div>
                   </div>
 
-                  <DashBody
-                    width={width}
-                    tb={tb}
-                    setTb={setTb}
-                    allPricesArray={allPArrays}
-                  />
+                  <div className="desktop-body-wrapper">
+                    {/* LEFT */}
+                    <div className="left-side-wrapper">
+                      {/* LEFT-TOP */}
+                      <div className="left-top">
+                        <TotalEarnedBox
+                          totalEarned1={nonLockedDep.totalEarned}
+                          totalEarned2={lockedDep.totalEarned}
+                          tb={eb}
+                          setTb={setEb}
+                          tokenPrice={tokenPrice}
+                        />
 
-                  <DashFooter txArray={txArr} />
+                        <StakedBox
+                          totalStaked1={nonLockedDep.getAmount}
+                          totalStaked2={lockedDep.getAmount}
+                        />
+                      </div>
+                      {/* LEFT-BODY */}
+                      <div className="left-body">
+                        <BalanceBox
+                          usdtBal={usdtBal}
+                          getBal={getBal}
+                          tokenPrice={tokenPrice}
+                        />
+                        <BalanceBox
+                          bonus
+                          usdtBal={usdtBal4}
+                          getBal={getBal4}
+                          tokenPrice={tokenPrice}
+                        />
+                      </div>
+                      {/* LEFT-FOOTER */}
+                      <div className="left-footer">
+                        <div className="dash-tx-header">
+                          <div className="header-2">Transactions</div>
+                          <Filters
+                            sourceTxArray={txArr}
+                            setFilteredTxArray={setShowingTxArr}
+                          />
+                        </div>
+                        <TxTableBodyMemo txArray={showingTxArr} />
+                      </div>
+                    </div>
+
+                    {/* RIGHT-DASH */}
+                    <div className="right-side-wrapper">
+                      {/* RIGHT-TOP */}
+                      <div className="right-top">
+                        <TokenBox
+                          tokenPrice={tokenPrice}
+                          tokenPrevPrice={tokenPrevPrice}
+                        />
+                      </div>
+
+                      {/* RIGHT-BODY */}
+                      <div className="right-body">
+                        <StakeRewardLocked />
+                        <StakeRewardNonLocked />
+                      </div>
+
+                      {/* RIGHT-FOOTER */}
+                      <div className="right-footer">
+                        <DashBody
+                          width={width}
+                          tb={tb}
+                          setTb={setTb}
+                          allPricesArray={allPArrays}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </Container>
-            </>
-          )}
-        </>
-      ) : (
-        // MOBILE
-        <div className="dash-container-mob">
-          {user ? (
-            <>
-              <DashGreet />
+            ) : (
+              <>
+                <Container>
+                  <div className="dash-container">
+                    <DepButton />
 
-              <div className="mob-container">
-                <DashSwitcherMob isA={isA} setIsA={setIsA} />
-                {isA ? (
-                  <>
-                    {/* ACCOUNT-TAB */}
-                    <TotalEarnedBox
-                      totalEarned1={nonLockedDep.totalEarned}
-                      totalEarned2={lockedDep.totalEarned}
-                      tb={tb}
-                      setTb={setTb}
-                      tokenPrice={tokenPrice}
-                    />
+                    <div className="dash-header">
+                      <DashGreet />
 
-                    <div
-                      className={`dash-top-row-mob ${
-                        width < 815 ? "fld-col" : ""
-                      }`}
-                    >
-                      <BalanceBox
-                        usdtBal={usdtBal}
-                        getBal={getBal}
-                        tokenPrice={tokenPrice}
-                      />
-                      <BalanceBox
-                        bonus
-                        usdtBal={usdtBal4}
-                        getBal={getBal4}
-                        tokenPrice={tokenPrice}
-                      />
-                      <StakedBox
-                        totalStaked1={nonLockedDep.getAmount}
-                        totalStaked2={lockedDep.getAmount}
-                      />
+                      <div className="dash-header-boxes">
+                        <TokenBox
+                          tokenPrice={tokenPrice}
+                          tokenPrevPrice={tokenPrevPrice}
+                        />
+                        {/* <TvlBox /> */}
+                        <RoiBox />
+                      </div>
                     </div>
 
-                    <DashFooter txArray={txArr} />
-                  </>
-                ) : (
-                  <>
-                    {/* TOKEN-TAB */}
-                    <TokenBox
-                      tokenPrice={tokenPrice}
-                      tokenPrevPrice={tokenPrevPrice}
-                    />
-
-                    <div className="dash-top-row-mob brd-btm">
-                      <StakeRewardLocked />
-                      <StakeRewardNonLocked />
-                    </div>
                     <DashBody
                       width={width}
                       tb={tb}
                       setTb={setTb}
                       allPricesArray={allPArrays}
                     />
-                  </>
-                )}
-              </div>
-            </>
-          ) : (
-            <>
-              {/* NOT-AUTHED */}
-              <div className="header-1 brd-btm">Dashboard</div>
-              <TokenBox
-                tokenPrice={tokenPrice}
-                tokenPrevPrice={tokenPrevPrice}
-              />
-              <div className="dash-top-row-mob">
-                {/* <TvlBox /> */}
-                <RoiBox />
-              </div>
 
-              <DashBody
-                width={width}
-                tb={tb}
-                setTb={setTb}
-                allPricesArray={allPArrays}
-              />
-              <div className="brd-btm"></div>
-              <DashFooter txArray={txArr} />
-            </>
-          )}
-        </div>
-      )}
+                    <DashFooter txArray={txArr} />
+                  </div>
+                </Container>
+              </>
+            )}
+          </>
+        ) : (
+          // MOBILE
+          <div className="dash-container-mob">
+            {user ? (
+              <>
+                <DashGreet />
+
+                <div className="mob-container">
+                  <DashSwitcherMob isA={isA} setIsA={setIsA} />
+                  {isA ? (
+                    <>
+                      {/* ACCOUNT-TAB */}
+                      <TotalEarnedBox
+                        totalEarned1={nonLockedDep.totalEarned}
+                        totalEarned2={lockedDep.totalEarned}
+                        tb={tb}
+                        setTb={setTb}
+                        tokenPrice={tokenPrice}
+                      />
+
+                      <div
+                        className={`dash-top-row-mob ${
+                          width < 815 ? "fld-col" : ""
+                        }`}
+                      >
+                        <BalanceBox
+                          usdtBal={usdtBal}
+                          getBal={getBal}
+                          tokenPrice={tokenPrice}
+                        />
+                        <BalanceBox
+                          bonus
+                          usdtBal={usdtBal4}
+                          getBal={getBal4}
+                          tokenPrice={tokenPrice}
+                        />
+                        <StakedBox
+                          totalStaked1={nonLockedDep.getAmount}
+                          totalStaked2={lockedDep.getAmount}
+                        />
+                      </div>
+
+                      <DashFooter txArray={txArr} />
+                    </>
+                  ) : (
+                    <>
+                      {/* TOKEN-TAB */}
+                      <TokenBox
+                        tokenPrice={tokenPrice}
+                        tokenPrevPrice={tokenPrevPrice}
+                      />
+
+                      <div className="dash-top-row-mob brd-btm">
+                        <StakeRewardLocked />
+                        <StakeRewardNonLocked />
+                      </div>
+                      <DashBody
+                        width={width}
+                        tb={tb}
+                        setTb={setTb}
+                        allPricesArray={allPArrays}
+                      />
+                    </>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                {/* NOT-AUTHED */}
+                <div className="header-1 brd-btm">Dashboard</div>
+                <TokenBox
+                  tokenPrice={tokenPrice}
+                  tokenPrevPrice={tokenPrevPrice}
+                />
+                <div className="dash-top-row-mob">
+                  {/* <TvlBox /> */}
+                  <RoiBox />
+                </div>
+
+                <DashBody
+                  width={width}
+                  tb={tb}
+                  setTb={setTb}
+                  allPricesArray={allPArrays}
+                />
+                <div className="brd-btm"></div>
+                <DashFooter txArray={txArr} />
+              </>
+            )}
+          </div>
+        )}
+        <Footer />
+      </div>
     </>
   );
 };

@@ -1,7 +1,7 @@
 const cssStyle = {
   background: "#171614",
   color: "white",
-  fontFamily: "Monsterrat",
+  fontFamily: "Montserrat",
   paddingRight: "0px",
 };
 export const toastStyles = {

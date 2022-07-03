@@ -15,6 +15,8 @@ export function filterChart(chartArr, selectedTimeArr) {
   if (selectedTime === 0) {
     // 1d
     for (let i = chartArr.length - 1; i >= 0; i--) {
+      console.log("[filter]current point:", chartArr[i].timestamp);
+      console.log("[filter]cond:", nowStamp - chartArr[i].timestamp < dayMill);
       if (nowStamp - chartArr[i].timestamp < dayMill)
         resArray.push(chartArr[i]);
       else break;

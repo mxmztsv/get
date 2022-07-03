@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ChartRefs } from "../../components/ChartRefs";
 import { Container } from "../../components/Container/index";
 import { DepButton } from "../../components/DepButton";
+import { Footer } from "../../components/Footer";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchDepStats } from "../../utils/fetchers/fetchDepStats";
 import { fetchCurRefs } from "../../utils/fetchers/fetchFLvlRefs";
@@ -13,13 +14,15 @@ import { getItem } from "../../utils/localStorage";
 import { PathContext, updateNavbar } from "../../utils/PathContext";
 import { UserContext } from "../../utils/UserContext";
 import {
-  BonusNextL, CareerBonusPopUp,
+  BonusNextL,
+  CareerBonusPopUp,
   CurLvlBox,
   DepositNextL,
   FirstLineSizeBox,
   FrontLineDepNextL,
   InvitedByBox,
-  NumberOfLinesBox, ReferralFilters,
+  NumberOfLinesBox,
+  ReferralFilters,
   RefHeader,
   RevenueBox,
   RRSwitch,
@@ -136,171 +139,189 @@ export const Referral = () => {
 
   return (
     <>
-      { isPopUpOpen && <CareerBonusPopUp setIsPopUpOpen={setIsPopUpOpen}/> }
-      {width > 815 ? (
-        <Container>
-          <DepButton />
+      {isPopUpOpen && <CareerBonusPopUp setIsPopUpOpen={setIsPopUpOpen} />}
+      <div className="container-with-footer">
+        {width > 815 ? (
+          <Container>
+            <DepButton />
 
-          {/* REFERRAL-HEADER */}
-          <div className="referral-header header-1">Referral Program</div>
+            {/* REFERRAL-HEADER */}
+            <div className="referral-header header-1">Referral Program</div>
 
-          {/* REFERRAL-BODY */}
-          <div className="referral-body-container">
-            {/* REF-LVL-LINK */}
-            <RefHeader
-              curLvl={curLvl}
-              refLink={refLink}
-              invitedByName={invitedByName}
-            />
+            {/* REFERRAL-BODY */}
+            <div className="referral-body-container">
+              {/* REF-LVL-LINK */}
+              <RefHeader
+                curLvl={curLvl}
+                refLink={refLink}
+                invitedByName={invitedByName}
+              />
 
-            <>
-              {/* REF-NEXT-LVL */}
-              <div className="ref-next-lvl-container brd-btm">
-                <div className="medium-yellow-header">To get L{curLvl + 1}</div>
-                <div className="ref-boxes">
-                  <DepositNextL depMiss={depMis} />
-                  <FrontLineDepNextL frontLDepMis={frontLDepMis} />
-                  <VolumeNextL volMis={volMis} />
-                  <BonusNextL bonus={bonus} />
-                </div>
-                <div className="ref-btn-link" onClick={() => {setIsPopUpOpen(prevState => !prevState)}}>
-                  MORE ABOUT LEVELS
-                  <img src={require('../../assets/img/arrow-left.svg').default} alt="more about levels" className="ref-btn-link-icon"/>
-                </div>
-              </div>
-
-              {/* REF-CHART */}
-              <div className="ref-chart-container">
-                <div className="medium-yellow-header">Revenue</div>
-                <div className="ref-boxes">
-                  <RevenueBox time="Today" revVal={dayRev} />
-                  <RevenueBox time="Week" revVal={weekRev} />
-                  <RevenueBox time="Month" revVal={monthRev} />
-                  <RevenueBox time="All" revVal={allRev} />
-                </div>
-                <div className="ref-chart brd-btm">
-                  <ChartRefs />
-                </div>
-              </div>
-            </>
-
-            {/* REF-TREE */}
-            <div className="ref-tree-container">
-              {/* <div className="medium-yellow-header">Your referrals</div> */}
-              <div className="ref-tree-header brd-btm">
-                {/* left */}
-                <div className="ref-total-earn">
-                  <TeamVolumeBox
-                    teamVolume={teamVolume}
-                    firstLineVolume={firstLVolume}
-                  />
-                  <TeamSizeBox teamSize={teamSize} />
-                  <FirstLineSizeBox frontLineSize={frontLineSize} />
-                  <NumberOfLinesBox numberOfLines={numberOfLines} />
-                </div>
-              </div>
-
-              <ReferralFilters setFilteredData={setCurLvlRefs}/>
-
-              {curLvlRefs.length ? (
-                <RefTree curLvlRefs={curLvlRefs} />
-              ) : (
-                <>
-                  <>
-                    <div className="no-tx-wrapper ">
-                      <img
-                        src={require("../../assets/img/red-cross.svg").default}
-                        alt=""
-                      />
-                      <div className="header-3">No referrals yet</div>
-                    </div>
-                  </>
-                </>
-              )}
-            </div>
-          </div>
-        </Container>
-      ) : (
-        <>
-          <div className="referral-mob-container">
-            <div className="header-1">Referral Program</div>
-            <RefLinkBody refLink={refLink} />
-            <CurLvlBox curLvl={curLvl} />
-            <div className="ref-row-mob">
-              <InvitedByBox invitedByName={invitedByName} />
-              <TeamSizeBox teamSize={teamSize} />
-            </div>
-            <div className="ref-row-mob">
-              <FirstLineSizeBox frontLineSize={frontLineSize} />
-              <NumberOfLinesBox numberOfLines={numberOfLines} />
-            </div>
-
-            <div
-              className="medium-yellow-header"
-              style={{ marginLeft: "10px" }}
-            >
-              To get L{curLvl + 1}
-            </div>
-            <div
-              className="ref-row-mob"
-              style={{ marginBottom: "10px", paddingBottom: "10px" }}
-            >
-              <DepositNextL depMiss={depMis} />
-              <FrontLineDepNextL frontLDepMis={frontLDepMis} />
-            </div>
-
-            <div className="ref-row-mob brd-btm">
-              <VolumeNextL volMis={volMis} />
-              <BonusNextL bonus={bonus} />
-            </div>
-
-            <RRSwitch isRev={isRev} setIsRev={setIsRev} />
-
-            {isRev ? (
               <>
-                <div
-                  className="ref-row-mob brd-top"
-                  style={{ marginBottom: "0" }}
-                >
-                  <RevenueBox time="Today" revVal={dayRev} />
-                  <RevenueBox time="Week" revVal={weekRev} />
+                {/* REF-NEXT-LVL */}
+                <div className="ref-next-lvl-container brd-btm">
+                  <div className="medium-yellow-header">
+                    To get L{curLvl + 1}
+                  </div>
+                  <div className="ref-boxes">
+                    <DepositNextL depMiss={depMis} />
+                    <FrontLineDepNextL frontLDepMis={frontLDepMis} />
+                    <VolumeNextL volMis={volMis} />
+                    <BonusNextL bonus={bonus} />
+                  </div>
+                  <div
+                    className="ref-btn-link"
+                    onClick={() => {
+                      setIsPopUpOpen((prevState) => !prevState);
+                    }}
+                  >
+                    MORE ABOUT LEVELS
+                    <img
+                      src={require("../../assets/img/arrow-left.svg").default}
+                      alt="more about levels"
+                      className="ref-btn-link-icon"
+                    />
+                  </div>
                 </div>
 
-                <div className="ref-row-mob brd-btm">
-                  <RevenueBox time="Month" revVal={monthRev} />
-                  <RevenueBox time="All" revVal={allRev} />
-                </div>
-
-                <div className="ref-chart-wrapper-mob">
-                  <ChartRefs />
+                {/* REF-CHART */}
+                <div className="ref-chart-container">
+                  <div className="medium-yellow-header">Revenue</div>
+                  <div className="ref-boxes">
+                    <RevenueBox time="Today" revVal={dayRev} />
+                    <RevenueBox time="Week" revVal={weekRev} />
+                    <RevenueBox time="Month" revVal={monthRev} />
+                    <RevenueBox time="All" revVal={allRev} />
+                  </div>
+                  <div className="ref-chart brd-btm">
+                    <ChartRefs />
+                  </div>
                 </div>
               </>
-            ) : (
-              <>
-                <div className="brd-btm"></div>
-                <TeamVolumeBox
-                  teamVolume={teamVolume}
-                  firstLineVolume={firstLVolume}
-                />
-                <div className="brd-btm"></div>
+
+              {/* REF-TREE */}
+              <div className="ref-tree-container">
+                {/* <div className="medium-yellow-header">Your referrals</div> */}
+                <div className="ref-tree-header brd-btm">
+                  {/* left */}
+                  <div className="ref-total-earn">
+                    <TeamVolumeBox
+                      teamVolume={teamVolume}
+                      firstLineVolume={firstLVolume}
+                    />
+                    <TeamSizeBox teamSize={teamSize} />
+                    <FirstLineSizeBox frontLineSize={frontLineSize} />
+                    <NumberOfLinesBox numberOfLines={numberOfLines} />
+                  </div>
+                </div>
+
+                <ReferralFilters setFilteredData={setCurLvlRefs} />
+
                 {curLvlRefs.length ? (
                   <RefTree curLvlRefs={curLvlRefs} />
                 ) : (
                   <>
-                    <div className="no-tx-wrapper ">
-                      <img
-                        src={require("../../assets/img/red-cross.svg").default}
-                        alt=""
-                      />
-                      <div className="header-3">No referrals yet</div>
-                    </div>
+                    <>
+                      <div className="no-tx-wrapper ">
+                        <img
+                          src={
+                            require("../../assets/img/red-cross.svg").default
+                          }
+                          alt=""
+                        />
+                        <div className="header-3">No referrals yet</div>
+                      </div>
+                    </>
                   </>
                 )}
-              </>
-            )}
-          </div>
-        </>
-      )}
+              </div>
+            </div>
+          </Container>
+        ) : (
+          <>
+            <div className="referral-mob-container">
+              <div className="header-1">Referral Program</div>
+              <RefLinkBody refLink={refLink} />
+              <CurLvlBox curLvl={curLvl} />
+              <div className="ref-row-mob">
+                <InvitedByBox invitedByName={invitedByName} />
+                <TeamSizeBox teamSize={teamSize} />
+              </div>
+              <div className="ref-row-mob">
+                <FirstLineSizeBox frontLineSize={frontLineSize} />
+                <NumberOfLinesBox numberOfLines={numberOfLines} />
+              </div>
+
+              <div
+                className="medium-yellow-header"
+                style={{ marginLeft: "10px" }}
+              >
+                To get L{curLvl + 1}
+              </div>
+              <div
+                className="ref-row-mob"
+                style={{ marginBottom: "10px", paddingBottom: "10px" }}
+              >
+                <DepositNextL depMiss={depMis} />
+                <FrontLineDepNextL frontLDepMis={frontLDepMis} />
+              </div>
+
+              <div className="ref-row-mob brd-btm">
+                <VolumeNextL volMis={volMis} />
+                <BonusNextL bonus={bonus} />
+              </div>
+
+              <RRSwitch isRev={isRev} setIsRev={setIsRev} />
+
+              {isRev ? (
+                <>
+                  <div
+                    className="ref-row-mob brd-top"
+                    style={{ marginBottom: "0" }}
+                  >
+                    <RevenueBox time="Today" revVal={dayRev} />
+                    <RevenueBox time="Week" revVal={weekRev} />
+                  </div>
+
+                  <div className="ref-row-mob brd-btm">
+                    <RevenueBox time="Month" revVal={monthRev} />
+                    <RevenueBox time="All" revVal={allRev} />
+                  </div>
+
+                  <div className="ref-chart-wrapper-mob">
+                    <ChartRefs />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="brd-btm"></div>
+                  <TeamVolumeBox
+                    teamVolume={teamVolume}
+                    firstLineVolume={firstLVolume}
+                  />
+                  <div className="brd-btm"></div>
+                  {curLvlRefs.length ? (
+                    <RefTree curLvlRefs={curLvlRefs} />
+                  ) : (
+                    <>
+                      <div className="no-tx-wrapper ">
+                        <img
+                          src={
+                            require("../../assets/img/red-cross.svg").default
+                          }
+                          alt=""
+                        />
+                        <div className="header-3">No referrals yet</div>
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+          </>
+        )}
+        <Footer />
+      </div>
     </>
   );
 };

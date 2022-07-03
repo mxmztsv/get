@@ -1,17 +1,17 @@
 @font-face {
-  font-family: "Monsterrat";
+  font-family: "Monserrat";
   src: url("assets/fonts/Montserrat.ttf") format("truetype");
 }
 @font-face {
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   src: url("assets/fonts/Montserrat-Bold.ttf") format("truetype");
 }
 @font-face {
-  font-family: "Monsterrat-BoldItalic";
+  font-family: "Monserrat-BoldItalic";
   src: url("assets/fonts/Montserrat-BoldItalic.ttf") format("truetype");
 }
 @font-face {
-  font-family: "Monsterrat-Medium";
+  font-family: "Monserrat-Medium";
   src: url("assets/fonts/Montserrat-Medium.ttf") format("truetype");
 }
 
@@ -191,9 +191,6 @@ th {
   padding: 0;
 }
 
-/* ==========================================================================
-   Start of base Webflow CSS - If you're looking for some ultra-clean CSS, skip the boilerplate and see the unminified code below.
-   ========================================================================== */
 @font-face {
   font-family: "webflow-icons";
   src: url("data:application/x-font-ttf;charset=utf-8;base64,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")
@@ -395,7 +392,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   margin-bottom: 10px;
 }
 h1 {
@@ -1966,7 +1963,7 @@ textarea.w-select {
 .body {
   overflow: visible;
   background-color: #000;
-  font-family: Montserrat, sans-serif;
+  font-family: Monserrat, sans-serif;
   color: #fff;
   font-weight: 400;
 }
@@ -2521,7 +2518,7 @@ textarea.w-select {
   display: -ms-flexbox;
   display: flex;
   grid-column-gap: 12px;
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   font-weight: 700;
 }
 
@@ -2664,7 +2661,7 @@ textarea.w-select {
   line-height: 44px;
   font-weight: 600;
 
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
 }
 
 .image {
@@ -2847,8 +2844,6 @@ textarea.w-select {
   padding: 40px;
   border-radius: 60px;
   background-color: hsla(0, 0%, 100%, 0.06);
-  -webkit-backdrop-filter: blur(40px);
-  backdrop-filter: blur(40px);
 }
 
 .card.card-background {
@@ -4931,7 +4926,7 @@ textarea.w-select {
 }
 
 .button-in-main {
-  font-family: "Montserrat";
+  font-family: "Monserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -4939,7 +4934,7 @@ textarea.w-select {
 }
 
 .App {
-  font-family: "Monsterrat";
+  font-family: "Monserrat";
 }
 
 .how-container {
@@ -4955,6 +4950,7 @@ textarea.w-select {
 .points-container {
   display: flex;
   justify-content: center;
+  background-color: black;
 }
 
 .point-card {
@@ -4994,7 +4990,7 @@ textarea.w-select {
 }
 
 .point-card-header {
-  font-family: "Montserrat";
+  font-family: "Monserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 22px;
@@ -5003,7 +4999,7 @@ textarea.w-select {
 }
 
 .point-card-body {
-  font-family: "Montserrat";
+  font-family: "Monserrat";
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
@@ -5080,7 +5076,7 @@ textarea.w-select {
 }
 
 .question-header-text {
-  font-family: "Montserrat";
+  font-family: "Monserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
@@ -5113,7 +5109,7 @@ textarea.w-select {
 .question-body {
   margin-left: 15vw;
   margin-right: 15vw;
-  font-family: "Montserrat";
+  font-family: "Monserrat";
   font-style: normal;
   font-weight: 500;
   font-size: 17px;
@@ -5145,7 +5141,7 @@ textarea.w-select {
 
 .logo {
   font-weight: 800;
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   height: 25px;
   width: 90px;
   /* 1874 × 524 */
@@ -5172,7 +5168,7 @@ textarea.w-select {
 }
 
 .h4 {
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
 }
 
 .calculator-wrapper {
@@ -5511,7 +5507,7 @@ textarea.w-select {
     justify-content: center;
   }
   .calc-header {
-    font-family: "Monsterrat-Bold";
+    font-family: "Monserrat-Bold";
   }
 
   .slide1-img {
@@ -5694,7 +5690,7 @@ textarea.w-select {
 }
 
 .popup-title {
-  font-family: "Monsterrat-Bold", sans-serif;
+  font-family: "Monserrat-Bold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -5706,7 +5702,7 @@ textarea.w-select {
 }
 
 .popup-title-text {
-  font-family: "Monsterrat", sans-serif;
+  font-family: "Monserrat", sans-serif;
   font-style: normal;
   font-weight: 100;
   font-size: 20px;
@@ -5719,7 +5715,7 @@ textarea.w-select {
 }
 
 .popup-title-sm {
-  font-family: "Monsterrat-Bold", sans-serif;
+  font-family: "Monserrat-Bold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -5763,7 +5759,7 @@ textarea.w-select {
 }
 
 .popup-profit-card-title {
-  font-family: "Monsterrat-Bold", sans-serif;
+  font-family: "Monserrat-Bold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -5777,7 +5773,7 @@ textarea.w-select {
 }
 
 .popup-profit-card-percentage {
-  font-family: "Monsterrat-Bold", sans-serif;
+  font-family: "Monserrat-Bold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 34px;
@@ -5804,7 +5800,7 @@ textarea.w-select {
 }
 
 .popup-action-title {
-  font-family: "Monsterrat-Bold", sans-serif;
+  font-family: "Monserrat-Bold", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 10px;
@@ -5822,7 +5818,7 @@ textarea.w-select {
 }
 
 .popup-btn {
-  font-family: "Monsterrat-Bold", sans-serif;
+  font-family: "Monserrat-Bold", sans-serif;
   background: rgba(254, 184, 93, 0.12);
   border-radius: 12px;
   font-style: normal;
@@ -5935,7 +5931,7 @@ textarea.w-select {
 }
 
 .profit-calculator-earnings-amount {
-  font-family: "Monsterrat-Bold", sans-serif;
+  font-family: "Monserrat-Bold", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 28px;
@@ -5978,7 +5974,7 @@ button {
   background: linear-gradient(85.69deg, #feb85d 0%, #f49fbc 100.81%);
 
   border-radius: 11px;
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   padding: 0.35em 1.2em;
   height: 38px;
   border: none;
@@ -6134,7 +6130,7 @@ button:disabled {
 
 /* headers */
 .header-1 {
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   font-weight: 700;
   font-size: 28px;
   margin: 20px;
@@ -6142,18 +6138,18 @@ button:disabled {
 
 .header-2 {
   font-size: 24px;
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
 }
 
 .header-3 {
   font-size: 13px;
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   font-weight: 700;
 }
 
 .medium-yellow-header {
   font-size: 14px;
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   font-weight: 800;
   margin-bottom: 5px;
   color: var(--yellow-text);
@@ -6203,20 +6199,20 @@ button:disabled {
 }
 
 .medium-number {
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   font-size: 22px;
 }
 
 /* other */
 .numbers {
   font-size: 23px;
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   font-weight: 600;
 }
 
 .big-numbers {
   font-size: 26px;
-  font-family: "Monsterrat-Bold";
+  font-family: "Monserrat-Bold";
   font-weight: 600;
 }
 
@@ -6465,7 +6461,7 @@ input:focus {
 .back-button {
   background: none;
   color: var(--grey-text);
-  font-family: "Monsterrat";
+  font-family: "Monserrat";
   padding-left: 10px;
 }
 
@@ -6539,13 +6535,13 @@ input:focus {
 .time-val-mob {
   margin-left: 10px;
   font-size: 24px;
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Monserrat-SemiBold";
 }
 
 .max-button {
   margin-right: 10px;
   color: var(--yellow-text);
-  font-family: "Monsterrat-SemiBold";
+  font-family: "Monserrat-SemiBold";
   font-weight: 700;
   font-size: 15px;
 }
@@ -6691,6 +6687,7 @@ input:focus {
   border-radius: 12px;
 
   width: calc(40vw - 50px);
+  max-width: 520px;
 }
 
 .stake-container-mob .mob-container > * {
@@ -7014,7 +7011,7 @@ input:focus {
   display: flex;
   align-items: center;
   font-size: 22px;
-  font-family: "Monsterrat-BoldItalic";
+  font-family: "Monserrat-BoldItalic";
 }
 .logo img {
   margin-right: 5px;

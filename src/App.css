@@ -5177,6 +5177,9 @@ strong {
     margin-left: 0;
     min-width: auto;
     width: 100%;
-    padding-bottom: 13vh;
   }
+ .stake-footer .footer-container {
+    margin-bottom: 13vh;
+  }
+
 }

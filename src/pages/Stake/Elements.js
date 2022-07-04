@@ -8,6 +8,7 @@ import { setItem } from "../../utils/localStorage";
 import { sendReq } from "../../utils/sendReq";
 import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
+import {fetchGetTokenPriceInUsd} from "../../utils/fetchers/fetchTokenPrice";
 
 export const TotalStakedBox = (props) => {
   let { totalStaked1, totalStaked2 } = props;
@@ -531,33 +532,33 @@ export const ProfitCalculatorPopUp = ({ setIsPopUpOpen }) => {
   };
 
   const setActualGetPrice = async () => {
-    // const price = await fetchTokenPrice();
-    const price = 0.11;
-    setGetPrice(price);
+    fetchGetTokenPriceInUsd().then((price) => {
+      setGetPrice(price);
+    })
   };
 
   const calculateProfit = () => {
     if (amount && getPrice) {
-      // const amountUSD = amount * getPrice;
+      const amountUSD = amount * getPrice;
       if (isL) {
-        if (amount >= 25 && amount < 5000) {
+        if (amountUSD >= 25 && amountUSD < 5000) {
           setDailyProfitRatio(0.0093);
           setMonthlyProfit(28);
-        } else if (amount >= 5000 && amount < 25000) {
+        } else if (amountUSD >= 5000 && amountUSD < 25000) {
           setDailyProfitRatio(0.01);
           setMonthlyProfit(30);
-        } else if (amount >= 25000) {
+        } else if (amountUSD >= 25000) {
           setDailyProfitRatio(0.0123);
           setMonthlyProfit(37);
         }
       } else {
-        if (amount >= 25 && amount < 5000) {
+        if (amountUSD >= 25 && amountUSD < 5000) {
           setDailyProfitRatio(0.0046);
           setMonthlyProfit(14);
-        } else if (amount >= 5000 && amount < 25000) {
+        } else if (amountUSD >= 5000 && amountUSD < 25000) {
           setDailyProfitRatio(0.005);
           setMonthlyProfit(15);
-        } else if (amount >= 25000) {
+        } else if (amountUSD >= 25000) {
           setDailyProfitRatio(0.0053);
           setMonthlyProfit(16);
         }
@@ -567,7 +568,8 @@ export const ProfitCalculatorPopUp = ({ setIsPopUpOpen }) => {
 
   const calculateEarnings = () => {
     if (amount && dailyProfitRatio) {
-      const amountGet = amount / getPrice;
+      // const amountGet = amount / getPrice;
+      const amountGet = amount;
       const dailyEarning = amountGet * dailyProfitRatio;
       const totalEarning = dailyEarning * periodInWeeks * 7;
 
@@ -618,7 +620,7 @@ export const ProfitCalculatorPopUp = ({ setIsPopUpOpen }) => {
                       title={"AMOUNT"}
                       // @ts-ignore
                       handleCalcChange={(val) => setAmount(fN(val, 2))}
-                      isGet={false}
+                      isGet={true}
                       minValue={getPrice}
                       maxValue={200000}
                       tokensForStake={amount}

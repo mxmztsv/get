@@ -19,7 +19,7 @@ import { DashFooter } from "./DashFooter";
 import {
   DashBody,
   DashGreet,
-  DashSwitcherMob,
+  DashSwitcherMob, Pagination,
   RoiBox,
   StakedBox,
   StakeRewardLocked,
@@ -75,6 +75,10 @@ export const Dashboard = () => {
   // tx
   const [txArr, setTxArr] = useState(getItem("txArr") || []);
   const [showingTxArr, setShowingTxArr] = useState([]);
+
+  // tx pagination
+  const [actualPage, setActualPage] = useState(1);
+  const [pagesCount, setPagesCount] = useState(1);
 
   // deposits
   const [lockedDep, setLockedDep] = useState(getItem("lDep") || tempDep);
@@ -136,9 +140,9 @@ export const Dashboard = () => {
 
   // tx fetch
   useEffect(() => {
-    console.log("[Dashboard] fetching transactions");
-    fetchTxE(setTxArr);
-  }, []);
+    console.log("[Dashboard] fetching transactions for page " + actualPage);
+    fetchTxE(setTxArr, actualPage, setPagesCount);
+  }, [actualPage]);
   // ------------------------------------
 
   return (
@@ -198,6 +202,13 @@ export const Dashboard = () => {
                           />
                         </div>
                         <TxTableBodyMemo txArray={showingTxArr} />
+                        { !!showingTxArr.length &&
+                            <Pagination
+                            actualPage={actualPage}
+                            setActualPage={setActualPage}
+                            pagesCount={pagesCount}
+                            />
+                        }
                       </div>
                     </div>
 

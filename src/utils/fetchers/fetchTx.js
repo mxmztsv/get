@@ -1,11 +1,14 @@
 import { fN } from "../formatNumber";
 import { sendReq } from "../sendReq";
 
-export async function fetchTx() {
-  let res = await sendReq("post", "wallet/history");
+export async function fetchTx(page = 1) {
+  let res = await sendReq("post", "wallet/history", {page});
 
   if (res.data && res.data.result === "success" && res.data.data) {
     let txs = res.data.data.items;
+    const txsCount = res.data.data.pages.count;
+    const txsOnPage = res.data.data.pages.raws;
+    const pagesCount = Math.ceil(txsCount / txsOnPage);
 
     let resArr = [];
     if (txs) {
@@ -41,6 +44,6 @@ export async function fetchTx() {
       console.log("No tx");
     }
 
-    return resArr;
+    return [resArr, pagesCount];
   }
 }

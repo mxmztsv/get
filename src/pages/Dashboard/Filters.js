@@ -31,6 +31,7 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
   };
 
   const filterTx = () => {
+    // todo: should be filtered on backend
     const filtersState = {
       STAKE: stake,
       "AUTO-SWAP": autoSwap,
@@ -43,7 +44,7 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
 
   useEffect(() => {
     filterTx();
-  }, [stake, autoSwap, bonus, referralBonus]);
+  }, [stake, autoSwap, bonus, referralBonus, sourceTxArray]);
 
   return (
     <>

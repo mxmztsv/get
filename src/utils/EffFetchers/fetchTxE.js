@@ -1,11 +1,11 @@
 import { fetchTx } from "../fetchers/fetchTx";
 import { getItem, setItem } from "../localStorage";
 
-export async function fetchTxE(setTxArr) {
+export async function fetchTxE(setTxArr, page = 1, setPagesCount = () => {}) {
   if (getItem("token")) {
-    fetchTx().then((txArray) => {
+    fetchTx(page).then(([txArray, pagesCount]) => {
       console.log("[fetchTxE] tx arr:", txArray);
-
+      setPagesCount(pagesCount);
       if (
         !getItem("txArr") ||
         (getItem("txArr") &&

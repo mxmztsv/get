@@ -1,5 +1,6 @@
 import React from "react";
 import { fetchTx } from "../../utils/fetchers/fetchTx";
+import {Pagination} from "../../pages/Dashboard/Elements";
 
 // @ts-ignore
 export const Image = React.memo(function Image({ src }) {

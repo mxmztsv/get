@@ -516,6 +516,7 @@ export const ProfitCalculatorPopUp = ({ setIsPopUpOpen }) => {
   const [periodInWeeks, setPeriodInWeeks] = useState(1);
   const [amount, setAmount] = useState(0);
   const [getPrice, setGetPrice] = useState(0);
+  const [realGetPrice, setRealGetPrice] = useState(0);
   const [dailyProfitRatio, setDailyProfitRatio] = useState(0);
   const [monthlyProfit, setMonthlyProfit] = useState(0);
   const [dailyEarningsGet, setDailyEarningsGet] = useState(0);
@@ -534,12 +535,13 @@ export const ProfitCalculatorPopUp = ({ setIsPopUpOpen }) => {
   const setActualGetPrice = async () => {
     fetchGetTokenPriceInUsd().then((price) => {
       setGetPrice(price);
+      setRealGetPrice(price);
     })
   };
 
   const calculateProfit = () => {
     if (amount && getPrice) {
-      const amountUSD = amount * getPrice;
+      const amountUSD = amount;
       if (isL) {
         if (amountUSD >= 25 && amountUSD < 5000) {
           setDailyProfitRatio(0.0093);
@@ -568,8 +570,7 @@ export const ProfitCalculatorPopUp = ({ setIsPopUpOpen }) => {
 
   const calculateEarnings = () => {
     if (amount && dailyProfitRatio) {
-      // const amountGet = amount / getPrice;
-      const amountGet = amount;
+      const amountGet = amount / realGetPrice;
       const dailyEarning = amountGet * dailyProfitRatio;
       const totalEarning = dailyEarning * periodInWeeks * 7;
 
@@ -620,7 +621,7 @@ export const ProfitCalculatorPopUp = ({ setIsPopUpOpen }) => {
                       title={"AMOUNT"}
                       // @ts-ignore
                       handleCalcChange={(val) => setAmount(fN(val, 2))}
-                      isGet={true}
+                      isGet={false}
                       minValue={getPrice}
                       maxValue={200000}
                       tokensForStake={amount}

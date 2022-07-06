@@ -633,7 +633,7 @@ export const ProfitCalculatorPopUp = ({ setIsPopUpOpen }) => {
                       title={"GET TOKEN PRICE"}
                       // @ts-ignore
                       handleCalcChange={(val) => setGetPrice(fN(val, 2))}
-                      isGet={true}
+                      isGet={false}
                       maxValue={10}
                       tokensForStake={getPrice}
                       showMinDep={false}

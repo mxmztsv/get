@@ -44,6 +44,16 @@ export const DepDescription = () => {
   );
 };
 
+export const CardDepDescription = () => {
+  return (
+    <>
+      <div className="description">· The payment gate fee is 7% </div>
+      <br />
+      <div className="description">· We accept only DEBIT cards </div>
+    </>
+  );
+};
+
 export const DepWalletBox = (props) => {
   const { width } = useWindowDimensions();
   let { depWallet, isC, setIsC } = props;

@@ -46,6 +46,7 @@ export const TotalEarnedBox = (props) => {
 
 // STAKE ACT CONT
 export const StakeAmountContainer = (props) => {
+
     let {
         handleCalcChange,
         isMain,
@@ -58,7 +59,7 @@ export const StakeAmountContainer = (props) => {
         title = "YOUR INVESTEMENT",
         showMinDep = true,
         maxValue = null,
-        minValue = null,
+        minValue = 0,
     } = props;
 
     function getMax(isM, isG, uBM, gBM, uBB, gBB) {
@@ -139,7 +140,7 @@ export const StakeAmountContainer = (props) => {
                         <div className="stake-slider">
                             <Slider
                                 className="range-slider"
-                                min={0}
+                                min={minValue}
                                 max={
                                     maxValue
                                         ? maxValue
@@ -157,6 +158,8 @@ export const StakeAmountContainer = (props) => {
                                 onChange={(value) => handleCalcChange(value)}
                                 tooltip={false}
                             />
+
+
                         </div>
                     </div>
                     {showMinDep && (
@@ -604,111 +607,111 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
     return (
         <>
             <div className="popup-bg" onClick={close}/>
-                <div className="popup-profit-calculator-container">
-                    <div className="popup-header" onClick={close}>
-                        <div></div>
-                        <div className="popup-close">
-                            <p className="popup-close-text">Close</p>
-                            <img
-                                src={closeIcon}
-                                alt="close popup"
-                                className="popup-close-btn"
-                                onClick={close}
-                            />
-                        </div>
+            <div className="popup-profit-calculator-container">
+                <div className="popup-header" onClick={close}>
+                    <div/>
+                    <div className="popup-close">
+                        <p className="popup-close-text">Close</p>
+                        <img
+                            src={closeIcon}
+                            alt="close popup"
+                            className="popup-close-btn"
+                            onClick={close}
+                        />
                     </div>
+                </div>
 
-                    <div className="popup-profit-calculator">
-                        <div className="popup-profit-calculator-body">
-                            <div className="profit-calculator">
-                                <div className="profit-calculator-investment">
-                                    <p className="popup-title">Investment</p>
-                                    <div className="profit-calculator-amount">
-                                        <StakeAmountContainer
-                                            title={"AMOUNT"}
-                                            // @ts-ignore
-                                            handleCalcChange={(val) => setAmount(fN(val, 2))}
-                                            isGet={false}
-                                            minValue={getPrice}
-                                            maxValue={200000}
-                                            tokensForStake={amount}
-                                            showMinDep={false}
-                                        />
-                                    </div>
-                                    <div className="profit-calculator-amount">
-                                        <StakeAmountContainer
-                                            title={"GET TOKEN PRICE"}
-                                            // @ts-ignore
-                                            handleCalcChange={(val) => setGetPrice(fN(val, 2))}
-                                            isGet={false}
-                                            maxValue={10}
-                                            tokensForStake={getPrice}
-                                            showMinDep={false}
-                                        />
-                                    </div>
-                                    <div className="profit-calculator-deposit">
-                                        <StakeTimeContainer isL={isL} setIsL={setIsL}/>
-                                    </div>
-                                    <div className="profit-calculator-btn-container">
-                                        <button className="popup-btn" onClick={close}>
-                                            BACK TO STAKING
-                                        </button>
+                <div className="popup-profit-calculator">
+                    <div className="popup-profit-calculator-body">
+                        <div className="profit-calculator">
+                            <div className="profit-calculator-investment">
+                                <p className="popup-title">Investment</p>
+                                <div className="profit-calculator-amount">
+                                    <StakeAmountContainer
+                                        title={"AMOUNT"}
+                                        // @ts-ignore
+                                        handleCalcChange={(val) => setAmount(fN(val, 2))}
+                                        isGet={false}
+                                        maxValue={200000}
+                                        tokensForStake={amount}
+                                        showMinDep={false}
+                                    />
+                                </div>
+                                <div className="profit-calculator-amount">
+                                    <StakeAmountContainer
+                                        title={"GET TOKEN PRICE"}
+                                        // @ts-ignore
+                                        handleCalcChange={(val) => setGetPrice(fN(val, 2))}
+                                        isGet={false}
+                                        minValue={realGetPrice}
+                                        maxValue={10}
+                                        tokensForStake={getPrice}
+                                        showMinDep={false}
+                                    />
+                                </div>
+                                <div className="profit-calculator-deposit">
+                                    <StakeTimeContainer isL={isL} setIsL={setIsL}/>
+                                </div>
+                                <div className="profit-calculator-btn-container">
+                                    <button className="popup-btn" onClick={close}>
+                                        BACK TO STAKING
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="profit-calculator-profit">
+                                <p className="popup-title">Profit</p>
+                                <div className="profit-calculator-item">
+                                    <p className="medium-white-header">STAKE FOR</p>
+                                    <p className="profit-calculator-period-value">
+                                        {periodInWeeks}
+                                        {periodInWeeks > 1 ? " Weeks" : " Week"}
+                                    </p>
+                                    <Slider
+                                        className="period-slider"
+                                        min={1}
+                                        max={53}
+                                        step={1}
+                                        value={periodInWeeks}
+                                        onChange={periodSliderHandler}
+                                        tooltip={false}
+                                    />
+                                    <div className="profit-calculator-period-labels">
+                                        <p className="period-label">1 Week</p>
+                                        <p className="period-label">1 Year</p>
                                     </div>
                                 </div>
-                                <div className="profit-calculator-profit">
-                                    <p className="popup-title">Profit</p>
-                                    <div className="profit-calculator-item">
-                                        <p className="medium-white-header">STAKE FOR</p>
-                                        <p className="profit-calculator-period-value">
-                                            {periodInWeeks}
-                                            {periodInWeeks > 1 ? " Weeks" : " Week"}
-                                        </p>
-                                        <Slider
-                                            className="period-slider"
-                                            min={1}
-                                            max={53}
-                                            step={1}
-                                            value={periodInWeeks}
-                                            onChange={periodSliderHandler}
-                                            tooltip={false}
-                                        />
-                                        <div className="profit-calculator-period-labels">
-                                            <p className="period-label">1 Week</p>
-                                            <p className="period-label">1 Year</p>
-                                        </div>
-                                    </div>
-                                    <div className="profit-calculator-item">
-                                        <p className="medium-white-header">DAILY EARNINGS</p>
-                                        <p className="profit-calculator-earnings-amount">
-                                            {dailyEarningsGet + " GET"}
-                                            <span className="profit-calculator-earnings-usd">
+                                <div className="profit-calculator-item">
+                                    <p className="medium-white-header">DAILY EARNINGS</p>
+                                    <p className="profit-calculator-earnings-amount">
+                                        {dailyEarningsGet + " GET"}
+                                        <span className="profit-calculator-earnings-usd">
                         {" | " + dailyEarningsUSD + " USD"}
                       </span>
-                                        </p>
-                                    </div>
-                                    <div className="profit-calculator-item">
-                                        <p className="medium-white-header">TOTAL EARNINGS</p>
-                                        <p className="profit-calculator-earnings-amount">
-                                            {totalEarningsGet + " GET"}
-                                            <span className="profit-calculator-earnings-usd">
+                                    </p>
+                                </div>
+                                <div className="profit-calculator-item">
+                                    <p className="medium-white-header">TOTAL EARNINGS</p>
+                                    <p className="profit-calculator-earnings-amount">
+                                        {totalEarningsGet + " GET"}
+                                        <span className="profit-calculator-earnings-usd">
                         {" | " + totalEarningsUSD + " USD"}
                       </span>
-                                        </p>
-                                    </div>
-                                    <div className="profit-calculator-item">
-                                        <p className="medium-white-header">Monthly %</p>
-                                        <p className="profit-calculator-earnings-amount">
-                                            {monthlyProfit + "%"}
-                                        </p>
-                                    </div>
+                                    </p>
+                                </div>
+                                <div className="profit-calculator-item">
+                                    <p className="medium-white-header">Monthly %</p>
+                                    <p className="profit-calculator-earnings-amount">
+                                        {monthlyProfit + "%"}
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        {/*<div className="popup-actions">*/}
-                        {/*    <button className="popup-btn" onClick={close}>BACK TO STAKING</button>*/}
-                        {/*</div>*/}
                     </div>
+                    {/*<div className="popup-actions">*/}
+                    {/*    <button className="popup-btn" onClick={close}>BACK TO STAKING</button>*/}
+                    {/*</div>*/}
                 </div>
+            </div>
         </>
     );
 };

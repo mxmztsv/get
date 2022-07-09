@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SyncLoader } from "react-spinners";
+import { CardDepositBody } from "../../components/DepButton/CardDepositBody";
+import { handleCardDeposit } from "../../components/DepButton/handleCardDeposit";
 import {
   DepCCInfoBody,
   DepDescription,
@@ -9,7 +12,6 @@ import { DepNetworkSelector } from "../../components/DepButton/Selectors";
 import useWindowDimensions from "../../hooks/useWindow";
 import { fetchAddrs } from "../../utils/fetchers/fetchAddrs";
 import { getItem } from "../../utils/localStorage";
-import { toastC } from "../../utils/toastC";
 import { UserContext } from "../../utils/UserContext";
 
 export const Deposit = () => {
@@ -39,8 +41,10 @@ export const Deposit = () => {
   const [sDepCoin, setSDepCoin] = useState(0); // selected deposit coin
   const [sDepNet, setSDepNet] = useState(0); // selected deposit network
   const [depWallet, setDepWallet] = useState(""); // dep wallet
-
   const [isCop, setIsCop] = useState(false); // is copied address
+  const [usdToDeposit, setUsdToDeposit] = useState(100);
+
+  const [isLoading, setIsLoading] = useState(false);
   // ------------------------------------
 
   // fetch addrs
@@ -73,12 +77,11 @@ export const Deposit = () => {
                 <p>With Crypto</p>
               </button>
               <button
+                style={{ marginRight: "5px" }}
                 className={`trans-btn-mob ${!isC ? "s-trans-btn-mob" : ""}`}
                 onClick={() => {
-                  // setIsC(false);
-                  toastC("Coming soon");
+                  setIsC(false);
                 }}
-                // disabled={true}
               >
                 <p>With Card</p>
               </button>
@@ -104,16 +107,31 @@ export const Deposit = () => {
           ) : (
             <>
               {/* CARD-DEP-CONTENT */}
-              <div className="dep-header header-2">Card Deposit</div>
-              <div className="description">The payment gate fee is 7%</div>
-              <br />
+              <CardDepositBody
+                usdToDeposit={usdToDeposit}
+                setUsdToDeposit={setUsdToDeposit}
+              />
             </>
           )}
         </div>
         {!isC ? (
           <>
             <div className="dep-button-container-mob">
-              <button>DEPOSIT</button>
+              <button
+                onClick={async () => {
+                  setIsLoading(true);
+                  await handleCardDeposit(usdToDeposit);
+                  setIsLoading(false);
+                }}
+              >
+                {isLoading ? (
+                  <div>
+                    <SyncLoader color="black" size={10} speedMultiplier={0.5} />
+                  </div>
+                ) : (
+                  "TOP UP"
+                )}
+              </button>
             </div>
           </>
         ) : (

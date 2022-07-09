@@ -1,5 +1,10 @@
+import { useState } from "react";
+import { SyncLoader } from "react-spinners";
+import { handleCardDeposit } from "./handleCardDeposit";
+import { handleCCDeposit } from "./handleCCDeposit";
+
 export const DepCCButton = (props) => {
-  let { isFPage, setIsFPage, handleCCDeposit } = props;
+  let { sDepNet, setDepWallet, isFPage, setIsFPage, handleCCDeposit } = props;
   return (
     <>
       {" "}
@@ -11,7 +16,7 @@ export const DepCCButton = (props) => {
           onClick={() => {
             if (isFPage) {
               setIsFPage(false);
-              handleCCDeposit();
+              handleCCDeposit(sDepNet, setDepWallet);
             }
           }}
         >
@@ -25,22 +30,79 @@ export const DepCCButton = (props) => {
 };
 
 export const DepCardButton = (props) => {
-  let { isFPage, setIsFPage, handleCardDeposit } = props;
+  let { handleCardDeposit, usdAmount } = props;
+
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <>
       <button
         style={{
           minWidth: "150px",
         }}
-        onClick={() => {
-          if (isFPage) setIsFPage(false);
-          else {
-            handleCardDeposit();
-          }
+        onClick={async () => {
+          setIsLoading(true);
+          await handleCardDeposit(usdAmount);
+          setIsLoading(false);
         }}
       >
-        TOP UP
+        {isLoading ? (
+          <div>
+            <SyncLoader color="black" size={10} speedMultiplier={0.5} />
+          </div>
+        ) : (
+          "TOP UP"
+        )}
       </button>
     </>
+  );
+};
+
+export const DepFooter = (props) => {
+  let { funcs } = props;
+  let { isC, isFPage, sDepNet, setIsFPage, setDepWallet, usdToDeposit } = funcs;
+
+  const BackButton = () => {
+    return (
+      <button
+        onClick={() => {
+          setIsFPage(true);
+          setDepWallet("");
+        }}
+        className="transparent-button"
+      >
+        BACK
+      </button>
+    );
+  };
+
+  return (
+    <div
+      className="dep-footer-wrapper"
+      style={{
+        height: `${isC ? (isFPage ? "%" : "23.5%") : "35%"}`,
+
+        justifyContent: `${isFPage || !isC ? "flex-end" : "space-between"}`,
+      }}
+    >
+      {isC && !isFPage ? <BackButton /> : <></>}
+
+      {isC ? (
+        <DepCCButton
+          sDepNet={sDepNet}
+          setDepWallet={setDepWallet}
+          isFPage={isFPage}
+          setIsFPage={setIsFPage}
+          handleCCDeposit={handleCCDeposit}
+        />
+      ) : (
+        <DepCardButton
+          isFPage={isFPage}
+          setIsFPage={setIsFPage}
+          handleCardDeposit={handleCardDeposit}
+          usdAmount={usdToDeposit}
+        />
+      )}
+    </div>
   );
 };

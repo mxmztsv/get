@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Slider from "react-rangeslider";
+import { setInputWidth } from "../../utils/setInputWidth";
 
 export const WithAmountSlider = (props) => {
   let {
@@ -19,37 +20,20 @@ export const WithAmountSlider = (props) => {
   }
 
   const inputRef = useRef(null);
-  // for change of amount runs
+
+  // update input width
   useEffect(() => {
-    setInputWidth({ target: { value: tokensForWith } });
+    setInputWidth(
+      inputRef,
+      { target: { value: tokensForWith } },
+      isMain,
+      isGet,
+      getBalMain,
+      usdtBalMain,
+      getBalBonus,
+      usdtBalBonus
+    );
   }, [tokensForWith]);
-
-  function setInputWidth(value) {
-    let inputStyle = inputRef.current.style;
-    let passedValue = !isNaN(parseFloat(value.target.value))
-      ? parseFloat(value.target.value)
-      : "0"; // this value can be bigger than balance
-
-    // get width of text
-    const context = document.createElement("canvas").getContext("2d");
-    context.font = getComputedStyle(
-      document.getElementsByClassName("numbers")[0]
-    ).font;
-    let textWidth = context.measureText(passedValue.toString()).width;
-    if (textWidth < 13) textWidth = 15;
-
-    // getting max value for input
-    let maxVal = 0;
-    if (isMain) {
-      maxVal = isGet ? getBalMain : usdtBalMain;
-    } else {
-      maxVal = isGet ? getBalBonus : usdtBalBonus;
-    }
-    if ((passedValue || 0) <= maxVal) {
-      inputStyle.width = `${textWidth.toString()}px`;
-      inputRef.current.value = passedValue || 0;
-    }
-  }
 
   return (
     <>

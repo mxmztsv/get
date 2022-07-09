@@ -1935,6 +1935,7 @@ td {
 .stake-container-mob {
   margin-top: 13vh;
   padding: 10px;
+  /* padding-bottom: 13vh; */
 }
 
 .stake-header-buttons-container-mob {
@@ -3373,29 +3374,39 @@ input[type="number"] {
 }
 
 .num-input {
+  color: var(--yellow-text);
+
   display: flex;
 
-  justify-content: space-between;
   align-items: center;
 
   height: 60px;
-  background: rgba(255, 255, 255, 0.12);
+  /* background: rgba(255, 255, 255, 0.12); */
+  background: radial-gradient(
+    100% 5159.69% at 0% 100%,
+    rgba(255, 184, 95, 0.24) 0%,
+    rgba(255, 184, 95, 0) 100%
+  );
+
   border-radius: 12px;
   margin-right: 22px;
 
   margin-top: 10px;
+  cursor: pointer;
 }
 
 .num-input input {
+  color: var(--yellow-text);
+
   font-size: 25px;
-  width: fit-content;
+  width: 45px;
   margin-left: 10px;
-  width: 100%;
 }
 
 .num-input-currency {
   font-size: 25px;
   margin-right: 10px;
+  margin-left: 5px;
 }
 
 .profile-balances-container {
@@ -3894,6 +3905,7 @@ input[type="number"] {
 .dep-container-mob {
   margin-top: 13vh;
   padding: 10px;
+  margin-bottom: 10vh;
 }
 
 .dep-buttons-mob {
@@ -5290,9 +5302,10 @@ strong {
     margin-left: 0;
     min-width: auto;
     width: 100%;
-  }
- .stake-footer .footer-container {
-    margin-bottom: 13vh;
+    padding-bottom: 13vh;
   }
 
+  .stake-footer .footer-container {
+    margin-bottom: 13vh;
+  }
 }

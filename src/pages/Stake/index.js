@@ -519,6 +519,17 @@ export const Stake = () => {
                           handleCalcChange={handleCalcChange}
                           tokensForStake={tokensForStake}
                         />
+                        <button
+                            // className="stake-footer-btn yellow-trans-btn"
+                            className="popup-btn"
+                            onClick={() => {
+                              setIsProfitCalculatorOpen(
+                                  (prevState) => !prevState
+                              );
+                            }}
+                        >
+                          PROFIT CALCULATOR
+                        </button>
                       </>
                     ) : (
                       <>

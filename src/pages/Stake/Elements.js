@@ -530,6 +530,8 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
     const [totalEarningsGet, setTotalEarningsGet] = useState(0);
     const [totalEarningsUSD, setTotalEarningsUSD] = useState(0);
 
+    const {width} = useWindowDimensions();
+
     const close = () => {
         setIsPopUpOpen(false);
     };
@@ -610,15 +612,28 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
             <div className="popup-profit-calculator-container">
                 <div className="popup-header" onClick={close}>
                     <div/>
-                    <div className="popup-close">
-                        <p className="popup-close-text">Close</p>
-                        <img
-                            src={closeIcon}
-                            alt="close popup"
-                            className="popup-close-btn"
-                            onClick={close}
-                        />
-                    </div>
+                    { width > 815 ? (
+                        <div className="popup-close">
+                            <p className="popup-close-text">Close</p>
+                            <img
+                                src={closeIcon}
+                                alt="close popup"
+                                className="popup-close-btn"
+                                onClick={close}
+                            />
+                        </div>
+                    ) : (
+                        <div className="popup-close">
+                            {/*<p className="popup-close-text">Close</p>*/}
+                            <img
+                                src={require('../../assets/img/close-yellow.svg').default}
+                                alt="close popup"
+                                className="popup-close-btn"
+                                onClick={close}
+                            />
+                        </div>
+                    ) }
+
                 </div>
 
                 <div className="popup-profit-calculator">
@@ -626,7 +641,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                         <div className="profit-calculator">
                             <div className="profit-calculator-investment">
                                 <p className="popup-title">Investment</p>
-                                <div className="profit-calculator-amount">
+                                <div className="profit-calculator-investment-item">
                                     <StakeAmountContainer
                                         title={"AMOUNT"}
                                         // @ts-ignore
@@ -637,7 +652,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                         showMinDep={false}
                                     />
                                 </div>
-                                <div className="profit-calculator-amount">
+                                <div className="profit-calculator-investment-item">
                                     <StakeAmountContainer
                                         title={"GET TOKEN PRICE"}
                                         // @ts-ignore
@@ -649,19 +664,21 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                         showMinDep={false}
                                     />
                                 </div>
-                                <div className="profit-calculator-deposit">
+                                <div className="profit-calculator-investment-item">
                                     <StakeTimeContainer isL={isL} setIsL={setIsL}/>
                                 </div>
-                                <div className="profit-calculator-btn-container">
-                                    <button className="popup-btn" onClick={close}>
-                                        BACK TO STAKING
-                                    </button>
-                                </div>
+                                { width > 815 && (
+                                    <div className="profit-calculator-btn-container">
+                                        <button className="popup-btn" onClick={close}>
+                                            BACK TO STAKING
+                                        </button>
+                                    </div>
+                                ) }
                             </div>
                             <div className="profit-calculator-profit">
                                 <p className="popup-title">Profit</p>
                                 <div className="profit-calculator-item">
-                                    <p className="medium-white-header">STAKE FOR</p>
+                                    <p className="profit-calculator-item-title">STAKE FOR</p>
                                     <p className="profit-calculator-period-value">
                                         {periodInWeeks}
                                         {periodInWeeks > 1 ? " Weeks" : " Week"}
@@ -681,7 +698,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                     </div>
                                 </div>
                                 <div className="profit-calculator-item">
-                                    <p className="medium-white-header">DAILY EARNINGS</p>
+                                    <p className="profit-calculator-item-title">DAILY EARNINGS</p>
                                     <p className="profit-calculator-earnings-amount">
                                         {dailyEarningsGet + " GET"}
                                         <span className="profit-calculator-earnings-usd">
@@ -690,7 +707,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                     </p>
                                 </div>
                                 <div className="profit-calculator-item">
-                                    <p className="medium-white-header">TOTAL EARNINGS</p>
+                                    <p className="profit-calculator-item-title">TOTAL EARNINGS</p>
                                     <p className="profit-calculator-earnings-amount">
                                         {totalEarningsGet + " GET"}
                                         <span className="profit-calculator-earnings-usd">
@@ -699,7 +716,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                                     </p>
                                 </div>
                                 <div className="profit-calculator-item">
-                                    <p className="medium-white-header">Monthly %</p>
+                                    <p className="profit-calculator-item-title">Monthly %</p>
                                     <p className="profit-calculator-earnings-amount">
                                         {monthlyProfit + "%"}
                                     </p>
@@ -707,9 +724,11 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
                             </div>
                         </div>
                     </div>
-                    {/*<div className="popup-actions">*/}
-                    {/*    <button className="popup-btn" onClick={close}>BACK TO STAKING</button>*/}
-                    {/*</div>*/}
+                    { width <= 815 && (
+                        <div className="popup-profit-calculator-actions">
+                            <button className="popup-btn" onClick={close}>BACK TO STAKING</button>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

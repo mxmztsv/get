@@ -3965,6 +3965,7 @@ input[type="number"] {
   align-items: center;
   justify-content: flex-end;
   align-self: flex-end;
+  cursor: pointer;
   /*margin-right: 30px;*/
   /*margin-bottom: 10px;*/
   padding: 10px 30px;
@@ -4003,6 +4004,21 @@ input[type="number"] {
   margin-bottom: 20px;
 
   color: #ffffff;
+}
+
+@media (max-width: 815px) {
+  .popup-title {
+    font-size: 24px;
+    line-height: 29px;
+  }
+
+  .popup-container {
+    position: fixed;
+    top: 70px;
+    /*left: calc(50% - (700px/2));*/
+    left: 0;
+    width: 100vw;
+  }
 }
 
 .popup-title-text {
@@ -4135,6 +4151,12 @@ input[type="number"] {
   /*letter-spacing: 1px;*/
 
   color: #feb85d;
+}
+
+@media (max-width: 815px) {
+  .popup-btn {
+    width: 100%;
+  }
 }
 
 .separator {
@@ -4328,6 +4350,111 @@ input[type="number"] {
 
 .profit-calculator-btn-container {
   margin: 30px 0;
+}
+
+@media (max-width: 815px) {
+  .popup-profit-calculator-container {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    z-index: 999;
+    padding-top: 60px;
+    margin: 0;
+    height: 100vh;
+    overflow: scroll;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /*overflow-y: scroll;*/
+  }
+
+  .popup-profit-calculator {
+    /*background: rgba(45, 45, 45, 0.9);*/
+    background: rgba(0, 0, 0, 0.9);
+    /*background: red;*/
+    backdrop-filter: blur(100px);
+    /*padding: 20px 20px 36px 20px;*/
+    padding: 0;
+    width: 100vw;
+    /*height: 100vh;*/
+    /*overflow: scroll;*/
+    /*width: 100%;*/
+    box-sizing: border-box;
+    /*width: 1200px;*/
+    /*max-width: 1300px;*/
+    /*max-width: calc(100vw - 2%);*/
+    max-width: 100%;
+
+    /* Note: backdrop-filter has minimal browser support */
+    border-radius: 0px;
+  }
+
+  .profit-calculator {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .profit-calculator-investment {
+    width: 100%;
+    /*background-image: none;*/
+    padding: 0px 20px 36px 20px;
+    box-sizing: border-box;
+    background-image: url("../src/assets/img/profit-calculator-investment-bg-mobile.png");
+    background-repeat: no-repeat;
+    background-position: 95% 100%;
+    /*background-repeat: no-repeat;*/
+    /*background-position: 100% 100%;*/
+    /*background: radial-gradient(64.71% 86.67% at 100% 88.87%, rgba(254, 184, 93, 0.24) 1.81%, rgba(254, 184, 93, 0) 98.42%);*/
+    /*border-bottom-right-radius: 80px;*/
+    /*clip-path: polygon(90% 0, 100% 83%, 100% 100%, 0 100%, 0 0);*/
+  }
+
+  .profit-calculator-profit {
+    position: relative;
+    top: -40px;
+    width: 100%;
+    margin-left: 0;
+    padding: 20px 20px 0px 20px;
+    box-sizing: border-box;
+  }
+
+  .profit-calculator-investment-item {
+    margin-bottom: 20px;
+  }
+
+  /*.profit-calculator-item {*/
+  /*  max-width: 100px;*/
+  /*  box-sizing: border-box;*/
+  /*}*/
+
+  .profit-calculator-item-title {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .period-label {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .popup-profit-calculator-actions {
+    padding: 0px 20px 36px 20px;
+  }
+
+  .popup-header {
+    background: rgba(0, 0, 0, 0.9);
+  }
+
+  /*.profit-calculator-earnings-amount {*/
+  /*  max-width: 50px;*/
+  /*}*/
 }
 
 /* ------------------------------

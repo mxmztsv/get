@@ -3938,15 +3938,18 @@ input[type="number"] {
   top: 10%;
   left: calc(50% - (700px/2));
   max-width: 700px;
-  /*margin-left: 50%;*/
-  /*margin-right: auto;*/
-  /*display: flex;*/
-  /*align-self: center;*/
-  /*justify-self: center;*/
-  /*flex-direction: column;*/
-  /*align-items: center;*/
-  /*justify-content: center;*/
   z-index: 9999;
+  /*overflow: scroll;*/
+}
+
+.popup-profit-calculator-header {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 25px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .popup-header {
@@ -4004,21 +4007,6 @@ input[type="number"] {
   margin-bottom: 20px;
 
   color: #ffffff;
-}
-
-@media (max-width: 815px) {
-  .popup-title {
-    font-size: 24px;
-    line-height: 29px;
-  }
-
-  .popup-container {
-    position: fixed;
-    top: 70px;
-    /*left: calc(50% - (700px/2));*/
-    left: 0;
-    width: 100vw;
-  }
 }
 
 .popup-title-text {
@@ -4108,6 +4096,59 @@ input[type="number"] {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+
+@media (max-width: 1200px) {
+  .popup-container {
+    position: fixed;
+    top: 3%;
+    left: calc(50% - (700px/2));
+    max-width: 700px;
+    z-index: 9999;
+  }
+}
+
+@media (max-width: 815px) {
+
+  .popup-container {
+    position: fixed;
+    /*top: 70px;*/
+    /*left: calc(50% - (700px/2));*/
+    left: 0;
+    width: 100vw;
+    top: 70px;
+    /*left: calc(50% - (700px/2));*/
+    max-width: 700px;
+    z-index: 9999;
+    overflow: scroll;
+  }
+
+  .popup-title {
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 29px;
+  }
+
+  .popup-title-text {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .popup {
+    background: rgba(45, 45, 45, 0.9);
+    backdrop-filter: blur(100px);
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 700px;
+    border-radius: 20px;
+  }
+
+  .popup-body {
+    margin-bottom: 50px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -4448,9 +4489,13 @@ input[type="number"] {
     padding: 0px 20px 36px 20px;
   }
 
-  .popup-header {
+  .popup-profit-calculator-header {
     background: rgba(0, 0, 0, 0.9);
   }
+
+  /*.popup-header {*/
+  /*  background: rgba(0, 0, 0, 0.9);*/
+  /*}*/
 
   /*.profit-calculator-earnings-amount {*/
   /*  max-width: 50px;*/

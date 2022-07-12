@@ -610,7 +610,7 @@ export const ProfitCalculatorPopUp = ({setIsPopUpOpen}) => {
         <>
             <div className="popup-bg" onClick={close}/>
             <div className="popup-profit-calculator-container">
-                <div className="popup-header" onClick={close}>
+                <div className="popup-profit-calculator-header" onClick={close}>
                     <div/>
                     { width > 815 ? (
                         <div className="popup-close">

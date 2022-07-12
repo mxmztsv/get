@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { fetchTx } from "../../utils/fetchers/fetchTx";
 import {Pagination} from "../../pages/Dashboard/Elements";
 
@@ -6,6 +6,49 @@ import {Pagination} from "../../pages/Dashboard/Elements";
 export const Image = React.memo(function Image({ src }) {
   return <img src={src} alt="" className="tx-icon" />;
 });
+
+export const Amount = ({ amountGet, amountUsd, description }) => {
+
+  // todo: попытка решить проблему пригающей страницы при пагинации
+
+  const [textLinesCount, setTextLinesCount] = useState(0);
+  const [shortenDescription, setShortenDescription] = useState("init");
+  const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    if (textLinesCount > 1) {
+      setIsOpen(false);
+    }
+  }, [textLinesCount]);
+
+  useEffect(() => {
+    let shortDescr = description.substr(0, 45) + '...'
+    setShortenDescription(shortDescr)
+  }, [])
+
+
+  return (
+      <>
+        <div className="numbers">
+          {amountGet ? `${amountGet} GET` : `${amountUsd} USD`}
+          <div className="tx-text">{description}</div>
+          {/*<div className="tx-text">*/}
+          {/*  { isOpen ? (*/}
+          {/*      <span ref={(el) => {*/}
+          {/*        if (!el) return;*/}
+          {/*        setTextLinesCount(el.getClientRects().length)*/}
+          {/*      }}>{description}</span>*/}
+          {/*  ) : (*/}
+          {/*      <p className="tx-shorten-description">*/}
+          {/*        <span>{shortenDescription}</span>*/}
+          {/*        <p className="tx-amount-more-btn">more</p>*/}
+          {/*      </p>*/}
+          {/*    ) }*/}
+          {/*</div>*/}
+        </div>
+      </>
+  )
+}
 
 export const TxTableBodyMemo = React.memo((props) => {
   let { txArray } = props;
@@ -16,12 +59,7 @@ export const TxTableBodyMemo = React.memo((props) => {
     let description = tx.description;
 
     return (
-      <>
-        <div className="numbers">
-          {amountGet ? `${amountGet} GET` : `${amountUsd} USD`}
-          <div className="tx-text">{description}</div>
-        </div>
-      </>
+        <Amount amountGet={amountGet} amountUsd={amountUsd} description={description}/>
     );
   }
 

@@ -141,7 +141,12 @@ export const Dashboard = () => {
   // tx fetch
   useEffect(() => {
     console.log("[Dashboard] fetching transactions for page " + actualPage);
-    fetchTxE(setTxArr, actualPage, setPagesCount);
+    fetchTxE(setTxArr, actualPage, setPagesCount).then(() => {
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight)
+      }, 400)
+    })
+
   }, [actualPage]);
   // ------------------------------------
 

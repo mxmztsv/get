@@ -5,6 +5,7 @@ export async function fetchTxE(setTxArr, page = 1, setPagesCount = () => {}) {
   if (getItem("token")) {
     fetchTx(page).then(([txArray, pagesCount]) => {
       console.log("[fetchTxE] tx arr:", txArray);
+      console.log("txArray length:", txArray.length)
       setPagesCount(pagesCount);
       if (
         !getItem("txArr") ||

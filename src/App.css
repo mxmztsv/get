@@ -1606,7 +1606,24 @@ td {
   color: var(--grey-text);
   font-size: 14px;
   font-weight: 600;
-  font-family: "Montserrat";
+  font-family: "Montserrat-Light", sans-serif;
+  height: 50px;
+}
+
+.tx-amount-more-btn {
+  cursor: pointer;
+  /*margin-top: 5px;*/
+  margin-left: 5px;
+  color: var(--yellow-text);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Montserrat-Light", sans-serif;
+}
+
+.tx-shorten-description {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 /* pagination */

@@ -570,7 +570,7 @@ export const Pagination = ({actualPage, setActualPage, pagesCount}) => {
 
     return (
         <>
-            <div className="pagination">
+            <div className="pagination" id="pagination">
                 <button className="pagination-btn" onClick={prevPageHandler}>
                     <img src={require('../../assets/img/pagination-left.svg').default} alt=""/>
                 </button>

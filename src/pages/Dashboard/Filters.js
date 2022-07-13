@@ -88,7 +88,7 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
         </div>
         {isOpen && (
           <div className="dash-tx-filters-body">
-            <div className="dash-tx-filters-item">
+            <div className="dash-tx-filters-item" onClick={stakeFilterHandler}>
               <p className="dash-tx-filter-name">Stake</p>
               <input
                 type="checkbox"
@@ -97,7 +97,7 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
                 onChange={stakeFilterHandler}
               />
             </div>
-            <div className="dash-tx-filters-item">
+            <div className="dash-tx-filters-item" onClick={autoSwapFilterHandler}>
               <p className="dash-tx-filter-name">Auto-Swap</p>
               <input
                 type="checkbox"
@@ -106,7 +106,7 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
                 onChange={autoSwapFilterHandler}
               />
             </div>
-            <div className="dash-tx-filters-item">
+            <div className="dash-tx-filters-item" onClick={bonusFilterHandler}>
               <p className="dash-tx-filter-name">Bonus</p>
               <input
                 type="checkbox"
@@ -115,7 +115,7 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
                 onChange={bonusFilterHandler}
               />
             </div>
-            <div className="dash-tx-filters-item">
+            <div className="dash-tx-filters-item" onClick={referralBonusFilterHandler}>
               <p className="dash-tx-filter-name">Referral Bonus</p>
               <input
                 type="checkbox"
@@ -124,7 +124,7 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
                 onChange={referralBonusFilterHandler}
               />
             </div>
-            <div className="dash-tx-filters-item">
+            <div className="dash-tx-filters-item" onClick={stakingProfitFilterHandler}>
               <p className="dash-tx-filter-name">Staking Profit</p>
               <input
                 type="checkbox"
@@ -133,7 +133,7 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
                 onChange={stakingProfitFilterHandler}
               />
             </div>
-            <div className="dash-tx-filters-item">
+            <div className="dash-tx-filters-item" onClick={withdrawFilterHandler}>
               <p className="dash-tx-filter-name">Withdraw</p>
               <input
                 type="checkbox"

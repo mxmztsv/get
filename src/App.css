@@ -1397,7 +1397,6 @@ g {
 }
 
 .dash-tx-filters {
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   background: #1f2020;
@@ -1409,6 +1408,7 @@ g {
 }
 
 .dash-tx-filters-header {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1461,6 +1461,7 @@ g {
 }
 
 .dash-tx-filters-item {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1478,6 +1479,7 @@ g {
 }
 
 .dash-tx-filter-checkbox {
+  cursor: pointer;
   appearance: none;
   width: 18px;
   height: 18px;

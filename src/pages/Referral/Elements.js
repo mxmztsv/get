@@ -474,7 +474,7 @@ export const CareerBonusPopUp = ({ setIsPopUpOpen }) => {
     <>
       <div className="popup-bg" onClick={close}/>
         <div className="popup-career-bonus-container">
-          <div className="popup-header">
+          <div className="popup-header" onClick={close}>
             <p className="popup-title">Career bonus</p>
             <div className="popup-close">
               <p className="popup-close-text">Close</p>

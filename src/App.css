@@ -4210,7 +4210,7 @@ input[type="number"] {
     }
 }
 
-@media (max-height: 750px) {
+@media (max-height: 750px) and (max-width: 600px){
 
   .popup-title {
     margin-bottom: 10px;
@@ -4240,12 +4240,12 @@ input[type="number"] {
 }
 
 @media (max-width: 600px) {
-    .popup-actions {
-        flex-direction: column-reverse;
-        align-items: flex-end;
-        height: 110px;
-        justify-content: space-between;
-    }
+  .popup-actions {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    height: 110px;
+    justify-content: space-between;
+  }
 }
 
 .popup-action-title {

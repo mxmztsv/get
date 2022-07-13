@@ -9,6 +9,15 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
   const [autoSwap, setAutoSwap] = useState(true);
   const [bonus, setBonus] = useState(true);
   const [referralBonus, setReferralBonus] = useState(true);
+  const [stakingProfit, setStakingProfit] = useState(true);
+  const [withdraw, setWithdraw] = useState(true);
+
+  // if (tx.type === 21) type = "STAKE";
+  // else if (tx.type === 11) type = "AUTO-SWAP";
+  // else if (tx.type === 9) type = "BONUS";
+  // else if (tx.type === 6) type = "REFERRAL BONUS";
+  // else if (tx.type === 20) type = "STAKING PROFIT";
+  // else if (tx.type === 8) type = "WITHDRAW";
 
   const openHandler = () => {
     setIsOpen(!isOpen);
@@ -30,13 +39,23 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
     setReferralBonus(!referralBonus);
   };
 
+  const stakingProfitFilterHandler = () => {
+    setStakingProfit(!stakingProfit);
+  };
+
+  const withdrawFilterHandler = () => {
+    setWithdraw(!withdraw);
+  };
+
   const filterTx = () => {
-    // todo: should be filtered on backend
+    // todo: should be filtered on backend?
     const filtersState = {
       STAKE: stake,
       "AUTO-SWAP": autoSwap,
       BONUS: bonus,
       "REFERRAL BONUS": referralBonus,
+      "STAKING PROFIT": stakingProfit,
+      WITHDRAW: withdraw
     };
     let filteredTxArray = sourceTxArray.filter((tx) => filtersState[tx.type]);
     setFilteredTxArray(filteredTxArray);
@@ -44,12 +63,12 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
 
   useEffect(() => {
     filterTx();
-  }, [stake, autoSwap, bonus, referralBonus, sourceTxArray]);
+  }, [stake, autoSwap, bonus, referralBonus, stakingProfit, withdraw, sourceTxArray]);
 
   return (
     <>
-      <div className="dash-tx-filters" onClick={openHandler}>
-        <div className="dash-tx-filters-header">
+      <div className="dash-tx-filters" id="transactions-filter">
+        <div className="dash-tx-filters-header" onClick={openHandler}>
           <p className="dash-tx-filters-title">Filters</p>
           {isOpen ? (
             <img
@@ -103,6 +122,24 @@ export const Filters = ({ sourceTxArray, setFilteredTxArray }) => {
                 className="dash-tx-filter-checkbox"
                 checked={referralBonus}
                 onChange={referralBonusFilterHandler}
+              />
+            </div>
+            <div className="dash-tx-filters-item">
+              <p className="dash-tx-filter-name">Staking Profit</p>
+              <input
+                type="checkbox"
+                className="dash-tx-filter-checkbox"
+                checked={stakingProfit}
+                onChange={stakingProfitFilterHandler}
+              />
+            </div>
+            <div className="dash-tx-filters-item">
+              <p className="dash-tx-filter-name">Withdraw</p>
+              <input
+                type="checkbox"
+                className="dash-tx-filter-checkbox"
+                checked={withdraw}
+                onChange={withdrawFilterHandler}
               />
             </div>
           </div>

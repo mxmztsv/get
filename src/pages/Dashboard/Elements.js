@@ -415,6 +415,7 @@ export const Pagination = ({actualPage, setActualPage, pagesCount}) => {
 
     const updatePagination = () => {
         if (pages.length) {
+            window.location.href = "#transactions-filter";
             if (actualPage === 1) {
                 fillPaginationSet();
             } else if (actualPage === pagesCount) {

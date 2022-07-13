@@ -1441,7 +1441,7 @@ g {
 .dash-tx-filters-body {
   border-top: 1px rgba(255, 255, 255, 0.08) solid;
   margin-top: 15px;
-  height: 135px;
+  height: 200px;
   animation-name: dropdown-open;
   animation-duration: 0.3s;
 }
@@ -1456,7 +1456,7 @@ g {
   }
   100% {
     opacity: 1;
-    height: 135px;
+    height: 200px;
   }
 }
 
